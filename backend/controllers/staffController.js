@@ -56,8 +56,23 @@ export const hireStaff = async (req, res) => {
 // Get all staff
 export const getAllStaff = async (req, res) => {
   try {
-    const staffList = await Staff.find().populate('employment.assignedMandir', 'name city');
-    res.status(200).json(staffList);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalItems = await Staff.countDocuments();
+    const staffList = await Staff.find()
+      .populate('employment.assignedMandir', 'name city')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.status(200).json({
+      data: staffList,
+      totalItems,
+      totalPages: Math.ceil(totalItems / limit),
+      currentPage: page
+    });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch staff", error: error.message });
   }

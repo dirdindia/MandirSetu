@@ -60,8 +60,19 @@ export const createMandir = async (req, res) => {
 
 export const getMandirs = async (req, res) => {
   try {
-    const mandirs = await Mandir.find().sort({ createdAt: -1 });
-    res.status(200).json(mandirs);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalItems = await Mandir.countDocuments();
+    const mandirs = await Mandir.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
+
+    res.status(200).json({
+      data: mandirs,
+      totalItems,
+      totalPages: Math.ceil(totalItems / limit),
+      currentPage: page
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

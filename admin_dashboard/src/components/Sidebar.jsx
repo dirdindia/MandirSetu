@@ -1,13 +1,43 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, CalendarDays, Settings, X, ChevronLeft, ChevronRight, Landmark, UserPlus } from 'lucide-react';
+import React, { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { LayoutDashboard, Users, CalendarDays, Settings, X, ChevronLeft, ChevronRight, Landmark, UserPlus, List, ChevronDown, FolderOpen } from 'lucide-react';
 
 export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleCollapse }) {
+  const location = useLocation();
+  // State to manage expanded accordion menus
+  const [expandedMenus, setExpandedMenus] = useState({
+    'Directories': true,
+    'Onboarding': true
+  });
+
+  const toggleMenu = (menuName) => {
+    if (isCollapsed) {
+      toggleCollapse(); // Expand sidebar if trying to open a submenu while collapsed
+    }
+    setExpandedMenus(prev => ({
+      ...prev,
+      [menuName]: !prev[menuName]
+    }));
+  };
+
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
-    { name: 'Onboard Mandir', icon: <Landmark size={20} />, path: '/onboard-mandir' },
-    { name: 'Hire Staff', icon: <UserPlus size={20} />, path: '/hire-staff' },
-    { name: 'Devotees', icon: <Users size={20} />, path: '/devotees' },
+    { 
+      name: 'Directories', 
+      icon: <FolderOpen size={20} />, 
+      subItems: [
+        { name: 'Mandirs List', path: '/mandirs', icon: <Landmark size={16} /> },
+        { name: 'Staff List', path: '/staff', icon: <Users size={16} /> }
+      ]
+    },
+    { 
+      name: 'Onboarding', 
+      icon: <UserPlus size={20} />, 
+      subItems: [
+        { name: 'Onboard Mandir', path: '/onboard-mandir', icon: <Landmark size={16} /> },
+        { name: 'Hire Staff', path: '/hire-staff', icon: <Users size={16} /> }
+      ]
+    },
     { name: 'Bookings', icon: <CalendarDays size={20} />, path: '/bookings' },
     { name: 'Settings', icon: <Settings size={20} />, path: '/settings' },
   ];
@@ -59,26 +89,83 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
           </button>
         </div>
 
-        <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto">
-          {menuItems.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.path}
-              title={isCollapsed ? item.name : ''}
-              className={({ isActive }) => 
-                `flex items-center gap-3 px-3 py-3 rounded-xl transition-all ${
-                  isActive 
-                    ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-500 font-bold shadow-sm' 
-                    : 'hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium'
-                } ${isCollapsed ? 'justify-center' : ''}`
-              }
-            >
-              <div className={isCollapsed ? 'mx-auto' : ''}>
-                {item.icon}
-              </div>
-              {!isCollapsed && <span>{item.name}</span>}
-            </NavLink>
-          ))}
+        <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto overflow-x-hidden">
+          {menuItems.map((item) => {
+            // Check if any sub-item is active
+            const isSubItemActive = item.subItems?.some(sub => location.pathname.startsWith(sub.path));
+            
+            if (item.subItems) {
+              return (
+                <div key={item.name} className="flex flex-col">
+                  {/* Parent Menu Item */}
+                  <button
+                    onClick={() => toggleMenu(item.name)}
+                    title={isCollapsed ? item.name : ''}
+                    className={`flex items-center justify-between w-full px-3 py-3 rounded-xl transition-all ${
+                      isSubItemActive && !expandedMenus[item.name]
+                        ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-500 font-bold shadow-sm'
+                        : 'hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium text-slate-600 dark:text-slate-400'
+                    } ${isCollapsed ? 'justify-center' : ''}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={isCollapsed ? 'mx-auto' : ''}>
+                        {item.icon}
+                      </div>
+                      {!isCollapsed && <span>{item.name}</span>}
+                    </div>
+                    {!isCollapsed && (
+                      <ChevronDown 
+                        size={16} 
+                        className={`transition-transform duration-300 ${expandedMenus[item.name] ? 'rotate-180' : ''}`} 
+                      />
+                    )}
+                  </button>
+
+                  {/* Submenus */}
+                  {(!isCollapsed && expandedMenus[item.name]) && (
+                    <div className="flex flex-col mt-1 ml-4 pl-3 border-l-2 border-slate-100 dark:border-slate-800 space-y-1 animate-in slide-in-from-top-2 fade-in duration-200">
+                      {item.subItems.map((subItem) => (
+                        <NavLink
+                          key={subItem.name}
+                          to={subItem.path}
+                          className={({ isActive }) => 
+                            `flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm ${
+                              isActive 
+                                ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-500 font-bold' 
+                                : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium'
+                            }`
+                          }
+                        >
+                          {subItem.icon}
+                          <span>{subItem.name}</span>
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            return (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                title={isCollapsed ? item.name : ''}
+                className={({ isActive }) => 
+                  `flex items-center gap-3 px-3 py-3 rounded-xl transition-all ${
+                    isActive 
+                      ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-500 font-bold shadow-sm' 
+                      : 'hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium text-slate-600 dark:text-slate-400'
+                  } ${isCollapsed ? 'justify-center' : ''}`
+                }
+              >
+                <div className={isCollapsed ? 'mx-auto' : ''}>
+                  {item.icon}
+                </div>
+                {!isCollapsed && <span>{item.name}</span>}
+              </NavLink>
+            );
+          })}
         </nav>
 
         <div className="p-4 border-t border-slate-200 dark:border-slate-800">
