@@ -2,10 +2,9 @@ import Joi from 'joi';
 
 export const loginValidation = (data) => {
   const schema = Joi.object({
-    email: Joi.string().email().required().messages({
-      'string.email': 'Please provide a valid email',
-      'string.empty': 'Email cannot be empty',
-      'any.required': 'Email is required',
+    identifier: Joi.string().required().messages({
+      'string.empty': 'Email or Mobile Number cannot be empty',
+      'any.required': 'Email or Mobile Number is required',
     }),
     password: Joi.string().required().messages({
       'string.empty': 'Password cannot be empty',

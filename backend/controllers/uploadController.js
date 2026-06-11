@@ -36,6 +36,10 @@ export const uploadToCloudinary = async (req, res) => {
         overwrite: false,
       };
 
+      if (resourceType === "image") {
+        options.format = "jpg"; // Ensure all images are web-compatible and have extensions
+      }
+
       // Only force mp4 + h264 if it’s a video
       if (resourceType === "video") {
         options.format = "mp4";

@@ -1,5 +1,6 @@
 import Mandir from '../models/Mandir.js';
 import { createNotification } from './notificationController.js';
+import { mandirDhamValidationSchema } from '../validation/directoryValidation.js';
 
 export const createMandir = async (req, res) => {
   try {
@@ -7,19 +8,24 @@ export const createMandir = async (req, res) => {
       name, establishedYear, mainDeity, description, 
       address, city, state, pincode, 
       phone, email, website,
-      profilePic, gallery, latitude, longitude
+      profilePic, gallery, latitude, longitude,
+      category, schedule, howToReach
     } = req.body;
 
-    // Basic validation
-    if (!name || !mainDeity || !address || !city || !state || !pincode || !phone) {
-      return res.status(400).json({ message: 'Please fill all required fields' });
+    // Joi validation
+    const { error } = mandirDhamValidationSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
     }
 
     const newMandir = new Mandir({
       name,
       establishedYear,
       mainDeity,
+      category,
       description,
+      schedule,
+      howToReach,
       location: {
         address,
         city,
@@ -73,6 +79,18 @@ export const getMandirs = async (req, res) => {
       totalPages: Math.ceil(totalItems / limit),
       currentPage: page
     });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getMandirById = async (req, res) => {
+  try {
+    const mandir = await Mandir.findById(req.params.id);
+    if (!mandir) {
+      return res.status(404).json({ message: 'Mandir not found' });
+    }
+    res.status(200).json(mandir);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -4,9 +4,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import mandirRoutes from './routes/mandirRoutes.js';
+import dhamRoutes from './routes/dhamRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import staffRoutes from './routes/staffRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
+import hotelRoutes from './routes/hotelRoutes.js';
+import restaurantRoutes from './routes/restaurantRoutes.js';
+import ashramRoutes from './routes/ashramRoutes.js';
 import User from './models/User.js';
 import bcrypt from 'bcryptjs';
 
@@ -48,9 +52,13 @@ mongoose
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/mandirs', mandirRoutes);
+app.use('/api/dhams', dhamRoutes);
 app.use('/api/staff', staffRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/hotels', hotelRoutes);
+app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/ashrams', ashramRoutes);
 
 // Basic Health Check Route
 app.get('/api/health', (req, res) => {

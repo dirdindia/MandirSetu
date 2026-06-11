@@ -1,0 +1,6 @@
+<svg width="200" height="300" viewBox="0 0 100 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- U Shape -->
+  <path d="M 35 10 L 35 65 A 15 15 0 0 0 65 65 L 65 10" stroke="#F5B853" stroke-width="12" stroke-linecap="butt" />
+  <!-- Teardrop Shape (shifted up to touch the U shape) -->
+  <path d="M 50 137 L 38.55 100.6 A 12 12 0 1 1 61.45 100.6 Z" fill="#F5B853" />
+</svg>

@@ -4,7 +4,7 @@ import { Landmark } from 'lucide-react';
 import api from '../api/axiosInstance';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -14,16 +14,16 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await api.post('/auth/login', { identifier, password });
       const data = response.data;
 
       localStorage.setItem('auth-token', data.token);
       localStorage.setItem('user-role', data.user.role);
       
-      if (data.user.role === 'admin') {
+      if (data.user.role === 'admin' || data.user.role === 'staff') {
         navigate('/dashboard');
       } else {
-        setError('Access Denied. Admins only.');
+        setError('Access Denied. Admins and Staff only.');
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
@@ -64,17 +64,17 @@ export default function Login() {
         {/* Credentials Form */}
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="space-y-4">
-            {/* Email */}
+            {/* Identifier (Email or Phone) */}
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                Email Address
+                Email or Mobile Number
               </label>
               <input
-                type="email"
+                type="text"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@gmail.com"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                placeholder="admin@gmail.com or 9876543210"
                 className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 text-sm transition-all"
               />
             </div>

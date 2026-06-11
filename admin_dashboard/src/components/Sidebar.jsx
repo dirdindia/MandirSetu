@@ -6,8 +6,8 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
   const location = useLocation();
   // State to manage expanded accordion menus
   const [expandedMenus, setExpandedMenus] = useState({
-    'Directories': true,
-    'Onboarding': true
+    'Directories': false,
+    'Onboarding': false
   });
 
   const toggleMenu = (menuName) => {
@@ -27,6 +27,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
       icon: <FolderOpen size={20} />, 
       subItems: [
         { name: 'Mandirs List', path: '/mandirs', icon: <Landmark size={16} /> },
+        { name: 'Dhams List', path: '/dhams', icon: <Landmark size={16} /> },
         { name: 'Staff List', path: '/staff', icon: <Users size={16} /> }
       ]
     },
@@ -35,6 +36,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
       icon: <UserPlus size={20} />, 
       subItems: [
         { name: 'Onboard Mandir', path: '/onboard-mandir', icon: <Landmark size={16} /> },
+        { name: 'Onboard Dham', path: '/onboard-dham', icon: <Landmark size={16} /> },
         { name: 'Hire Staff', path: '/hire-staff', icon: <Users size={16} /> }
       ]
     },

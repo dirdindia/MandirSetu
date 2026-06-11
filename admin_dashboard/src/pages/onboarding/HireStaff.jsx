@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api/axiosInstance';
+import api from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { 
   User, Briefcase, FileText, Phone, 
@@ -33,6 +33,7 @@ export default function HireStaff() {
     profilePic: '',
     documentType: 'Aadhar Card',
     documentUrl: '',
+    password: '',
   });
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function HireStaff() {
     const fetchMandirs = async () => {
       try {
         const res = await api.get('/mandirs');
-        setMandirs(res.data);
+        setMandirs(res.data.data || []);
       } catch (err) {
         console.error("Failed to fetch mandirs:", err);
       }
@@ -168,6 +169,8 @@ export default function HireStaff() {
     if (!files.length) return;
 
     setUploadingField(fieldName);
+    // Clear previous URL while uploading to show loader cleanly
+    setFormData((prev) => ({ ...prev, [fieldName]: '' }));
 
     const data = new FormData();
     files.forEach((file) => data.append("files", file));
@@ -232,7 +235,7 @@ export default function HireStaff() {
       setFormData({
         name: '', gender: 'Male', dob: '', address: '', city: '', state: '', pincode: '', latitude: '', longitude: '',
         role: 'Temple Sevadar', assignedMandir: '',
-        phone: '', email: '', emergencyContact: '', profilePic: '', documentType: 'Aadhar Card', documentUrl: '',
+        phone: '', email: '', emergencyContact: '', profilePic: '', documentType: 'Aadhar Card', documentUrl: '', password: ''
       });
       setStep(1);
     } catch (err) {
@@ -394,7 +397,7 @@ export default function HireStaff() {
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Assigned Mandir (Optional)</label>
                 <select name="assignedMandir" value={formData.assignedMandir} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
                   <option value="">Global / Not Assigned to specific Mandir</option>
-                  {mandirs.map(m => (
+                  {mandirs?.map(m => (
                     <option key={m._id} value={m._id}>{m.name} - {m.location.city}</option>
                   ))}
                 </select>
@@ -423,12 +426,12 @@ export default function HireStaff() {
 
                 {formData.profilePic && (
                   <div className="mt-4 flex justify-center">
-                    <div className="relative group inline-block">
+                    <div className="relative inline-block">
                       <img src={formData.profilePic} alt="Profile" className="w-24 h-24 object-cover rounded-xl shadow-sm border border-slate-200" />
                       <button 
                         type="button" 
                         onClick={() => handleRemoveFile('profilePic')}
-                        className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-all shadow-md cursor-pointer scale-90 hover:scale-100"
+                        className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md cursor-pointer"
                       >
                         <X size={14} strokeWidth={3} />
                       </button>
@@ -458,14 +461,23 @@ export default function HireStaff() {
 
                 {formData.documentUrl && (
                   <div className="mt-4 flex justify-center">
-                    <div className="relative group inline-block bg-slate-100 dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700">
-                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400 line-clamp-1 max-w-[120px]">Document Uploaded</span>
+                    <div className="relative inline-block bg-slate-100 dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700">
+                      {formData.documentUrl.includes('/raw/') || formData.documentUrl.toLowerCase().endsWith('.pdf') ? (
+                        <span className="text-xs font-bold text-blue-600 dark:text-blue-400 line-clamp-1 max-w-[120px]">Document Uploaded</span>
+                      ) : (
+                        <img 
+                          src={formData.documentUrl} 
+                          alt="Document" 
+                          className="w-32 h-24 object-cover rounded-lg shadow-sm" 
+                          onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/128x96/e2e8f0/475569?text=Preview+Not+Available'; }}
+                        />
+                      )}
                       <button 
                         type="button" 
                         onClick={() => handleRemoveFile('documentUrl')}
-                        className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-all shadow-md cursor-pointer scale-90 hover:scale-100"
+                        className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md cursor-pointer"
                       >
-                        <X size={12} strokeWidth={3} />
+                        <X size={14} strokeWidth={3} />
                       </button>
                     </div>
                   </div>
@@ -488,9 +500,13 @@ export default function HireStaff() {
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
                 <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="staff@mandirsetu.com" />
               </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Emergency Contact Number</label>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Emergency Contact</label>
                 <input type="tel" name="emergencyContact" value={formData.emergencyContact} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="+91 9123456789" />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Login Password *</label>
+                <input type="text" name="password" value={formData.password} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter password for staff portal" />
               </div>
             </div>
             

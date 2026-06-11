@@ -19,6 +19,19 @@ const mandirSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  category: {
+    type: String,
+    trim: true,
+  },
+  schedule: {
+    openTime: { type: String, trim: true },
+    closeTime: { type: String, trim: true },
+  },
+  howToReach: {
+    bus: { type: String, trim: true },
+    train: { type: String, trim: true },
+    air: { type: String, trim: true },
+  },
   location: {
     address: { type: String, required: true },
     city: { type: String, required: true },

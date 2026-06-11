@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from '../api/axiosInstance';
+import api from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { 
   Landmark, MapPin, Phone, Image as ImageIcon, 
@@ -30,10 +30,22 @@ export default function OnboardMandir() {
     website: '',
     profilePic: '',
     gallery: [],
+    category: '',
+    schedule: { openTime: '', closeTime: '' },
+    howToReach: { bus: '', train: '', air: '' },
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name.includes('.')) {
+      const [parent, child] = name.split('.');
+      setFormData({
+        ...formData,
+        [parent]: { ...formData[parent], [child]: value }
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleNext = () => setStep(prev => prev + 1);
@@ -240,6 +252,7 @@ export default function OnboardMandir() {
         name: '', establishedYear: '', mainDeity: '', description: '',
         address: '', city: '', state: '', pincode: '', latitude: '', longitude: '',
         phone: '', email: '', website: '', profilePic: '', gallery: [],
+        category: '', schedule: { openTime: '', closeTime: '' }, howToReach: { bus: '', train: '', air: '' }
       });
       setStep(1);
     } catch (err) {
@@ -300,8 +313,34 @@ export default function OnboardMandir() {
                 <input type="text" name="mainDeity" value={formData.mainDeity} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. Lord Shiva" />
               </div>
               <div>
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Category *</label>
+                <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                  <option value="">Select Category</option>
+                  <option value="Shiva">Shiva</option>
+                  <option value="Vishnu">Vishnu</option>
+                  <option value="Hanuman">Hanuman</option>
+                  <option value="Devi">Devi (Durga/Kali/etc)</option>
+                  <option value="Ganesha">Ganesha</option>
+                  <option value="Krishna">Krishna</option>
+                  <option value="Rama">Rama</option>
+                  <option value="Swaminarayan">Swaminarayan</option>
+                  <option value="Jain">Jain Temple</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Established Year</label>
                 <input type="text" name="establishedYear" value={formData.establishedYear} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. 1780" />
+              </div>
+              <div className="md:col-span-2 grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Opening Time</label>
+                  <input type="time" name="schedule.openTime" value={formData.schedule.openTime} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Closing Time</label>
+                  <input type="time" name="schedule.closeTime" value={formData.schedule.closeTime} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                </div>
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Description</label>
@@ -387,6 +426,24 @@ export default function OnboardMandir() {
                   <div>
                     <label className="block text-xs font-bold text-orange-800/70 mb-1">Longitude</label>
                     <input type="text" name="longitude" value={formData.longitude} onChange={handleChange} className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-orange-200 rounded-lg focus:outline-none" placeholder="83.0107" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="md:col-span-3 mt-6 border-t border-slate-200 dark:border-slate-800 pt-6">
+                <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-4">How to Reach</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">By Bus</label>
+                    <textarea name="howToReach.bus" rows="2" value={formData.howToReach.bus} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none resize-none" placeholder="Nearest bus stand and routes..."></textarea>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">By Train</label>
+                    <textarea name="howToReach.train" rows="2" value={formData.howToReach.train} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none resize-none" placeholder="Nearest railway station..."></textarea>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">By Air</label>
+                    <textarea name="howToReach.air" rows="2" value={formData.howToReach.air} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none resize-none" placeholder="Nearest airport..."></textarea>
                   </div>
                 </div>
               </div>

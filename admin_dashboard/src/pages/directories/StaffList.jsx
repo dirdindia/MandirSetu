@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, User, ChevronLeft, ChevronRight, Eye, Briefcase, Mail, Calendar } from 'lucide-react';
-import axiosInstance from '../api/axiosInstance';
+import { MapPin, Phone, User, ChevronLeft, ChevronRight, Eye, Briefcase, Mail, Calendar, Pencil, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 
 export default function StaffList() {
@@ -9,6 +10,7 @@ export default function StaffList() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const navigate = useNavigate();
 
   const fetchStaff = async (currentPage) => {
     try {
@@ -116,6 +118,28 @@ export default function StaffList() {
     });
   };
 
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this! The staff member and their login access will be deleted.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#94a3b8',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axiosInstance.delete(`/staff/${id}`);
+        Swal.fire('Deleted!', 'Staff member has been deleted.', 'success');
+        fetchStaff(page);
+      } catch (error) {
+        Swal.fire('Error!', 'Failed to delete staff member.', 'error');
+      }
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
@@ -169,13 +193,29 @@ export default function StaffList() {
                     </td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">{person.contact?.phone}</td>
                     <td className="p-4 text-center">
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); showDetails(person); }}
-                        className="p-2 text-blue-500 hover:text-blue-600 hover:bg-blue-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
-                        title="View Details"
-                      >
-                        <Eye size={18} />
-                      </button>
+                      <div className="flex items-center justify-center gap-2">
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); showDetails(person); }}
+                          className="p-2 text-blue-500 hover:text-blue-600 hover:bg-blue-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
+                          title="View Details"
+                        >
+                          <Eye size={18} />
+                        </button>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); navigate(`/edit-staff/${person._id}`); }}
+                          className="p-2 text-emerald-500 hover:text-emerald-600 hover:bg-emerald-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
+                          title="Edit Staff"
+                        >
+                          <Pencil size={18} />
+                        </button>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); handleDelete(person._id); }}
+                          className="p-2 text-red-500 hover:text-red-600 hover:bg-red-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
+                          title="Delete Staff"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
