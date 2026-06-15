@@ -1,6 +1,6 @@
-import Mandir from '../models/Mandir.js';
-import { createNotification } from './notificationController.js';
-import { mandirDhamValidationSchema } from '../validation/directoryValidation.js';
+import Mandir from '../../models/core/Mandir.js';
+import { createNotification } from '../../controllers/system/notificationController.js';
+import { mandirDhamValidationSchema } from '../../validation/directoryValidation.js';
 
 export const createMandir = async (req, res) => {
   try {
@@ -91,6 +91,53 @@ export const getMandirById = async (req, res) => {
       return res.status(404).json({ message: 'Mandir not found' });
     }
     res.status(200).json(mandir);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const updateMandir = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      name, establishedYear, mainDeity, description, 
+      address, city, state, pincode, 
+      phone, email, website,
+      profilePic, gallery, latitude, longitude,
+      category, schedule, howToReach
+    } = req.body;
+
+    const { error } = mandirDhamValidationSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
+    const updatedMandir = await Mandir.findByIdAndUpdate(
+      id,
+      {
+        name, establishedYear, mainDeity, category, description, schedule, howToReach,
+        location: { address, city, state, pincode },
+        contact: { phone, email, website },
+        profilePic, gallery,
+        geolocation: { latitude, longitude }
+      },
+      { new: true }
+    );
+
+    if (!updatedMandir) return res.status(404).json({ message: 'Mandir not found' });
+    
+    res.status(200).json({ message: 'Mandir updated successfully', mandir: updatedMandir });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const deleteMandir = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedMandir = await Mandir.findByIdAndDelete(id);
+    if (!deletedMandir) return res.status(404).json({ message: 'Mandir not found' });
+    res.status(200).json({ message: 'Mandir deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

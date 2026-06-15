@@ -10,6 +10,9 @@ import Mandirs from './pages/mandirs/Mandirs';
 import MandirDetail from './pages/mandirs/MandirDetail';
 import Dhams from './pages/dhams/Dhams';
 import DhamDetail from './pages/dhams/DhamDetail';
+import HotelDetail from './pages/directories/HotelDetail';
+import AshramDetail from './pages/directories/AshramDetail';
+import RestaurantDetail from './pages/directories/RestaurantDetail';
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
           <Route path="mandir/:id" element={<MandirDetail />} />
           <Route path="dhams" element={<Dhams />} />
           <Route path="dham/:id" element={<DhamDetail />} />
+          <Route path="hotels/:id" element={<HotelDetail />} />
+          <Route path="ashrams/:id" element={<AshramDetail />} />
+          <Route path="restaurants/:id" element={<RestaurantDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

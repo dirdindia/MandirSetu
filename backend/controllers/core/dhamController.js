@@ -1,6 +1,6 @@
-import Dham from '../models/Dham.js';
-import { createNotification } from './notificationController.js';
-import { mandirDhamValidationSchema } from '../validation/directoryValidation.js';
+import Dham from '../../models/core/Dham.js';
+import { createNotification } from '../../controllers/system/notificationController.js';
+import { mandirDhamValidationSchema } from '../../validation/directoryValidation.js';
 
 export const createDham = async (req, res) => {
   try {
@@ -91,6 +91,53 @@ export const getDhamById = async (req, res) => {
       return res.status(404).json({ message: 'Dham not found' });
     }
     res.status(200).json(dham);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const updateDham = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      name, establishedYear, mainDeity, description, 
+      address, city, state, pincode, 
+      phone, email, website,
+      profilePic, gallery, latitude, longitude,
+      category, schedule, howToReach
+    } = req.body;
+
+    const { error } = mandirDhamValidationSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
+    const updatedDham = await Dham.findByIdAndUpdate(
+      id,
+      {
+        name, establishedYear, mainDeity, category, description, schedule, howToReach,
+        location: { address, city, state, pincode },
+        contact: { phone, email, website },
+        profilePic, gallery,
+        geolocation: { latitude, longitude }
+      },
+      { new: true }
+    );
+
+    if (!updatedDham) return res.status(404).json({ message: 'Dham not found' });
+    
+    res.status(200).json({ message: 'Dham updated successfully', dham: updatedDham });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const deleteDham = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedDham = await Dham.findByIdAndDelete(id);
+    if (!deletedDham) return res.status(404).json({ message: 'Dham not found' });
+    res.status(200).json({ message: 'Dham deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -27,7 +27,6 @@ export default function OnboardHotel() {
     name: editData?.name || '',
     description: editData?.description || '',
     starRating: editData?.starRating || '',
-    distanceFromNearestMandir: editData?.distanceFromNearestMandir || '',
     startingPrice: editData?.startingPrice || '',
     policies: editData?.policies || [],
     roomTypes: editData?.roomTypes || [],
@@ -142,7 +141,6 @@ export default function OnboardHotel() {
         name: formData.name, description: formData.description,
         starRating: formData.starRating ? Number(formData.starRating) : undefined,
         startingPrice: formData.startingPrice ? Number(formData.startingPrice) : undefined,
-        distanceFromNearestMandir: formData.distanceFromNearestMandir,
         roomTypes: formData.roomTypes, amenities: formData.amenities, policies: formData.policies,
         hasHall: formData.hasHall, foodAvailable: formData.foodAvailable,
         schedule: { openTime: formData.openTime, closeTime: formData.closeTime, alwaysOpen: formData.alwaysOpen },
@@ -159,7 +157,7 @@ export default function OnboardHotel() {
       } else {
         await api.post('/hotels', payload);
         Swal.fire({ icon: 'success', title: 'Hotel Onboarded!', text: 'Hotel successfully added to the platform.', customClass: { confirmButton: 'bg-blue-600 text-white rounded-xl' } });
-        setFormData({ name: '', description: '', starRating: '', distanceFromNearestMandir: '', startingPrice: '', policies: [], roomTypes: [], amenities: [], hasHall: false, foodAvailable: false, openTime: '', closeTime: '', alwaysOpen: false, address: '', city: '', state: '', pincode: '', latitude: '', longitude: '', managerName: '', phone: '', email: '', website: '', profilePic: '', gallery: [] });
+        setFormData({ name: '', description: '', starRating: '', startingPrice: '', policies: [], roomTypes: [], amenities: [], hasHall: false, foodAvailable: false, openTime: '', closeTime: '', alwaysOpen: false, address: '', city: '', state: '', pincode: '', latitude: '', longitude: '', managerName: '', phone: '', email: '', website: '', profilePic: '', gallery: [] });
         setStep(1);
       }
     } catch (err) { Swal.fire({ icon: 'error', title: 'Failed', text: err.response?.data?.message || 'Error occurred.', customClass: { confirmButton: 'bg-blue-600 text-white rounded-xl' } }); } finally { setLoading(false); }
@@ -210,8 +208,9 @@ export default function OnboardHotel() {
                 <input type="number" name="startingPrice" value={formData.startingPrice} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" placeholder="e.g. 999" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Distance from nearest Mandir</label>
-                <input type="text" name="distanceFromNearestMandir" value={formData.distanceFromNearestMandir} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" placeholder="e.g. 500 meters from Kashi Vishwanath" />
+                <div className="p-4 bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 rounded-xl text-sm font-medium border border-blue-200 dark:border-blue-800/50">
+                  <p><strong>Note:</strong> This Hotel will be automatically associated with your assigned Mandir or Dham.</p>
+                </div>
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Description</label>

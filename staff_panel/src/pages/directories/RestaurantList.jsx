@@ -10,18 +10,28 @@ export default function RestaurantList() {
 
   const navigate = useNavigate();
 
-  const fetchRestaurants = () => {
-    api.get('/restaurants').then(res => {
+  const fetchRestaurants = async () => {
+    try {
+      const profileRes = await api.get('/staff/me');
+      const profile = profileRes.data?.data;
+      let query = '';
+      if (profile?.employment?.assignedMandir) {
+        query = `?mandir=${profile.employment.assignedMandir._id || profile.employment.assignedMandir}`;
+      } else if (profile?.employment?.assignedDham) {
+        query = `?dham=${profile.employment.assignedDham._id || profile.employment.assignedDham}`;
+      }
+
+      const res = await api.get(`/restaurants${query}`);
       if (res.data && res.data.data) {
         setRestaurants(res.data.data);
       } else {
         setRestaurants(Array.isArray(res.data) ? res.data : []);
       }
       setLoading(false);
-    }).catch(err => {
+    } catch (err) {
       console.error(err);
       setLoading(false);
-    });
+    }
   };
 
   useEffect(() => {

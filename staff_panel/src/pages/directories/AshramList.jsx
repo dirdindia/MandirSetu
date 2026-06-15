@@ -10,18 +10,28 @@ export default function AshramList() {
 
   const navigate = useNavigate();
 
-  const fetchAshrams = () => {
-    api.get('/ashrams').then(res => {
+  const fetchAshrams = async () => {
+    try {
+      const profileRes = await api.get('/staff/me');
+      const profile = profileRes.data?.data;
+      let query = '';
+      if (profile?.employment?.assignedMandir) {
+        query = `?mandir=${profile.employment.assignedMandir._id || profile.employment.assignedMandir}`;
+      } else if (profile?.employment?.assignedDham) {
+        query = `?dham=${profile.employment.assignedDham._id || profile.employment.assignedDham}`;
+      }
+
+      const res = await api.get(`/ashrams${query}`);
       if (res.data && res.data.data) {
         setAshrams(res.data.data);
       } else {
         setAshrams(Array.isArray(res.data) ? res.data : []);
       }
       setLoading(false);
-    }).catch(err => {
+    } catch (err) {
       console.error(err);
       setLoading(false);
-    });
+    }
   };
 
   useEffect(() => {

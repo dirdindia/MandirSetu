@@ -5,6 +5,8 @@ import OnboardMandir from './pages/onboarding/OnboardMandir';
 import OnboardDham from './pages/onboarding/OnboardDham';
 import HireStaff from './pages/onboarding/HireStaff';
 import EditStaff from './pages/directories/EditStaff';
+import EditMandir from './pages/directories/EditMandir';
+import EditDham from './pages/directories/EditDham';
 import MandirList from './pages/directories/MandirList';
 import DhamList from './pages/directories/DhamList';
 import StaffList from './pages/directories/StaffList';
@@ -23,6 +25,8 @@ function App() {
           <Route path="/onboard-dham" element={<OnboardDham />} />
           <Route path="/hire-staff" element={<HireStaff />} />
           <Route path="/edit-staff/:id" element={<EditStaff />} />
+          <Route path="/edit-mandir/:id" element={<EditMandir />} />
+          <Route path="/edit-dham/:id" element={<EditDham />} />
           <Route path="/mandirs" element={<MandirList />} />
           <Route path="/dhams" element={<DhamList />} />
           <Route path="/staff" element={<StaffList />} />

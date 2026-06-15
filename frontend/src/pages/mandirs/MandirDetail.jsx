@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../../api';
+import RelatedDirectoryTabs from '../../components/RelatedDirectoryTabs';
 
 export default function MandirDetail() {
   const { id } = useParams();
@@ -99,6 +100,8 @@ export default function MandirDetail() {
                   </div>
                 </section>
               )}
+              
+              <RelatedDirectoryTabs mandirId={id} />
             </div>
 
             {/* Sidebar Info */}

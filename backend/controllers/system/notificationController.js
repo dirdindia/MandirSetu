@@ -1,4 +1,4 @@
-import Notification from '../models/Notification.js';
+import Notification from '../../models/system/Notification.js';
 
 // Internal helper function to create a notification from other controllers
 export const createNotification = async (title, message, type = 'info', link = '') => {

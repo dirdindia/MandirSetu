@@ -14,6 +14,7 @@ export default function EditStaff() {
   const [loading, setLoading] = useState(false);
   const [uploadingField, setUploadingField] = useState("");
   const [mandirs, setMandirs] = useState([]);
+  const [dhams, setDhams] = useState([]);
   const [quickLocationInput, setQuickLocationInput] = useState("");
   const [fetchedLocationDetails, setFetchedLocationDetails] = useState(null);
 
@@ -29,6 +30,7 @@ export default function EditStaff() {
     longitude: '',
     role: 'Temple Sevadar',
     assignedMandir: '',
+    assignedDham: '',
     phone: '',
     email: '',
     emergencyContact: '',
@@ -38,16 +40,20 @@ export default function EditStaff() {
   });
 
   useEffect(() => {
-    // Fetch mandirs to populate the assignment dropdown
-    const fetchMandirs = async () => {
+    // Fetch mandirs and dhams to populate the assignment dropdown
+    const fetchEntities = async () => {
       try {
-        const res = await api.get('/mandirs');
-        setMandirs(res.data.data || []);
+        const [mandirsRes, dhamsRes] = await Promise.all([
+          api.get('/mandirs'),
+          api.get('/dhams')
+        ]);
+        setMandirs(mandirsRes.data.data || []);
+        setDhams(dhamsRes.data.data || []);
       } catch (err) {
-        console.error("Failed to fetch mandirs:", err);
+        console.error("Failed to fetch entities:", err);
       }
     };
-    fetchMandirs();
+    fetchEntities();
   }, []);
 
   useEffect(() => {
@@ -69,6 +75,7 @@ export default function EditStaff() {
             longitude: staff.geolocation?.coordinates?.[0]?.toString() || '',
             role: staff.employment?.role || 'Temple Sevadar',
             assignedMandir: staff.employment?.assignedMandir?._id || '',
+            assignedDham: staff.employment?.assignedDham?._id || '',
             phone: staff.contact?.phone || '',
             email: staff.contact?.email || '',
             emergencyContact: staff.contact?.emergencyContact || '',
@@ -418,20 +425,34 @@ export default function EditStaff() {
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Role / Designation *</label>
                 <select name="role" value={formData.role} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
                   <option value="Temple Sevadar">Temple Sevadar (Agent)</option>
-                  <option value="Manager">Platform Manager</option>
-                  <option value="Global Admin">Global Admin</option>
+                  <option value="Dham Sevadar">Dham Sevadar (Agent)</option>
+                  {/* <option value="Manager">Platform Manager</option>
+                  <option value="Global Admin">Global Admin</option> */}
                 </select>
               </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Assigned Mandir (Optional)</label>
-                <select name="assignedMandir" value={formData.assignedMandir} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                  <option value="">Global / Not Assigned to specific Mandir</option>
-                  {mandirs?.map(m => (
-                    <option key={m._id} value={m._id}>{m.name} - {m.location.city}</option>
-                  ))}
-                </select>
-                <p className="text-xs text-slate-400 mt-2">If left blank, the staff member will have global access.</p>
-              </div>
+              {formData.role === 'Temple Sevadar' ? (
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Assigned Mandir (Optional)</label>
+                  <select name="assignedMandir" value={formData.assignedMandir} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <option value="">Global / Not Assigned to specific Mandir</option>
+                    {mandirs?.map(m => (
+                      <option key={m._id} value={m._id}>{m.name} - {m.location.city}</option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-slate-400 mt-2">If left blank, the staff member will have global access.</p>
+                </div>
+              ) : formData.role === 'Dham Sevadar' ? (
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Assigned Dham (Optional)</label>
+                  <select name="assignedDham" value={formData.assignedDham} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <option value="">Global / Not Assigned to specific Dham</option>
+                    {dhams?.map(d => (
+                      <option key={d._id} value={d._id}>{d.name} - {d.location.city}</option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-slate-400 mt-2">If left blank, the staff member will have global access.</p>
+                </div>
+              ) : null}
             </div>
           </div>
         )}

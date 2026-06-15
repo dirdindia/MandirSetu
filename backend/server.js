@@ -2,16 +2,16 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import authRoutes from './routes/authRoutes.js';
-import mandirRoutes from './routes/mandirRoutes.js';
-import dhamRoutes from './routes/dhamRoutes.js';
-import uploadRoutes from './routes/uploadRoutes.js';
-import staffRoutes from './routes/staffRoutes.js';
-import notificationRoutes from './routes/notificationRoutes.js';
-import hotelRoutes from './routes/hotelRoutes.js';
-import restaurantRoutes from './routes/restaurantRoutes.js';
-import ashramRoutes from './routes/ashramRoutes.js';
-import User from './models/User.js';
+import authRoutes from './routes/users/authRoutes.js';
+import mandirRoutes from './routes/core/mandirRoutes.js';
+import dhamRoutes from './routes/core/dhamRoutes.js';
+import uploadRoutes from './routes/system/uploadRoutes.js';
+import staffRoutes from './routes/users/staffRoutes.js';
+import notificationRoutes from './routes/system/notificationRoutes.js';
+import hotelRoutes from './routes/directories/hotelRoutes.js';
+import restaurantRoutes from './routes/directories/restaurantRoutes.js';
+import ashramRoutes from './routes/directories/ashramRoutes.js';
+import User from './models/users/User.js';
 import bcrypt from 'bcryptjs';
 
 // Load environment variables

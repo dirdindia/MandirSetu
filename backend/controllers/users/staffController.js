@@ -1,8 +1,8 @@
-import Staff from '../models/Staff.js';
-import User from '../models/User.js';
+import Staff from '../../models/users/Staff.js';
+import User from '../../models/users/User.js';
 import bcrypt from 'bcryptjs';
-import { createNotification } from './notificationController.js';
-import { staffValidationSchema } from '../validation/directoryValidation.js';
+import { createNotification } from '../../controllers/system/notificationController.js';
+import { staffValidationSchema } from '../../validation/directoryValidation.js';
 
 // Create new staff
 export const hireStaff = async (req, res) => {
@@ -10,7 +10,7 @@ export const hireStaff = async (req, res) => {
     const { 
       name, gender, dob, address, city, state, pincode, latitude, longitude,
       phone, email, emergencyContact, 
-      role, assignedMandir, 
+      role, assignedMandir, assignedDham,
       profilePic, documentType, documentUrl,
       password
     } = req.body;
@@ -58,7 +58,8 @@ export const hireStaff = async (req, res) => {
       contact: { phone, email, emergencyContact },
       employment: { 
         role, 
-        assignedMandir: assignedMandir || null 
+        assignedMandir: assignedMandir || null,
+        assignedDham: assignedDham || null
       },
       media: { profilePic, documentType, documentUrl }
     });
@@ -90,6 +91,7 @@ export const getAllStaff = async (req, res) => {
     const totalItems = await Staff.countDocuments();
     const staffList = await Staff.find()
       .populate('employment.assignedMandir', 'name city')
+      .populate('employment.assignedDham', 'name city')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
@@ -108,7 +110,9 @@ export const getAllStaff = async (req, res) => {
 // Get Single Staff
 export const getStaffById = async (req, res) => {
   try {
-    const staff = await Staff.findById(req.params.id).populate('employment.assignedMandir', 'name city');
+    const staff = await Staff.findById(req.params.id)
+      .populate('employment.assignedMandir', 'name city')
+      .populate('employment.assignedDham', 'name city');
     if (!staff) {
       return res.status(404).json({ message: "Staff not found" });
     }
@@ -124,7 +128,7 @@ export const updateStaff = async (req, res) => {
     const { 
       name, gender, dob, address, city, state, pincode, latitude, longitude,
       phone, email, emergencyContact, 
-      role, assignedMandir, 
+      role, assignedMandir, assignedDham,
       profilePic, documentType, documentUrl
     } = req.body;
 
@@ -149,7 +153,8 @@ export const updateStaff = async (req, res) => {
       contact: { phone, email, emergencyContact },
       employment: { 
         role, 
-        assignedMandir: assignedMandir || null 
+        assignedMandir: assignedMandir || null,
+        assignedDham: assignedDham || null
       },
       media: { profilePic, documentType, documentUrl }
     };
@@ -197,7 +202,9 @@ export const getMe = async (req, res) => {
         { 'contact.email': user.email },
         { 'contact.phone': user.phone }
       ]
-    }).populate('employment.assignedMandir', 'name city');
+    })
+    .populate('employment.assignedMandir', 'name city')
+    .populate('employment.assignedDham', 'name city');
 
     if (!staffProfile) return res.status(404).json({ message: 'Staff profile not found for this user.' });
 

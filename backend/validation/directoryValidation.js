@@ -13,7 +13,8 @@ export const hotelValidationSchema = Joi.object({
   }).optional(),
   hasHall: Joi.boolean().optional(),
   foodAvailable: Joi.boolean().optional(),
-  distanceFromNearestMandir: Joi.string().allow('').trim(),
+  mandir: Joi.string().hex().length(24).optional().allow(''),
+  dham: Joi.string().hex().length(24).optional().allow(''),
   startingPrice: Joi.number().optional(),
   policies: Joi.array().items(Joi.string().trim()).optional(),
   location: Joi.object({
@@ -51,6 +52,8 @@ export const restaurantValidationSchema = Joi.object({
   amenities: Joi.array().items(Joi.string().trim()).optional(),
   seatingCapacity: Joi.number().optional(),
   fssaiLicense: Joi.string().allow('').trim(),
+  mandir: Joi.string().hex().length(24).optional().allow(''),
+  dham: Joi.string().hex().length(24).optional().allow(''),
   location: Joi.object({
     address: Joi.string().required(),
     city: Joi.string().required(),
@@ -92,7 +95,8 @@ export const ashramValidationSchema = Joi.object({
     alwaysOpen: Joi.boolean().optional()
   }).optional(),
   donationAccepted: Joi.boolean().optional(),
-  associatedMandir: Joi.string().allow('').trim(),
+  mandir: Joi.string().hex().length(24).optional().allow(''),
+  dham: Joi.string().hex().length(24).optional().allow(''),
   location: Joi.object({
     address: Joi.string().required(),
     city: Joi.string().required(),
@@ -159,6 +163,7 @@ export const staffValidationSchema = Joi.object({
   password: Joi.string().required(),
   role: Joi.string().required().trim(),
   assignedMandir: Joi.string().hex().length(24).optional().allow(''),
+  assignedDham: Joi.string().hex().length(24).optional().allow(''),
   dateOfJoining: Joi.date().optional(),
   profilePic: Joi.string().allow(''),
   documentType: Joi.string().allow('').trim(),

@@ -27,7 +27,6 @@ export default function OnboardAshram() {
     description: editData?.description || '',
     founder: editData?.founder || '',
     capacity: editData?.capacity || '',
-    associatedMandir: editData?.associatedMandir || '',
     accommodationAvailable: editData?.accommodationAvailable || false,
     donationAccepted: editData?.donationAccepted || false,
     facilities: editData?.facilities || [],
@@ -140,7 +139,6 @@ export default function OnboardAshram() {
         name: formData.name, description: formData.description,
         founder: formData.founder, rules: formData.rules,
         facilities: formData.facilities,
-        associatedMandir: formData.associatedMandir,
         accommodationAvailable: formData.accommodationAvailable,
         donationAccepted: formData.donationAccepted,
         capacity: formData.capacity ? Number(formData.capacity) : undefined,
@@ -158,7 +156,7 @@ export default function OnboardAshram() {
       } else {
         await api.post('/ashrams', payload);
         Swal.fire({ icon: 'success', title: 'Onboarded!', text: 'Ashram successfully added.', customClass: { confirmButton: 'bg-amber-600 text-white rounded-xl' } });
-        setFormData({ name: '', description: '', founder: '', capacity: '', associatedMandir: '', accommodationAvailable: false, donationAccepted: false, facilities: [], rules: '', openTime: '', closeTime: '', alwaysOpen: false, address: '', city: '', state: '', pincode: '', latitude: '', longitude: '', managerName: '', phone: '', email: '', website: '', profilePic: '', gallery: [] });
+        setFormData({ name: '', description: '', founder: '', capacity: '', accommodationAvailable: false, donationAccepted: false, facilities: [], rules: '', openTime: '', closeTime: '', alwaysOpen: false, address: '', city: '', state: '', pincode: '', latitude: '', longitude: '', managerName: '', phone: '', email: '', website: '', profilePic: '', gallery: [] });
         setStep(1);
       }
     } catch (err) { Swal.fire({ icon: 'error', title: 'Failed', text: err.response?.data?.message || 'Error occurred.', customClass: { confirmButton: 'bg-amber-600 text-white rounded-xl' } }); } finally { setLoading(false); }
@@ -209,8 +207,9 @@ export default function OnboardAshram() {
                 <input type="number" name="capacity" value={formData.capacity} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all" placeholder="e.g. 500" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Associated Mandir (if any)</label>
-                <input type="text" name="associatedMandir" value={formData.associatedMandir} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all" placeholder="e.g. Kashi Vishwanath" />
+                <div className="p-4 bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-400 rounded-xl text-sm font-medium border border-amber-200 dark:border-amber-800/50">
+                  <p><strong>Note:</strong> This Ashram will be automatically associated with your assigned Mandir or Dham.</p>
+                </div>
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Description / Background</label>

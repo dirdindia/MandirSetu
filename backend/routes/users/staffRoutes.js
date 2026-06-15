@@ -1,6 +1,6 @@
 import express from 'express';
-import { hireStaff, getAllStaff, getStaffById, updateStaff, deleteStaff, getMe, updateMe } from '../controllers/staffController.js';
-import verifyToken from '../middleware/verifyToken.js';
+import { hireStaff, getAllStaff, getStaffById, updateStaff, deleteStaff, getMe, updateMe } from '../../controllers/users/staffController.js';
+import verifyToken from '../../middleware/verifyToken.js';
 
 const router = express.Router();
 

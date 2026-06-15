@@ -1,8 +1,8 @@
-import User from '../models/User.js';
-import { loginValidation } from '../validation/authValidation.js';
+import User from '../../models/users/User.js';
+import { loginValidation } from '../../validation/authValidation.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import Staff from '../models/Staff.js';
+import Staff from '../../models/users/Staff.js';
 
 export const login = async (req, res) => {
   // Validate request

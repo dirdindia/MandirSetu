@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, User, ExternalLink, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { MapPin, Phone, User, ExternalLink, ChevronLeft, ChevronRight, Eye, Edit, Trash2 } from 'lucide-react';
 import axiosInstance from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 
@@ -9,6 +10,7 @@ export default function MandirList() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const navigate = useNavigate();
 
   const fetchMandirs = async (currentPage) => {
     try {
@@ -48,6 +50,28 @@ export default function MandirList() {
 
   const handleNextPage = () => {
     if (page < totalPages) setPage(page + 1);
+  };
+
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#94a3b8',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axiosInstance.delete(`/mandirs/${id}`);
+          Swal.fire('Deleted!', 'Mandir has been deleted.', 'success');
+          fetchMandirs(page);
+        } catch (error) {
+          Swal.fire('Error!', 'Failed to delete mandir.', 'error');
+        }
+      }
+    });
   };
 
   const showDetails = (mandir) => {
@@ -147,13 +171,29 @@ export default function MandirList() {
                     <td className="p-4 text-slate-600 dark:text-slate-400">{mandir.mainDeity}</td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">{mandir.contact?.phone}</td>
                     <td className="p-4 text-center">
-                      <button 
-                        onClick={(e) => { e.stopPropagation(); showDetails(mandir); }}
-                        className="p-2 text-orange-500 hover:text-orange-600 hover:bg-orange-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
-                        title="View Details"
-                      >
-                        <Eye size={18} />
-                      </button>
+                      <div className="flex justify-center items-center gap-2">
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); showDetails(mandir); }}
+                          className="p-2 text-slate-500 hover:text-orange-600 hover:bg-orange-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          title="View Details"
+                        >
+                          <Eye size={18} />
+                        </button>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); navigate(`/edit-mandir/${mandir._id}`); }}
+                          className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          title="Edit Mandir"
+                        >
+                          <Edit size={18} />
+                        </button>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); handleDelete(mandir._id); }}
+                          className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          title="Delete Mandir"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

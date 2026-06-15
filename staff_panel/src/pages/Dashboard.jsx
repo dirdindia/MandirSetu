@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../api/axiosInstance';
 import { 
   ClipboardList, 
   CheckSquare, 
@@ -39,6 +40,7 @@ const recentActivities = [
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('auth-token');
@@ -46,15 +48,37 @@ export default function Dashboard() {
 
     if (!token || role !== 'staff') {
       navigate('/login');
+    } else {
+      const fetchProfile = async () => {
+        try {
+          const res = await api.get('/staff/me');
+          setProfile(res.data.data);
+        } catch (error) {
+          console.error("Failed to fetch profile", error);
+        }
+      };
+      fetchProfile();
     }
   }, [navigate]);
 
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div>
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Staff Overview</h2>
-        <p className="text-slate-500 text-sm mt-1">Welcome back! Here's your task summary for today.</p>
+      <div className="flex justify-between items-end">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Staff Overview</h2>
+          <p className="text-slate-500 text-sm mt-1">Welcome back! Here's your task summary for today.</p>
+        </div>
+        {profile?.employment?.assignedMandir && (
+          <div className="px-4 py-2 bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 rounded-xl font-bold border border-amber-200 dark:border-amber-800/50">
+            Assigned Mandir: {profile.employment.assignedMandir.name} ({profile.employment.assignedMandir.city})
+          </div>
+        )}
+        {profile?.employment?.assignedDham && (
+          <div className="px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400 rounded-xl font-bold border border-indigo-200 dark:border-indigo-800/50">
+            Assigned Dham: {profile.employment.assignedDham.name} ({profile.employment.assignedDham.city})
+          </div>
+        )}
       </div>
 
       {/* Top Stat Cards */}

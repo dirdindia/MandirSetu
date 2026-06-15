@@ -1,24 +1,22 @@
 import mongoose from 'mongoose';
 
-const ashramSchema = new mongoose.Schema({
+const restaurantSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
   description: { type: String, trim: true },
-  founder: { type: String, trim: true },
-  facilities: [{ type: String, trim: true }],
-  accommodationAvailable: { type: Boolean, default: false },
-  capacity: { type: Number },
-  rules: { type: String, trim: true },
+  cuisine: [{ type: String, trim: true }],
+  isVegetarianOnly: { type: Boolean, default: false },
+  averageCostForTwo: { type: Number },
   schedule: {
     openTime: { type: String, trim: true },
     closeTime: { type: String, trim: true },
     alwaysOpen: { type: Boolean, default: false }
   },
-  dailySchedule: [{
-    time: { type: String, trim: true },
-    activity: { type: String, trim: true }
-  }],
-  donationAccepted: { type: Boolean, default: false },
-  associatedMandir: { type: String, trim: true },
+  amenities: [{ type: String, trim: true }],
+  seatingCapacity: { type: Number },
+  fssaiLicense: { type: String, trim: true },
+  mandir: { type: mongoose.Schema.Types.ObjectId, ref: 'Mandir' },
+  dham: { type: mongoose.Schema.Types.ObjectId, ref: 'Dham' },
+  onboardedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Staff' },
   location: {
     address: { type: String, required: true },
     city: { type: String, required: true },
@@ -44,5 +42,5 @@ const ashramSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const Ashram = mongoose.model('Ashram', ashramSchema);
-export default Ashram;
+const Restaurant = mongoose.model('Restaurant', restaurantSchema);
+export default Restaurant;

@@ -10,18 +10,28 @@ export default function HotelList() {
 
   const navigate = useNavigate();
 
-  const fetchHotels = () => {
-    api.get('/hotels').then(res => {
+  const fetchHotels = async () => {
+    try {
+      const profileRes = await api.get('/staff/me');
+      const profile = profileRes.data?.data;
+      let query = '';
+      if (profile?.employment?.assignedMandir) {
+        query = `?mandir=${profile.employment.assignedMandir._id || profile.employment.assignedMandir}`;
+      } else if (profile?.employment?.assignedDham) {
+        query = `?dham=${profile.employment.assignedDham._id || profile.employment.assignedDham}`;
+      }
+
+      const res = await api.get(`/hotels${query}`);
       if (res.data && res.data.data) {
         setHotels(res.data.data);
       } else {
         setHotels(Array.isArray(res.data) ? res.data : []);
       }
       setLoading(false);
-    }).catch(err => {
+    } catch (err) {
       console.error(err);
       setLoading(false);
-    });
+    }
   };
 
   useEffect(() => {

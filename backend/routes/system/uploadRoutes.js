@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { uploadToCloudinary } from '../controllers/uploadController.js';
+import { uploadToCloudinary } from '../../controllers/system/uploadController.js';
 
 const router = express.Router();
 

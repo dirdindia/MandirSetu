@@ -31,6 +31,10 @@ const staffSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'Mandir' 
     }, // Optional for global admins
+    assignedDham: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Dham'
+    },
     dateOfJoining: { type: Date, default: Date.now }
   },
   media: {

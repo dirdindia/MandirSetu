@@ -13,7 +13,9 @@ const hotelSchema = new mongoose.Schema({
   },
   hasHall: { type: Boolean, default: false },
   foodAvailable: { type: Boolean, default: false },
-  distanceFromNearestMandir: { type: String, trim: true },
+  mandir: { type: mongoose.Schema.Types.ObjectId, ref: 'Mandir' },
+  dham: { type: mongoose.Schema.Types.ObjectId, ref: 'Dham' },
+  onboardedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Staff' },
   startingPrice: { type: Number },
   policies: [{ type: String, trim: true }],
   location: {

@@ -218,6 +218,11 @@ export default function OnboardRestaurant() {
                 </label>
               </div>
               <div className="md:col-span-2">
+                <div className="p-4 bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-xl text-sm font-medium border border-green-200 dark:border-green-800/50">
+                  <p><strong>Note:</strong> This Restaurant will be automatically associated with your assigned Mandir or Dham.</p>
+                </div>
+              </div>
+              <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Description</label>
                 <textarea name="description" rows="4" value={formData.description} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none transition-all resize-none" placeholder="Brief description of the restaurant..."></textarea>
               </div>
