@@ -11,6 +11,8 @@ import notificationRoutes from './routes/system/notificationRoutes.js';
 import hotelRoutes from './routes/directories/hotelRoutes.js';
 import restaurantRoutes from './routes/directories/restaurantRoutes.js';
 import ashramRoutes from './routes/directories/ashramRoutes.js';
+import categoryRoutes from './routes/ecommerce/categoryRoutes.js';
+import productRoutes from './routes/ecommerce/productRoutes.js';
 import User from './models/users/User.js';
 import bcrypt from 'bcryptjs';
 
@@ -59,6 +61,8 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/hotels', hotelRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/ashrams', ashramRoutes);
+app.use('/api/ecommerce/categories', categoryRoutes);
+app.use('/api/ecommerce/products', productRoutes);
 
 // Basic Health Check Route
 app.get('/api/health', (req, res) => {

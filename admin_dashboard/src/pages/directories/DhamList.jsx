@@ -74,62 +74,7 @@ export default function DhamList() {
     });
   };
 
-  const showDetails = (dham) => {
-    const htmlContent = `
-      <div class="text-left space-y-4">
-        ${dham.profilePic ? `<img src="${dham.profilePic}" alt="Dham" class="w-full h-48 object-cover rounded-xl shadow-md mb-4"/>` : ''}
-        
-        <div>
-          <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Main Deity</p>
-          <p class="text-slate-800 font-semibold text-lg flex items-center gap-2"><User size={16}/> ${dham.mainDeity}</p>
-        </div>
 
-        <div>
-          <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Location</p>
-          <p class="text-slate-800 text-sm flex items-start gap-2 mt-1">
-            <span class="mt-0.5"><MapPin size={16} class="text-orange-500"/></span>
-            <span>${dham.location.address}, ${dham.location.city}, ${dham.location.state} - ${dham.location.pincode}</span>
-          </p>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Contact</p>
-            <p class="text-slate-800 text-sm flex items-center gap-1 mt-1"><Phone size={14}/> ${dham.contact.phone}</p>
-          </div>
-          <div>
-            <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Established</p>
-            <p class="text-slate-800 text-sm mt-1">${dham.establishedYear || 'N/A'}</p>
-          </div>
-        </div>
-
-        ${dham.description ? `
-        <div>
-          <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Description</p>
-          <p class="text-slate-700 text-sm bg-slate-50 p-3 rounded-lg border border-slate-100 mt-1">${dham.description}</p>
-        </div>` : ''}
-
-        ${dham.geolocation && dham.geolocation.latitude ? `
-        <div class="mt-4 pt-4 border-t border-slate-100">
-          <a href="https://www.google.com/maps/search/?api=1&query=${dham.geolocation.latitude},${dham.geolocation.longitude}" target="_blank" class="text-orange-600 hover:text-orange-700 text-sm font-bold flex items-center justify-center gap-2 bg-orange-50 py-2 rounded-lg transition-colors">
-            View on Google Maps <ExternalLink size={16}/>
-          </a>
-        </div>` : ''}
-      </div>
-    `;
-
-    Swal.fire({
-      title: `<h3 class="text-2xl font-bold text-orange-600 mb-2">${dham.name}</h3>`,
-      html: htmlContent,
-      showCloseButton: true,
-      showConfirmButton: false,
-      width: '600px',
-      customClass: {
-        popup: 'rounded-2xl',
-        title: 'border-b pb-4',
-      }
-    });
-  };
 
   return (
     <div className="max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -163,7 +108,7 @@ export default function DhamList() {
                 </tr>
               ) : (
                 Dhams.map((dham) => (
-                  <tr key={dham._id} className="hover:bg-orange-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer" onClick={() => showDetails(dham)}>
+                  <tr key={dham._id} className="hover:bg-orange-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer" onClick={() => navigate(`/dhams/${dham._id}/details`)}>
                     <td className="p-4 font-medium text-slate-800 dark:text-slate-200">{dham.name}</td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">
                       {dham.location?.city}, {dham.location?.state}
@@ -173,9 +118,9 @@ export default function DhamList() {
                     <td className="p-4 text-center">
                       <div className="flex justify-center items-center gap-2">
                         <button 
-                          onClick={(e) => { e.stopPropagation(); showDetails(dham); }}
+                          onClick={(e) => { e.stopPropagation(); navigate(`/dhams/${dham._id}/details`); }}
                           className="p-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                          title="View Details"
+                          title="View Full Details"
                         >
                           <Eye size={18} />
                         </button>

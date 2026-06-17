@@ -10,6 +10,15 @@ import RestaurantList from './pages/directories/RestaurantList';
 import AshramList from './pages/directories/AshramList';
 import Layout from './components/Layout';
 
+import Products from './pages/ecommerce/Products';
+import Categories from './pages/ecommerce/Categories';
+import Coupons from './pages/ecommerce/Coupons';
+import Orders from './pages/ecommerce/Orders';
+import Overview from './pages/ecommerce/Overview';
+import Customers from './pages/ecommerce/Customers';
+import Returns from './pages/ecommerce/Returns';
+import Feedback from './pages/ecommerce/Feedback';
+
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +35,15 @@ function App() {
           <Route path="/directories/hotels" element={<HotelList />} />
           <Route path="/directories/restaurants" element={<RestaurantList />} />
           <Route path="/directories/ashrams" element={<AshramList />} />
+          
+          <Route path="/ecommerce/overview" element={<Overview />} />
+          <Route path="/ecommerce/products" element={<Products />} />
+          <Route path="/ecommerce/categories" element={<Categories />} />
+          <Route path="/ecommerce/coupons" element={<Coupons />} />
+          <Route path="/ecommerce/orders" element={<Orders />} />
+          <Route path="/ecommerce/customers" element={<Customers />} />
+          <Route path="/ecommerce/returns" element={<Returns />} />
+          <Route path="/ecommerce/feedback" element={<Feedback />} />
         </Route>
       </Routes>
     </BrowserRouter>

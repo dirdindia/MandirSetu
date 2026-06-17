@@ -27,6 +27,8 @@ export const login = async (req, res) => {
 
     let userName = 'Staff Member';
     let userEmail = user.email || user.phone;
+    let mandir_id = null;
+    let dham_id = null;
 
     if (user.role === 'staff') {
       const staffProfile = await Staff.findOne({ 
@@ -38,6 +40,8 @@ export const login = async (req, res) => {
       if (staffProfile) {
         userName = staffProfile.name;
         if (staffProfile.contact.email) userEmail = staffProfile.contact.email;
+        if (staffProfile.employment?.assignedMandir) mandir_id = staffProfile.employment.assignedMandir;
+        if (staffProfile.employment?.assignedDham) dham_id = staffProfile.employment.assignedDham;
       }
     }
 
@@ -52,6 +56,8 @@ export const login = async (req, res) => {
         email: userEmail,
         name: userName,
         role: user.role,
+        mandir_id,
+        dham_id
       }
     });
 

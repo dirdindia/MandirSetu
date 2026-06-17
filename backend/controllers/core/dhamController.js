@@ -142,3 +142,75 @@ export const deleteDham = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const getDhamFullDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const type = req.query.type || 'overview';
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    if (type === 'overview') {
+      const dham = await Dham.findById(id);
+      if (!dham) return res.status(404).json({ message: 'Dham not found' });
+      return res.status(200).json(dham);
+    }
+
+    let ModelToFetch;
+    let populateField = 'onboardedBy';
+    let queryField = 'dham';
+    
+    switch(type) {
+      case 'hotels':
+        ModelToFetch = (await import('../../models/directories/Hotel.js')).default;
+        break;
+      case 'restaurants':
+        ModelToFetch = (await import('../../models/directories/Restaurant.js')).default;
+        break;
+      case 'ashrams':
+        ModelToFetch = (await import('../../models/directories/Ashram.js')).default;
+        break;
+      case 'categories':
+        ModelToFetch = (await import('../../models/ecommerce/Category.js')).default;
+        populateField = 'onboardedBy';
+        queryField = 'dham_id';
+        break;
+      case 'products':
+        ModelToFetch = (await import('../../models/ecommerce/Product.js')).default;
+        populateField = [
+          { path: 'category', select: 'name' },
+          { path: 'onboardedBy', select: 'name contact' }
+        ];
+        queryField = 'dham_id';
+        break;
+      default:
+        return res.status(400).json({ message: 'Invalid type requested' });
+    }
+
+    const query = { [queryField]: id };
+    const totalItems = await ModelToFetch.countDocuments(query);
+    let itemsQuery = ModelToFetch.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit);
+    
+    if (populateField) {
+      if (Array.isArray(populateField)) {
+        populateField.forEach(field => {
+          itemsQuery = itemsQuery.populate(field.path, field.select);
+        });
+      } else {
+        itemsQuery = itemsQuery.populate(populateField, 'name email contact');
+      }
+    }
+    
+    const items = await itemsQuery;
+
+    res.status(200).json({
+      data: items,
+      totalItems,
+      totalPages: Math.ceil(totalItems / limit),
+      currentPage: page
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

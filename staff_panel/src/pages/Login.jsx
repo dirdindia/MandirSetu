@@ -22,6 +22,8 @@ export default function Login() {
       localStorage.setItem('user-role', data.user.role);
       if (data.user.name) localStorage.setItem('user-name', data.user.name);
       if (data.user.email) localStorage.setItem('user-email', data.user.email);
+      if (data.user.mandir_id) localStorage.setItem('mandir_id', data.user.mandir_id);
+      if (data.user.dham_id) localStorage.setItem('dham_id', data.user.dham_id);
       
       if (data.user.role === 'staff') {
         Swal.fire({
@@ -37,6 +39,8 @@ export default function Login() {
         localStorage.removeItem('user-role');
         localStorage.removeItem('user-name');
         localStorage.removeItem('user-email');
+        localStorage.removeItem('mandir_id');
+        localStorage.removeItem('dham_id');
         setError('Access Denied. Staff only.');
       }
     } catch (err) {

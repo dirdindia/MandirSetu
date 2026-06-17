@@ -10,6 +10,12 @@ import EditDham from './pages/directories/EditDham';
 import MandirList from './pages/directories/MandirList';
 import DhamList from './pages/directories/DhamList';
 import StaffList from './pages/directories/StaffList';
+import EntityDetailsLayout from './pages/directories/entityDetails/EntityDetailsLayout';
+import EntityOverview from './pages/directories/entityDetails/EntityOverview';
+import EntityHotels from './pages/directories/entityDetails/EntityHotels';
+import EntityRestaurants from './pages/directories/entityDetails/EntityRestaurants';
+import EntityAshrams from './pages/directories/entityDetails/EntityAshrams';
+import EntityEcommerce from './pages/directories/entityDetails/EntityEcommerce';
 import Layout from './components/Layout';
 
 function App() {
@@ -29,6 +35,22 @@ function App() {
           <Route path="/edit-dham/:id" element={<EditDham />} />
           <Route path="/mandirs" element={<MandirList />} />
           <Route path="/dhams" element={<DhamList />} />
+          <Route path="/mandirs/:id/details" element={<EntityDetailsLayout type="mandir" />}>
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route path="overview" element={<EntityOverview />} />
+            <Route path="hotels" element={<EntityHotels />} />
+            <Route path="restaurants" element={<EntityRestaurants />} />
+            <Route path="ashrams" element={<EntityAshrams />} />
+            <Route path="ecommerce" element={<EntityEcommerce />} />
+          </Route>
+          <Route path="/dhams/:id/details" element={<EntityDetailsLayout type="dham" />}>
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route path="overview" element={<EntityOverview />} />
+            <Route path="hotels" element={<EntityHotels />} />
+            <Route path="restaurants" element={<EntityRestaurants />} />
+            <Route path="ashrams" element={<EntityAshrams />} />
+            <Route path="ecommerce" element={<EntityEcommerce />} />
+          </Route>
           <Route path="/staff" element={<StaffList />} />
         </Route>
       </Routes>

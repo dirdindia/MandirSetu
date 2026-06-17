@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, CalendarDays, Settings, X, ChevronLeft, ChevronRight, Landmark, UserPlus, ChevronDown, FolderOpen, Hotel, Utensils, Home, UserCheck, LogOut, Lock, UserCircle } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarDays, Settings, X, ChevronLeft, ChevronRight, Landmark, UserPlus, ChevronDown, FolderOpen, Hotel, Utensils, Home, UserCheck, LogOut, Lock, UserCircle, ShoppingCart, Package, Tags, Ticket, ShoppingBag, PieChart, Undo2, MessageSquare } from 'lucide-react';
 
 export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleCollapse }) {
   const location = useLocation();
@@ -8,9 +8,29 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
   // State to manage expanded accordion menus
   const [expandedMenus, setExpandedMenus] = useState({
     'Directories': false,
-    'Onboarding': false
+    'Onboarding': false,
+    'E-Commerce': false
   });
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const navRef = useRef(null);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+
+  const checkScroll = () => {
+    if (navRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = navRef.current;
+      setCanScrollDown(Math.ceil(scrollTop + clientHeight) < scrollHeight - 2); // 2px buffer
+    }
+  };
+
+  useEffect(() => {
+    // Small delay to allow DOM to update after menu expands
+    const timer = setTimeout(checkScroll, 300);
+    window.addEventListener('resize', checkScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, [expandedMenus, isOpen, isCollapsed]);
 
   const userName = localStorage.getItem('user-name') || 'Staff User';
   const userEmail = localStorage.getItem('user-email') || 'staff@mandirsetu.com';
@@ -35,6 +55,20 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
 
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
+    { 
+      name: 'E-Commerce', 
+      icon: <ShoppingCart size={20} />, 
+      subItems: [
+        { name: 'Overview', path: '/ecommerce/overview', icon: <PieChart size={16} /> },
+        { name: 'Products', path: '/ecommerce/products', icon: <Package size={16} /> },
+        { name: 'Categories', path: '/ecommerce/categories', icon: <Tags size={16} /> },
+        { name: 'Coupons', path: '/ecommerce/coupons', icon: <Ticket size={16} /> },
+        { name: 'Orders', path: '/ecommerce/orders', icon: <ShoppingBag size={16} /> },
+        { name: 'Customers', path: '/ecommerce/customers', icon: <Users size={16} /> },
+        { name: 'Returns', path: '/ecommerce/returns', icon: <Undo2 size={16} /> },
+        { name: 'Feedback', path: '/ecommerce/feedback', icon: <MessageSquare size={16} /> }
+      ]
+    },
     { 
       name: 'Directories', 
       icon: <FolderOpen size={20} />, 
@@ -109,7 +143,12 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
           </button>
         </div>
 
-        <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto overflow-x-hidden">
+        <div className="flex-1 relative overflow-hidden flex flex-col">
+          <nav 
+            ref={navRef}
+            onScroll={checkScroll}
+            className="flex-1 px-3 py-4 space-y-2 overflow-y-auto overflow-x-hidden hide-scrollbar"
+          >
           {menuItems.map((item) => {
             // Check if any sub-item is active
             const isSubItemActive = item.subItems?.some(sub => location.pathname.startsWith(sub.path));
@@ -186,7 +225,13 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
               </NavLink>
             );
           })}
-        </nav>
+          </nav>
+          {canScrollDown && !isCollapsed && (
+            <div className="absolute bottom-0 left-0 right-0 h-12 flex items-end justify-center pb-2 bg-gradient-to-t from-slate-100 dark:from-slate-900 to-transparent pointer-events-none z-10">
+              <ChevronDown size={20} className="text-slate-400 animate-bounce drop-shadow-md" />
+            </div>
+          )}
+        </div>
 
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 relative">
           {userMenuOpen && !isCollapsed && (
