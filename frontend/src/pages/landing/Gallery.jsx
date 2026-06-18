@@ -45,19 +45,33 @@ export default function Gallery() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
-      {/* Title */}
-      <div className="text-center max-w-2xl mx-auto space-y-4">
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">
-          Photo Gallery
-        </h1>
-        <p className="text-slate-500 dark:text-slate-400">
-          Glimpses of temples, ashrams, tourists, and holy rituals.
-        </p>
-      </div>
+    <div className="space-y-16 pb-20">
+      <section className="relative overflow-hidden h-[80vh] min-h-[400px] flex items-center justify-center -mt-16 pt-16">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-slate-900/60 z-10 mix-blend-multiply"></div>
+          <img
+            src="/hero/img4.jpg"
+            alt="Gallery Hero Banner"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 flex flex-col items-center w-full mt-8">
+          <div className="relative mb-4">
+             <div className="absolute inset-0 blur-[60px] bg-white/10 rounded-full animate-pulse"></div>
+             <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak Hero" className="relative h-24 sm:h-32 w-auto object-contain opacity-20 mix-blend-overlay transition-all" />
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white drop-shadow-xl leading-tight">
+            Photo Gallery
+          </h1>
+          <p className="mt-4 text-slate-200 text-lg max-w-2xl mx-auto drop-shadow-md">
+            Glimpses of temples, ashrams, tourists, and holy rituals.
+          </p>
+        </div>
+      </section>
 
       {/* Image Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {galleryItems.map((item) => (
           <div
             key={item.id}
@@ -90,6 +104,7 @@ export default function Gallery() {
             </div>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );

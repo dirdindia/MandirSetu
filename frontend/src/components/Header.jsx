@@ -30,10 +30,15 @@ export default function Header() {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center space-x-2.5">
-              <img src="/logo.png" alt="MandirSetu Logo" className="h-9 w-auto rounded-lg shadow-sm" />
-              <span className="text-2xl font-black bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 bg-clip-text text-transparent tracking-wide">
-                MANDIRSETU
-              </span>
+              <img src="/favicon.webp" alt="MandirSetu Logo" className="h-9 w-auto rounded-lg shadow-sm" />
+              <div className="flex flex-col">
+                <span className="text-2xl font-black bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 bg-clip-text text-transparent tracking-wide">
+                  MANDIRSETU
+                </span>
+                <p className='text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'>
+                  DIRD India Pvt Ltd
+                </p>
+              </div>
             </Link>
           </div>
 

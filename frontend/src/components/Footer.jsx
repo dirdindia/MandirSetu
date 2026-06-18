@@ -90,7 +90,7 @@ export default function Footer() {
         {/* Bottom copyright section */}
         <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-900 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <p className="text-xs text-slate-400 dark:text-slate-500">
-            © {currentYear} MandirSetu. All rights reserved.
+            © {currentYear} MandirSetu. All rights reserved by DIRD India Pvt Ltd.
           </p>
           <div className="flex space-x-6">
             <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-900 dark:text-slate-500 dark:hover:text-white transition-colors">

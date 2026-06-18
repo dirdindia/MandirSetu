@@ -8,7 +8,22 @@ export default function Home() {
   const [loadingTemples, setLoadingTemples] = useState(true);
   const [dhams, setDhams] = useState([]);
   const [loadingDhams, setLoadingDhams] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
+  const heroImages = [
+    '/hero/img2.jpg',
+    '/hero/img3.jpg',
+    '/hero/img4.jpg',
+    '/hero/img5.jpg',
+    '/hero/img6.jpg'
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const fetchTemples = async () => {
@@ -129,42 +144,77 @@ export default function Home() {
 
   return (
     <div className="space-y-20 pb-20">
-      <section className="relative overflow-hidden pt-16 pb-24 bg-gradient-to-b from-orange-500/10 via-transparent to-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 flex flex-col items-center">
-          <div className="relative mb-12 mt-4">
-             <div className="absolute inset-0 blur-[80px] bg-amber-500/40 rounded-full animate-pulse"></div>
-             <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak Hero" className="relative h-64 sm:h-80 w-auto object-contain drop-shadow-[0_0_30px_rgba(245,158,11,0.6)]" />
+      <section className="relative overflow-hidden h-[80vh] min-h-[600px] flex items-center justify-center -mt-16 pt-16">
+        {/* Background Images */}
+        {heroImages.map((img, idx) => (
+          <div
+            key={img}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <div className="absolute inset-0 bg-slate-900/40 z-10 mix-blend-multiply"></div>
+            <img
+              src={img}
+              alt={`Hero slide ${idx + 1}`}
+              className="w-full h-full object-cover"
+            />
           </div>
-          <h1 className="text-4xl sm:text-7xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+        ))}
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 flex flex-col items-center w-full mt-8">
+          <div className="relative mb-6">
+             <div className="absolute inset-0 blur-[60px] bg-white/10 rounded-full animate-pulse"></div>
+             <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak Hero" className="relative h-64 sm:h-80 md:h-96 w-auto object-contain opacity-20 mix-blend-overlay transition-all" />
+          </div>
+        </div>
+
+        {/* Slider Indicators */}
+        <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center space-x-3">
+          {heroImages.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                idx === currentSlide ? 'bg-orange-500 w-8' : 'bg-white/60 hover:bg-white w-2.5'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Hero Text and Search (Moved Below Banner) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 flex flex-col items-center w-full pt-10 pb-8">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
               Discover India’s Sacred <br />
-              <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-yellow-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 bg-clip-text text-transparent">
                 Heritage & Pilgrimages
               </span>
             </h1>
-            <p className="mt-6 text-base sm:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            <p className="mt-6 text-base sm:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed font-medium">
               Plan your complete yatra with verified local services. Book ritual priests, find cozy Dharamshalas, secure transport, and receive holy Prasad delivered straight to your home.
             </p>
 
             {/* Search Box */}
-            <div className="mt-10 max-w-xl mx-auto w-full">
+            <div className="mt-10 max-w-2xl mx-auto w-full">
               <div className="flex items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-2 shadow-xl shadow-orange-500/5 focus-within:ring-2 focus-within:ring-orange-500/35 transition-all">
-                <span className="pl-3 text-slate-400 text-lg">🔍</span>
+                <span className="pl-4 text-slate-400 text-xl">🔍</span>
                 <input
                   type="text"
                   placeholder="Search temples (e.g. Kedarnath, Somnath, Kashi)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-transparent border-none text-slate-800 dark:text-slate-100 placeholder-slate-400 py-2 px-3 focus:outline-none text-sm sm:text-base"
+                  className="w-full bg-transparent border-none text-slate-900 dark:text-slate-100 placeholder-slate-500 py-3 px-4 focus:outline-none text-base sm:text-lg font-medium"
                 />
                 <Link
                   to="/gallery"
-                  className="px-5 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold rounded-xl text-sm transition-colors cursor-pointer shrink-0"
+                  className="px-8 py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold rounded-xl text-base transition-colors cursor-pointer shrink-0 shadow-lg"
                 >
                   Search
                 </Link>
               </div>
           </div>
-        </div>
       </section>
 
    {/* Top Dhams Section */}
