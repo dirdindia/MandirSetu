@@ -14,6 +14,15 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
+    Swal.fire({
+      title: 'Authenticating...',
+      text: 'Please wait while we verify your credentials',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     try {
       const response = await api.post('/auth/login', { identifier, password });
       const data = response.data;
@@ -41,9 +50,11 @@ export default function Login() {
         localStorage.removeItem('user-email');
         localStorage.removeItem('mandir_id');
         localStorage.removeItem('dham_id');
+        Swal.close();
         setError('Access Denied. Staff only.');
       }
     } catch (err) {
+      Swal.close();
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {

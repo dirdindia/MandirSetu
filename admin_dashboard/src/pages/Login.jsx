@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Landmark } from 'lucide-react';
 import api from '../api/axiosInstance';
+import Swal from 'sweetalert2';
 
 export default function Login() {
   const [identifier, setIdentifier] = useState('');
@@ -13,6 +14,15 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
+    Swal.fire({
+      title: 'Authenticating...',
+      text: 'Please wait while we verify your credentials',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     try {
       const response = await api.post('/auth/login', { identifier, password });
       const data = response.data;
@@ -21,11 +31,20 @@ export default function Login() {
       localStorage.setItem('user-role', data.user.role);
       
       if (data.user.role === 'admin' || data.user.role === 'staff') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'Welcome to the Admin Portal',
+          timer: 1500,
+          showConfirmButton: false
+        });
         navigate('/dashboard');
       } else {
+        Swal.close();
         setError('Access Denied. Admins and Staff only.');
       }
     } catch (err) {
+      Swal.close();
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {

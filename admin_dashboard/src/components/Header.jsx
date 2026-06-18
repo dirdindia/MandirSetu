@@ -2,15 +2,28 @@ import React from 'react';
 import { Menu, LogOut, Bell, Sun, Moon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import Swal from 'sweetalert2';
 
 export default function Header({ toggleSidebar }) {
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = useTheme();
 
   const handleLogout = () => {
-    localStorage.removeItem('auth-token');
-    localStorage.removeItem('user-role');
-    navigate('/login');
+    Swal.fire({
+      title: 'Ready to Leave?',
+      text: "You will be logged out of the Admin Portal.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ea580c',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Yes, log out'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('auth-token');
+        localStorage.removeItem('user-role');
+        navigate('/login');
+      }
+    });
   };
 
   return (

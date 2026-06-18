@@ -2,15 +2,32 @@ import React from 'react';
 import { Menu, LogOut, Bell, Sun, Moon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import Swal from 'sweetalert2';
 
 export default function Header({ toggleSidebar }) {
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = useTheme();
 
   const handleLogout = () => {
-    localStorage.removeItem('auth-token');
-    localStorage.removeItem('user-role');
-    navigate('/login');
+    Swal.fire({
+      title: 'Ready to Leave?',
+      text: "You will be logged out of the Staff Portal.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3b82f6',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Yes, log out'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('auth-token');
+        localStorage.removeItem('user-role');
+        if (localStorage.getItem('user-name')) localStorage.removeItem('user-name');
+        if (localStorage.getItem('user-email')) localStorage.removeItem('user-email');
+        if (localStorage.getItem('mandir_id')) localStorage.removeItem('mandir_id');
+        if (localStorage.getItem('dham_id')) localStorage.removeItem('dham_id');
+        navigate('/login');
+      }
+    });
   };
 
   return (
