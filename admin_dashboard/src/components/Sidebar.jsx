@@ -63,16 +63,16 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
         <div className={`flex items-center h-16 px-4 border-b border-slate-200 dark:border-slate-800 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
           {!isCollapsed ? (
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-orange-500/30 shrink-0">
-                <Landmark size={18} strokeWidth={2.5} />
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg  shrink-0">
+                <img src="/favicon.webp" alt="dird" className="w-full h-full object-contain" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent truncate tracking-wide">
                 MANDIRSETU
               </span>
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-orange-500/30">
-              <Landmark size={20} strokeWidth={2.5} />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg ">
+              <img src="/favicon.webp" alt="dird" className="w-full h-full object-contain" />
             </div>
           )}
           

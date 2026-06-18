@@ -64,13 +64,13 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-500/5 to-transparent">
+    <div className="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-500/5 to-transparent">
       <div className="max-w-md w-full space-y-8 bg-white dark:bg-slate-900 p-8 border border-slate-200 dark:border-slate-900 rounded-3xl shadow-lg">
         {/* Header Title */}
         <div className="text-center flex flex-col items-center">
           <div className="flex items-center justify-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-              <Landmark size={24} strokeWidth={2.5} />
+              <img src="/favicon.webp" alt="dird" className="w-full h-full object-contain" />
             </div>
             <span className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent tracking-wide">
               MANDIRSETU
@@ -134,6 +134,12 @@ export default function Login() {
             </button>
           </div>
         </form>
+      </div>
+
+      {/* DIRD Branding */}
+      <div className="mt-8 flex flex-col items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
+        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Developed by DIRD India Pvt Ltd</span>
+        
       </div>
     </div>
   );

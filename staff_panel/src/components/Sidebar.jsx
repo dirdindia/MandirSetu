@@ -116,7 +116,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
           {!isCollapsed ? (
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 shrink-0">
-                <Landmark size={18} strokeWidth={2.5} />
+                <img src="/favicon.webp" alt="dird" className="w-full h-full object-contain" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent truncate tracking-wide">
                 STAFF PANEL
@@ -124,7 +124,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
             </div>
           ) : (
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-              <Landmark size={20} strokeWidth={2.5} />
+              <img src="/favicon.webp" alt="dird" className="w-full h-full object-contain" />
             </div>
           )}
           
