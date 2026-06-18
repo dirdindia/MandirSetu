@@ -20,7 +20,7 @@ export default function About() {
   ];
 
   return (
-    <div className="space-y-20 pb-20">
+    <div className="space-y-4 pb-20">
       <section className="relative overflow-hidden h-[80vh] min-h-[400px] flex items-center justify-center -mt-16 pt-16">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-slate-900/60 z-10 mix-blend-multiply"></div>
@@ -41,9 +41,12 @@ export default function About() {
       {/* Intro Heading Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-left border-b border-slate-200 dark:border-slate-800 pb-6">
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-orange-600 dark:text-orange-500 leading-tight">
             About Us
           </h1>
+          <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg">
+            Discover our mission to bridge India's ancient spiritual traditions with modern technology.
+          </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
