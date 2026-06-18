@@ -26,20 +26,24 @@ export default function Contact() {
           />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 flex flex-col items-center w-full mt-8">
-          <div className="relative mb-4">
+          <div className="relative mb-6">
              <div className="absolute inset-0 blur-[60px] bg-white/10 rounded-full animate-pulse"></div>
-             <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak Hero" className="relative h-24 sm:h-32 w-auto object-contain opacity-20 mix-blend-overlay transition-all" />
+             <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak Hero" className="relative h-64 sm:h-80 md:h-96 w-auto object-contain opacity-20 mix-blend-overlay transition-all" />
           </div>
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white drop-shadow-xl leading-tight">
-            Contact Support
-          </h1>
-          <p className="mt-4 text-slate-200 text-lg max-w-2xl mx-auto drop-shadow-md">
-            Need help with your booking, order, or pilgrim plans? Get in touch with our support team.
-          </p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="text-left border-b border-slate-200 dark:border-slate-800 pb-6">
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            Contact Support
+          </h1>
+          <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg">
+            Need help with your booking, order, or pilgrim plans? Get in touch with our support team.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         {/* Left Side: Info */}
         <div className="space-y-8 bg-white dark:bg-slate-900 p-8 border border-slate-200 dark:border-slate-900 rounded-3xl shadow-sm">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Get In Touch</h2>
@@ -154,6 +158,7 @@ export default function Contact() {
             </button>
           </form>
         </div>
+      </div>
       </div>
     </div>
   );

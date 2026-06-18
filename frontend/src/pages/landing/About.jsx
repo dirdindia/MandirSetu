@@ -31,18 +31,20 @@ export default function About() {
           />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 flex flex-col items-center w-full mt-8">
-          <div className="relative mb-4">
+          <div className="relative mb-6">
              <div className="absolute inset-0 blur-[60px] bg-white/10 rounded-full animate-pulse"></div>
-             <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak Hero" className="relative h-24 sm:h-32 w-auto object-contain opacity-20 mix-blend-overlay transition-all" />
+             <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak Hero" className="relative h-64 sm:h-80 md:h-96 w-auto object-contain opacity-20 mix-blend-overlay transition-all" />
           </div>
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white drop-shadow-xl leading-tight">
-            About Us
-          </h1>
         </div>
       </section>
 
       {/* Intro Heading Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="text-left border-b border-slate-200 dark:border-slate-800 pb-6">
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            About Us
+          </h1>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <span className="text-sm font-bold text-orange-500 uppercase tracking-widest">
