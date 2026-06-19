@@ -26,12 +26,12 @@
   </style>
   <g class="floating">
     <!-- U Shape -->
-    <path class="draw" d="M 30 -30 L 30 65 A 20 20 0 0 0 70 65 L 70 -30" stroke="#FFFFFF" stroke-width="12" stroke-linecap="butt" />
+    <path class="draw" d="M 30 -30 L 30 65 A 20 20 0 0 0 70 65 L 70 -30" stroke="#f97316" stroke-width="12" stroke-linecap="butt" />
     
     <!-- Connecting Stem (even shorter) -->
-    <line class="fade-in" x1="50" y1="85" x2="50" y2="100" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" />
+    <line class="fade-in" x1="50" y1="85" x2="50" y2="100" stroke="#f97316" stroke-width="8" stroke-linecap="round" />
 
     <!-- Teardrop Shape (shifted further up) -->
-    <path class="fade-in" d="M 50 147.4 L 34.7 111 A 16 16 0 1 1 65.3 111 Z" fill="#FFFFFF" />
+    <path class="fade-in" d="M 50 147.4 L 34.7 111 A 16 16 0 1 1 65.3 111 Z" fill="#f97316" />
   </g>
 </svg>

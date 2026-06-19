@@ -18,12 +18,22 @@ export default function Home() {
     '/hero/img6.jpg'
   ];
 
+  const [showTilak, setShowTilak] = useState(true);
+
   useEffect(() => {
+    const tilakTimer = setTimeout(() => {
+      setShowTilak(false);
+    }, 5000);
+    return () => clearTimeout(tilakTimer);
+  }, []);
+
+  useEffect(() => {
+    if (showTilak) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 3000);
     return () => clearInterval(timer);
-  }, []);
+  }, [showTilak]);
 
   useEffect(() => {
     const fetchTemples = async () => {
@@ -144,16 +154,15 @@ export default function Home() {
 
   return (
     <div className="space-y-20 pb-20">
-      <section className="relative overflow-hidden h-[80vh] min-h-[600px] flex items-center justify-center -mt-16 pt-16">
+      <section className="relative overflow-hidden h-[80vh] min-h-[600px] flex items-center justify-center -mt-16 pt-16 bg-slate-50 dark:bg-slate-900">
         {/* Background Images */}
         {heroImages.map((img, idx) => (
           <div
             key={img}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              idx === currentSlide ? 'opacity-100' : 'opacity-0'
+              !showTilak && idx === currentSlide ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <div className="absolute inset-0 bg-slate-900/40 z-10 mix-blend-multiply"></div>
             <img
               src={img}
               alt={`Hero slide ${idx + 1}`}
@@ -162,21 +171,22 @@ export default function Home() {
           </div>
         ))}
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 flex flex-col items-center w-full mt-8">
-          <div className="relative mb-6">
-             <div className="absolute inset-0 blur-[60px] bg-white/10 rounded-full animate-pulse"></div>
-             <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak Hero" className="relative h-64 sm:h-80 md:h-96 w-auto object-contain opacity-20 mix-blend-overlay transition-all" />
+        {/* Tilak Intro Overlay */}
+        <div className={`absolute inset-0 z-30 flex items-center justify-center bg-gradient-to-br from-orange-100 via-orange-50 to-white dark:from-slate-900 dark:to-slate-800 transition-opacity duration-1000 pointer-events-none ${showTilak ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="relative flex flex-col items-center">
+             <div className="absolute inset-0 blur-[60px] bg-orange-500/10 rounded-full animate-pulse"></div>
+             <img src="/vaishnav-tilak.svg" alt="Welcome to MandirSetu" className="relative h-64 sm:h-80 md:h-96 w-auto object-contain opacity-100 transition-all" />
           </div>
         </div>
 
         {/* Slider Indicators */}
-        <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center space-x-3">
+        <div className={`absolute bottom-8 left-0 right-0 z-20 flex justify-center space-x-3 transition-opacity duration-1000 ${showTilak ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
           {heroImages.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                idx === currentSlide ? 'bg-orange-500 w-8' : 'bg-white/60 hover:bg-white w-2.5'
+              className={`h-2.5 rounded-full transition-all duration-300 shadow-md ${
+                idx === currentSlide ? 'bg-orange-500 w-8' : 'bg-white/80 hover:bg-white w-2.5'
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />

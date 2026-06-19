@@ -46,20 +46,14 @@ export default function Gallery() {
 
   return (
     <div className="space-y-4 pb-20">
-      <section className="relative overflow-hidden h-[80vh] min-h-[400px] flex items-center justify-center -mt-16 pt-16">
+      <section className="relative overflow-hidden h-[80vh] min-h-[400px] flex items-center justify-center -mt-16 pt-16 bg-slate-50 dark:bg-slate-900">
+        {/* Background Image */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-slate-900/60 z-10 mix-blend-multiply"></div>
           <img
             src="/hero/img4.jpg"
             alt="Gallery Hero Banner"
             className="w-full h-full object-cover"
           />
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 flex flex-col items-center w-full mt-8">
-          <div className="relative mb-6">
-             <div className="absolute inset-0 blur-[60px] bg-white/10 rounded-full animate-pulse"></div>
-             <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak Hero" className="relative h-64 sm:h-80 md:h-96 w-auto object-contain opacity-20 mix-blend-overlay transition-all" />
-          </div>
         </div>
       </section>
 

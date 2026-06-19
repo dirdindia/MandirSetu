@@ -13,6 +13,7 @@ import restaurantRoutes from './routes/directories/restaurantRoutes.js';
 import ashramRoutes from './routes/directories/ashramRoutes.js';
 import categoryRoutes from './routes/ecommerce/categoryRoutes.js';
 import productRoutes from './routes/ecommerce/productRoutes.js';
+import couponRoutes from './routes/ecommerce/couponRoutes.js';
 import User from './models/users/User.js';
 import bcrypt from 'bcryptjs';
 
@@ -63,6 +64,7 @@ app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/ashrams', ashramRoutes);
 app.use('/api/ecommerce/categories', categoryRoutes);
 app.use('/api/ecommerce/products', productRoutes);
+app.use('/api/ecommerce/coupons', couponRoutes);
 
 // Basic Health Check Route
 app.get('/api/health', (req, res) => {
