@@ -12,28 +12,18 @@ export default function Home() {
 
   const heroImages = [
     '/hero/img2.jpg',
-    '/hero/img3.jpg',
+    // '/hero/img3.jpg',
     '/hero/img4.jpg',
     '/hero/img5.jpg',
     '/hero/img6.jpg'
   ];
 
-  const [showTilak, setShowTilak] = useState(true);
-
   useEffect(() => {
-    const tilakTimer = setTimeout(() => {
-      setShowTilak(false);
-    }, 5000);
-    return () => clearTimeout(tilakTimer);
-  }, []);
-
-  useEffect(() => {
-    if (showTilak) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-    }, 3000);
+    }, 5000);
     return () => clearInterval(timer);
-  }, [showTilak]);
+  }, [heroImages.length]);
 
   useEffect(() => {
     const fetchTemples = async () => {
@@ -154,77 +144,112 @@ export default function Home() {
 
   return (
     <div className="space-y-20 pb-20">
-      <section className="relative overflow-hidden h-[80vh] min-h-[600px] flex items-center justify-center -mt-16 pt-16 bg-slate-50 dark:bg-slate-900">
-        {/* Background Images */}
-        {heroImages.map((img, idx) => (
-          <div
-            key={img}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              !showTilak && idx === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <img
-              src={img}
-              alt={`Hero slide ${idx + 1}`}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        ))}
-
-        {/* Tilak Intro Overlay */}
-        <div className={`absolute inset-0 z-30 flex items-center justify-center bg-gradient-to-br from-orange-100 via-orange-50 to-white dark:from-slate-900 dark:to-slate-800 transition-opacity duration-1000 pointer-events-none ${showTilak ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="relative flex flex-col items-center">
-             <div className="absolute inset-0 blur-[60px] bg-orange-500/10 rounded-full animate-pulse"></div>
-             <img src="/vaishnav-tilak.svg" alt="Welcome to MandirSetu" className="relative h-64 sm:h-80 md:h-96 w-auto object-contain opacity-100 transition-all" />
-          </div>
-        </div>
-
-        {/* Slider Indicators */}
-        <div className={`absolute bottom-8 left-0 right-0 z-20 flex justify-center space-x-3 transition-opacity duration-1000 ${showTilak ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-          {heroImages.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentSlide(idx)}
-              className={`h-2.5 rounded-full transition-all duration-300 shadow-md ${
-                idx === currentSlide ? 'bg-orange-500 w-8' : 'bg-white/80 hover:bg-white w-2.5'
+      <section className="relative w-full overflow-visible bg-slate-50 dark:bg-slate-900 flex flex-col items-center">
+        {/* Main Banner */}
+        <div className="relative w-full h-[600px] md:h-[650px] -mt-16 pt-16">
+          {/* Background Images Slider */}
+          {heroImages.map((img, idx) => (
+            <div
+              key={img}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                idx === currentSlide ? 'opacity-100' : 'opacity-0'
               }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
+            >
+              <img
+                src={img}
+                alt={`Hero slide ${idx + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
           ))}
-        </div>
-      </section>
-
-      {/* Hero Text and Search (Moved Below Banner) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 flex flex-col items-center w-full pt-10 pb-8">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-              Discover India’s Sacred <br />
-              <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 bg-clip-text text-transparent">
-                Heritage & Pilgrimages
-              </span>
-            </h1>
-            <p className="mt-6 text-base sm:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed font-medium">
-              Plan your complete yatra with verified local services. Book ritual priests, find cozy Dharamshalas, secure transport, and receive holy Prasad delivered straight to your home.
-            </p>
-
-            {/* Search Box */}
-            <div className="mt-10 max-w-2xl mx-auto w-full">
-              <div className="flex items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-2 shadow-xl shadow-orange-500/5 focus-within:ring-2 focus-within:ring-orange-500/35 transition-all">
-                <span className="pl-4 text-slate-400 text-xl">🔍</span>
-                <input
-                  type="text"
-                  placeholder="Search temples (e.g. Kedarnath, Somnath, Kashi)..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-transparent border-none text-slate-900 dark:text-slate-100 placeholder-slate-500 py-3 px-4 focus:outline-none text-base sm:text-lg font-medium"
-                />
-                <Link
-                  to="/gallery"
-                  className="px-8 py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold rounded-xl text-base transition-colors cursor-pointer shrink-0 shadow-lg"
-                >
-                  Search
+          {/* Gradient Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#fae8d4] via-[#fae8d4]/90 to-transparent dark:from-slate-900 dark:via-slate-900/90 dark:to-transparent"></div>
+          
+          {/* Content */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center pb-24">
+            <div className="max-w-2xl">
+              <p className="text-sm md:text-sm font-bold text-slate-700 dark:text-slate-300 tracking-widest uppercase mb-3">Connecting Devotees With</p>
+              <h1 className="text-5xl md:text-7xl font-serif text-[#3e2723] dark:text-white mb-4">
+                SACRED TEMPLES
+              </h1>
+              <div className="w-16 h-1 bg-amber-700 dark:bg-amber-500 mb-6 rounded-full"></div>
+              <p className="text-lg md:text-xl text-slate-800 dark:text-slate-200 font-medium mb-8">
+                Discover Temples, Festivals,<br/>Sevas & Spiritual Services
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link to="/mandirs" className="flex items-center gap-2 px-6 py-3 bg-[#1e293b] hover:bg-slate-800 text-white font-medium rounded-lg transition-colors shadow-lg">
+                  <span className="text-xl">🏛️</span> Explore Temples
+                </Link>
+                <Link to="/donate" className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 text-orange-700 font-medium rounded-lg border border-orange-200 transition-colors shadow-lg">
+                  <span className="text-xl text-orange-500">♡</span> Donate Now
                 </Link>
               </div>
+            </div>
+
+            {/* Quote Box - Bottom Right */}
+            <div className="absolute bottom-32 right-4 md:right-8 bg-[#1e293b]/90 backdrop-blur-md text-white p-6 rounded-2xl max-w-xs md:max-w-sm hidden sm:block shadow-2xl border border-slate-700/50">
+              <p className="text-sm italic mb-3 font-medium">"The real asset of the whole world is spiritual knowledge."</p>
+              <p className="text-xs text-orange-300 font-bold tracking-wide">- Srila Prabhupada</p>
+            </div>
           </div>
+        </div>
+
+        {/* Overlapping Info Card */}
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full -mt-24 mb-10">
+          <div className="relative overflow-hidden bg-[#fff9f0] dark:bg-slate-800 rounded-3xl shadow-2xl p-6 md:p-8 flex flex-col lg:flex-row items-center gap-8 border-4 border-white dark:border-slate-700">
+            {/* Watermark Background */}
+            <div className="absolute inset-0 z-0 opacity-5 dark:opacity-20 pointer-events-none" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1582510003544-4d00b7f74220?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}></div>
+            
+            {/* Left side: Avatar and Info */}
+            <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6 lg:w-[45%]">
+              {/* Avatar */}
+              <div className="relative shrink-0">
+                <div className="w-40 h-40 md:w-44 md:h-44 rounded-full border-8 border-white dark:border-slate-700 overflow-hidden shadow-xl bg-orange-100">
+                  {/* Placeholder for Srila Prabhupada Image */}
+                   <img src="https://theharekrishnamovement.org/wp-content/uploads/2013/08/prabhupada.jpg" alt="Srila Prabhupada" className="w-full h-full object-fit" /> 
+                </div>
+                {/* Decorative Flowers (Placeholder emoji) */}
+                {/* <div className="absolute -bottom-2 -right-2 text-4xl drop-shadow-md">🌼</div> */}
+              </div>
+              
+              {/* Text Info */}
+              <div className="text-center sm:text-left mt-2 sm:mt-0 flex-1">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 tracking-widest uppercase mb-2">Inspired By The Teachings Of</p>
+                <h2 className="text-3xl font-serif text-[#b85b2e] dark:text-orange-400 mb-3">Srila Prabhupada</h2>
+                <p className="text-xs md:text-sm text-slate-600 dark:text-slate-300 mb-5 leading-relaxed">
+                  His Divine Grace A. C. Bhaktivedanta Swami Prabhupada, Founder-Acharya of ISKCON, whose vision continues to guide millions towards Krishna Consciousness.
+                </p>
+                <Link to="/about" className="inline-block px-8 py-2.5 bg-[#cd7f32] hover:bg-[#b8702b] text-white font-semibold rounded-lg transition-colors shadow-md text-sm">
+                  Learn More
+                </Link>
+              </div>
+            </div>
+
+            {/* Right side: Grid of features */}
+            <div className="relative z-10 lg:w-[55%] grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+              {/* Feature 1 */}
+              <div className="flex items-center gap-4 bg-white dark:bg-slate-900 px-5 py-4 rounded-2xl shadow-sm border border-orange-50/50 dark:border-slate-700 hover:shadow-md transition-shadow">
+                 <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-orange-500 rounded-full bg-orange-50 dark:bg-slate-800 text-xl border border-orange-100 dark:border-slate-700">🧘</div>
+                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-tight">Krishna Consciousness<br/><span className="font-normal text-slate-500">for Everyone</span></p>
+              </div>
+              {/* Feature 2 */}
+              <div className="flex items-center gap-4 bg-white dark:bg-slate-900 px-5 py-4 rounded-2xl shadow-sm border border-orange-50/50 dark:border-slate-700 hover:shadow-md transition-shadow">
+                 <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-orange-500 rounded-full bg-orange-50 dark:bg-slate-800 text-xl border border-orange-100 dark:border-slate-700">💡</div>
+                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-tight">Spiritual Guidance<br/><span className="font-normal text-slate-500">for a Better Life</span></p>
+              </div>
+              {/* Feature 3 */}
+              <div className="flex items-center gap-4 bg-white dark:bg-slate-900 px-5 py-4 rounded-2xl shadow-sm border border-orange-50/50 dark:border-slate-700 hover:shadow-md transition-shadow">
+                 <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-orange-500 rounded-full bg-orange-50 dark:bg-slate-800 text-xl border border-orange-100 dark:border-slate-700">🏛️</div>
+                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-tight">Serving Temples<br/><span className="font-normal text-slate-500">Serving Society</span></p>
+              </div>
+              {/* Feature 4 */}
+              <div className="flex items-center gap-4 bg-white dark:bg-slate-900 px-5 py-4 rounded-2xl shadow-sm border border-orange-50/50 dark:border-slate-700 hover:shadow-md transition-shadow">
+                 <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-orange-500 rounded-full bg-orange-50 dark:bg-slate-800 text-xl border border-orange-100 dark:border-slate-700">🌐</div>
+                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-tight">Uniting Devotees<br/><span className="font-normal text-slate-500">Worldwide</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
    {/* Top Dhams Section */}
