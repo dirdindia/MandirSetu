@@ -252,6 +252,44 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Upcoming Events Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 relative z-20">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            Upcoming Events
+          </h2>
+          <Link to="/events" className="text-orange-500 font-semibold hover:text-orange-600">View All &rarr;</Link>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { id: 1, title: "Maha Shivaratri", date: "March 8, 2024", location: "Kashi Vishwanath, Varanasi", image: "https://www.templepurohit.com/wp-content/uploads/2017/04/Maha-Shivratri.jpg" },
+            { id: 2, title: "Holi Festival", date: "March 25, 2024", location: "Banke Bihari Temple, Vrindavan", image: "https://c8.alamy.com/comp/3DX89E2/devotees-celebrating-holi-at-banke-bihari-temple-vrindavan-uttar-pradesh-india-vibrant-colors-spirituality-and-cultural-tradition-3DX89E2.jpg" },
+            { id: 3, title: "Ram Navami", date: "April 17, 2024", location: "Ram Janmabhoomi, Ayodhya", image: "https://www.eurokidsindia.com/blog/wp-content/uploads/2026/03/Ram-Navami-Story-for-Kids-%E2%80%93-Simple-and-Moral-Story-870x437.jpg" },
+            { id: 4, title: "Krishna Janmashtami", date: "August 26, 2024", location: "Shri Krishna Janmasthan, Mathura", image: "https://t3.ftcdn.net/jpg/14/09/06/26/360_F_1409062632_UA9RjKyoszBzVcPiJi6DMPjFepAu470O.jpg" }
+          ].map((event) => (
+            <div key={event.id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-orange-500/10 transition-all group flex flex-col">
+              <div className="h-40 overflow-hidden relative shrink-0 bg-orange-100">
+                <img 
+                  src={event.image} 
+                  alt={event.title} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur text-orange-600 text-xs font-bold px-2.5 py-1 rounded-full shadow">
+                  {event.date}
+                </div>
+              </div>
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1 truncate">{event.title}</h3>
+                <div className="flex items-center text-slate-500 dark:text-slate-400 text-sm">
+                  <span className="mr-1">📍</span> <span className="truncate">{event.location}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
    {/* Top Dhams Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 relative z-20">
         <div className="flex justify-between items-center mb-8">
