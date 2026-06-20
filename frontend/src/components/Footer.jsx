@@ -13,7 +13,7 @@ export default function Footer() {
           {/* Column 1: Platform Intro */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2.5">
-              <img src="/logo.png" alt="MandirSetu Logo" className="h-8 w-auto rounded-lg shadow-sm" />
+              <img src="/favicon.webp" alt="MandirSetu Logo" className="h-8 w-auto rounded-lg shadow-sm" />
               <span className="text-xl font-black bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent tracking-wide">
                 MANDIRSETU
               </span>

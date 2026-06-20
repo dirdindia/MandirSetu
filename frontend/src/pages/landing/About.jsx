@@ -21,14 +21,16 @@ export default function About() {
 
   return (
     <div className="space-y-4 pb-20">
-      <section className="relative overflow-hidden h-[80vh] min-h-[400px] flex items-center justify-center -mt-16 pt-16 bg-slate-50 dark:bg-slate-900">
-        {/* Background Image */}
-         <div className="relative w-full h-full bg-white dark:bg-slate-900 rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white/10 dark:border-slate-800/50">
-          <img
-            src="/hero/img2.jpg"
-            alt="About Us Hero Banner"
-            className="w-full h-full object-cover"
-          />
+      <section className="w-full bg-white dark:bg-slate-950 pt-0 sm:pt-0 pb-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6 ">
+          <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] min-h-[300px] max-h-[500px] rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl border-[6px] border-slate-50 dark:border-slate-800/50 ">
+            {/* <div className="absolute inset-0 bg-slate-900/30 z-10 mix-blend-multiply transition-colors"></div> */}
+            <img
+              src="/hero/img2.jpg"
+              alt="About Us Hero Banner"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       </section>
 

@@ -26,7 +26,7 @@ export default function Header() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-900 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-4">
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
@@ -36,9 +36,7 @@ export default function Header() {
                 <span className="text-2xl font-black bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 bg-clip-text text-transparent tracking-wide">
                   MANDIRSETU
                 </span>
-                <p className='text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'>
-                  DIRD India Pvt Ltd
-                </p>
+            
               </div>
             </Link>
           </div>

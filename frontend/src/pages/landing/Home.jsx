@@ -159,16 +159,15 @@ export default function Home() {
         {heroImages.map((img, idx) => (
           <div
             key={img}
-            className={`absolute inset-x-0 bottom-0 top-16 p-4 sm:p-2 lg:p-2 transition-opacity duration-1000 ease-in-out ${
+            className={`absolute inset-x-0 bottom-0 top-14 p-4 sm:p-6 lg:p-6 transition-opacity duration-1000 ease-in-out  ${
               !showTilak && idx === currentSlide ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <div className="relative w-full h-full bg-white dark:bg-slate-900 rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white/10 dark:border-slate-800/50">
-              <div className="absolute inset-0 bg-slate-900/40 z-10 mix-blend-multiply"></div>
+            <div className="relative w-full h-full bg-white dark:bg-slate-900 rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white/10 dark:border-slate-800/50 ">
               <img
                 src={img}
                 alt={`Hero slide ${idx + 1}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover "
               />
             </div>
           </div>
