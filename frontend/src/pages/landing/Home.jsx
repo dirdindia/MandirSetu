@@ -79,7 +79,7 @@ export default function Home() {
   const services = [
     {
       icon: '🪔',
-      title: 'Puja Bookings',
+      title: 'Puja Booking',
       desc: 'Book verified pandits for physical rituals or live virtual pujas with sankalp details.',
       color: 'from-orange-500/10 to-amber-500/10 border-orange-500/20 text-orange-600 dark:text-orange-400',
     },
@@ -94,20 +94,20 @@ export default function Home() {
 
     {
       icon: '🛕',
-      title: 'Hotels,Ashrams & Dharamshalas',
+      title: 'Hotel,Ashram & Dharamshala',
       desc: 'Find clean, safe hotels, ashrams and dharamshalas and stays near the temple gates, curated by local Dham sevak.',
       color: 'from-yellow-500/10 to-amber-500/10 border-yellow-500/20 text-yellow-600 dark:text-yellow-400',
     },
 
     {
       icon: '🚌',
-      title: 'Yatra Bookings',
+      title: 'Yatra Booking',
       desc: 'Book complete pilgrimage packages, including transportation, stays, and guided tours.',
       color: 'from-blue-500/10 to-indigo-500/10 border-blue-500/20 text-blue-600 dark:text-blue-400',
     },
     {
       icon: '🧳',
-      title: 'Tour & Travels',
+      title: 'Tour & Travel',
       desc: 'Pre-book your travels, local cabs, and guided tours for a hassle-free pilgrimage experience.',
       color: 'from-yellow-500/10 to-orange-500/10 border-yellow-500/20 text-yellow-600 dark:text-yellow-400',
     },

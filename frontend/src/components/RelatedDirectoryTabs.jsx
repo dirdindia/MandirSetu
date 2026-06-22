@@ -17,7 +17,7 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
     { id: 'hotels', label: 'Hotels', icon: <Hotel size={18} /> },
     { id: 'ashrams', label: 'Ashrams', icon: <Building size={18} /> },
     { id: 'restaurants', label: 'Restaurants', icon: <Coffee size={18} /> },
-    { id: 'shops', label: 'Shops (E-commerce)', icon: <Store size={18} />, disabled: true },
+    { id: 'shops', label: 'Shops (E-commerce)', icon: <Store size={18} /> },
     { id: 'tours', label: 'Tours & Travels', icon: <MapPin size={18} />, disabled: true }
   ];
 
@@ -30,10 +30,16 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
     setLoading(true);
     try {
       let query = `?page=${pageNum}&limit=${limit}`;
-      if (mandirId) query += `&mandir=${mandirId}`;
-      if (dhamId) query += `&dham=${dhamId}`;
+      if (tab === 'shops') {
+        if (mandirId) query += `&mandir_id=${mandirId}`;
+        if (dhamId) query += `&dham_id=${dhamId}`;
+      } else {
+        if (mandirId) query += `&mandir=${mandirId}`;
+        if (dhamId) query += `&dham=${dhamId}`;
+      }
 
-      const res = await api.get(`/${tab}${query}`);
+      const endpoint = tab === 'shops' ? '/ecommerce/products' : `/${tab}`;
+      const res = await api.get(`${endpoint}${query}`);
       
       if (res.data && res.data.data) {
         setData(res.data.data);
@@ -61,7 +67,17 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
 
   return (
     <div className="mt-16">
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Explore Nearby Services</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Explore Nearby Services</h2>
+        {data.length > 0 && (
+          <Link 
+            to={`/services?type=${activeTab}${mandirId ? `&mandir=${mandirId}` : ''}${dhamId ? `&dham=${dhamId}` : ''}`} 
+            className="text-orange-600 hover:text-orange-700 font-semibold text-sm flex items-center gap-1"
+          >
+            View full service <span aria-hidden="true">&rarr;</span>
+          </Link>
+        )}
+      </div>
       
       {/* Tabs */}
       <div className="flex overflow-x-auto space-x-2 border-b border-slate-200 dark:border-slate-800 pb-2 mb-6 scrollbar-hide">
@@ -106,8 +122,8 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
             {data.map((item) => (
               <Link to={`/${activeTab}/${item._id}`} key={item._id} className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row gap-4 hover:shadow-md transition-shadow group">
                 <div className="w-full sm:w-32 h-32 flex-shrink-0 relative overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
-                  {item.profilePic ? (
-                    <img src={item.profilePic} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  {item.profilePic || item.displayImage ? (
+                    <img src={item.profilePic || item.displayImage} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-400">
                       <Building size={32} />
@@ -123,9 +139,11 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
                 <div className="flex flex-col flex-grow justify-between">
                   <div>
                     <h3 className="font-bold text-lg text-slate-900 dark:text-white line-clamp-1">{item.name}</h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
-                      <MapPin size={14} /> {item.location?.city}, {item.location?.state}
-                    </p>
+                    {item.location && (
+                      <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
+                        <MapPin size={14} /> {item.location?.city}, {item.location?.state}
+                      </p>
+                    )}
                     
                     {activeTab === 'hotels' && item.startingPrice && (
                       <p className="mt-2 text-sm font-semibold text-orange-600 dark:text-orange-400">Starts at ₹{item.startingPrice}</p>
@@ -133,13 +151,23 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
                     {activeTab === 'restaurants' && item.averageCostForTwo && (
                       <p className="mt-2 text-sm font-semibold text-orange-600 dark:text-orange-400">Avg Cost: ₹{item.averageCostForTwo} for two</p>
                     )}
+                    {activeTab === 'shops' && item.sellingPrice && (
+                      <p className="mt-2 text-sm font-semibold text-orange-600 dark:text-orange-400">Price: ₹{item.sellingPrice}</p>
+                    )}
                   </div>
                   
-                  {item.contact?.phone && (
+                  {item.contact?.phone && activeTab !== 'shops' && (
                     <div className="mt-4 flex items-center gap-2">
-                      <a href={`tel:${item.contact.phone}`} className="text-sm bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-lg font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
+                      <a href={`tel:${item.contact.phone}`} onClick={(e) => e.stopPropagation()} className="text-sm bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-lg font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
                         Call {item.contact.phone}
                       </a>
+                    </div>
+                  )}
+                  {activeTab === 'shops' && (
+                    <div className="mt-4">
+                      <button className="w-full text-sm bg-orange-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-orange-600 transition-colors shadow-sm shadow-orange-500/20">
+                        Buy Now
+                      </button>
                     </div>
                   )}
                 </div>

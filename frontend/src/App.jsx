@@ -13,6 +13,8 @@ import DhamDetail from './pages/dhams/DhamDetail';
 import HotelDetail from './pages/directories/HotelDetail';
 import AshramDetail from './pages/directories/AshramDetail';
 import RestaurantDetail from './pages/directories/RestaurantDetail';
+import ProductDetail from './pages/ecommerce/ProductDetail';
+import ServiceList from './pages/directories/ServiceList';
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
           <Route path="hotels/:id" element={<HotelDetail />} />
           <Route path="ashrams/:id" element={<AshramDetail />} />
           <Route path="restaurants/:id" element={<RestaurantDetail />} />
+          <Route path="shops/:id" element={<ProductDetail />} />
+          <Route path="services" element={<ServiceList />} />
         </Route>
       </Routes>
     </BrowserRouter>
