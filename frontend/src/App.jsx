@@ -14,6 +14,8 @@ import HotelDetail from './pages/directories/HotelDetail';
 import AshramDetail from './pages/directories/AshramDetail';
 import RestaurantDetail from './pages/directories/RestaurantDetail';
 import ProductDetail from './pages/ecommerce/ProductDetail';
+import Cart from './pages/ecommerce/Cart';
+import Checkout from './pages/ecommerce/Checkout';
 import ServiceList from './pages/directories/ServiceList';
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
           <Route path="ashrams/:id" element={<AshramDetail />} />
           <Route path="restaurants/:id" element={<RestaurantDetail />} />
           <Route path="shops/:id" element={<ProductDetail />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="checkout" element={<Checkout />} />
           <Route path="services" element={<ServiceList />} />
         </Route>
       </Routes>

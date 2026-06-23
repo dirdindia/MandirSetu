@@ -91,7 +91,7 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
               }
             }}
             disabled={tab.disabled}
-            className={`flex items-center space-x-2 px-5 py-3 rounded-t-xl font-bold transition-all whitespace-nowrap
+            className={`flex items-center space-x-2 px-5 py-3 rounded-t-xl font-bold transition-all whitespace-nowrap cursor-pointer
               ${activeTab === tab.id 
                 ? 'bg-orange-50 dark:bg-orange-900/20 text-orange-600 border-b-2 border-orange-500' 
                 : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -183,7 +183,7 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
           <button 
             onClick={handlePrev} 
             disabled={page === 1}
-            className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
           >
             Previous
           </button>
@@ -193,7 +193,7 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
           <button 
             onClick={handleNext} 
             disabled={page === totalPages}
-            className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
           >
             Next
           </button>

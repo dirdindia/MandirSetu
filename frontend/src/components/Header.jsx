@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { ShoppingCart } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useCart } from '../context/CartContext';
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
+  const { cartCount } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -69,6 +72,20 @@ export default function Header() {
               )}
             </button>
 
+            {/* Cart Button */}
+            {cartCount > 0 && (
+              <Link
+                to="/cart"
+                className="relative p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
+                aria-label="View Cart"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
+                  {cartCount}
+                </span>
+              </Link>
+            )}
+
             {/* Auth Buttons */}
             <Link
               to="/signin"
@@ -102,6 +119,19 @@ export default function Header() {
                 </svg>
               )}
             </button>
+
+            {/* Cart Button for Mobile */}
+            {cartCount > 0 && (
+              <Link
+                to="/cart"
+                className="relative p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
+                  {cartCount}
+                </span>
+              </Link>
+            )}
 
             {/* Mobile Hamburger menu toggle */}
             <button

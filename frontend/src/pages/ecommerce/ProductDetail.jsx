@@ -1,12 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MapPin, ShoppingBag, CheckCircle, ShieldCheck } from 'lucide-react';
+import { MapPin, ShoppingBag, CheckCircle, ShieldCheck, X } from 'lucide-react';
+import { useCart } from '../../context/CartContext';
 import api from '../../api';
 
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeImage, setActiveImage] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zoomStyle, setZoomStyle] = useState({});
+  const { addToCart } = useCart();
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    if (product) setActiveImage(product.displayImage);
+  }, [product]);
+
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setZoomStyle({
+      transformOrigin: `${x}% ${y}%`,
+      transform: 'scale(2)'
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setZoomStyle({ transformOrigin: 'center center', transform: 'scale(1)' });
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product, 1);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -63,18 +93,34 @@ export default function ProductDetail() {
             
             {/* Image Gallery */}
             <div className="flex flex-col gap-4">
-              <div className="w-full h-96 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+              <div 
+                className="w-full h-96 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 cursor-zoom-in relative"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => setIsModalOpen(true)}
+              >
                 <img 
-                  src={product.displayImage} 
+                  src={activeImage || product.displayImage} 
                   alt={product.name} 
-                  className="w-full h-full object-contain bg-white dark:bg-slate-800"
+                  className="w-full h-full object-contain bg-white dark:bg-slate-800 transition-transform duration-200"
+                  style={zoomStyle}
                 />
               </div>
               {product.gallery && product.gallery.length > 0 && (
                 <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                  <div 
+                    className={`w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border cursor-pointer ${activeImage === product.displayImage ? 'border-orange-500 ring-2 ring-orange-500' : 'border-slate-200 dark:border-slate-700'}`}
+                    onClick={() => setActiveImage(product.displayImage)}
+                  >
+                    <img src={product.displayImage} alt="Main" className="w-full h-full object-cover hover:opacity-80 transition-opacity" />
+                  </div>
                   {product.gallery.map((img, idx) => (
-                    <div key={idx} className="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
-                      <img src={img} alt={`Gallery ${idx}`} className="w-full h-full object-cover" />
+                    <div 
+                      key={idx} 
+                      className={`w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border cursor-pointer ${activeImage === img ? 'border-orange-500 ring-2 ring-orange-500' : 'border-slate-200 dark:border-slate-700'}`}
+                      onClick={() => setActiveImage(img)}
+                    >
+                      <img src={img} alt={`Gallery ${idx}`} className="w-full h-full object-cover hover:opacity-80 transition-opacity" />
                     </div>
                   ))}
                 </div>
@@ -103,17 +149,24 @@ export default function ProductDetail() {
 
               <div className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-3 rounded-xl mb-8 flex items-center gap-2 font-medium">
                 <CheckCircle size={20} />
-                {product.stock > 0 ? `In Stock (${product.stock} available)` : 'Out of Stock'}
+                {product.stock > 0 ? `In Stock` : 'Out of Stock'}
               </div>
 
               <div className="space-y-4 mb-8">
                 <button 
+                  onClick={handleAddToCart}
                   disabled={product.stock <= 0}
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg py-4 px-8 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-lg shadow-orange-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ShoppingBag size={24} />
-                  Buy Now
+                  Add to Cart
                 </button>
+                {showToast && (
+                  <div className="bg-green-100 text-green-800 px-4 py-3 rounded-xl flex items-center gap-2 font-medium">
+                    <CheckCircle size={20} />
+                    Item added to your cart successfully!
+                  </div>
+                )}
               </div>
 
               <div className="prose prose-slate dark:prose-invert max-w-none">
@@ -143,6 +196,24 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+
+      {/* Full Screen Image Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4" onClick={() => setIsModalOpen(false)}>
+          <button 
+            onClick={() => setIsModalOpen(false)}
+            className="absolute top-6 right-6 text-white hover:text-orange-500 p-2 z-50 bg-black/50 rounded-full"
+          >
+            <X size={32} />
+          </button>
+          <img 
+            src={activeImage || product.displayImage} 
+            alt="Full View" 
+            className="max-w-full max-h-[90vh] object-contain cursor-zoom-out" 
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }
