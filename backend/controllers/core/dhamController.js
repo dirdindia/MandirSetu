@@ -184,6 +184,11 @@ export const getDhamFullDetails = async (req, res) => {
         ];
         queryField = 'dham_id';
         break;
+      case 'orders':
+        ModelToFetch = (await import('../../models/ecommerce/Order.js')).default;
+        populateField = null;
+        queryField = 'items.dham_id';
+        break;
       default:
         return res.status(400).json({ message: 'Invalid type requested' });
     }

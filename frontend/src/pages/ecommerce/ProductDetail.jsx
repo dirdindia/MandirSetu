@@ -137,8 +137,11 @@ export default function ProductDetail() {
               <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white mb-4">{product.name}</h1>
               
               <div className="flex items-end gap-4 mb-6">
-                <span className="text-4xl font-bold text-orange-600 dark:text-orange-500">
+                <span className="text-4xl font-bold text-orange-600 dark:text-orange-500 flex items-baseline gap-2">
                   ₹{product.sellingPrice || product.price}
+                  {product.unit && (
+                    <span className="text-xl font-medium text-slate-500 dark:text-slate-400">/ {product.unit}</span>
+                  )}
                 </span>
                 {product.sellingPrice && product.sellingPrice < product.price && (
                   <span className="text-xl text-slate-400 line-through mb-1">

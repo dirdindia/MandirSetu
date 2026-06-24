@@ -2,6 +2,17 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { MapPin, Phone, Mail, User, ShieldCheck } from 'lucide-react';
+import api from '../../api';
+
+const loadScript = (src) => {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
 
 export default function Checkout() {
   const { cart, cartTotal, clearCart } = useCart();
@@ -21,7 +32,7 @@ export default function Checkout() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Prepare order payload for future API integration
@@ -43,10 +54,67 @@ export default function Checkout() {
 
     console.log("Prepared Order Payload for backend:", orderPayload);
 
-    // Simulate successful order
-    alert(`Order Placed Successfully for ${formData.fullName}!\n\nPayload prepared in console. Includes mandir/dham IDs for staff categorization.`);
-    clearCart();
-    navigate('/');
+    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+    if (!res) {
+      alert('Razorpay SDK failed to load. Are you online?');
+      return;
+    }
+
+    try {
+      // Create order from backend
+      const result = await api.post('/ecommerce/payment/create-order', { amount: cartTotal });
+      if (!result.data) {
+        alert('Server error. Are you online?');
+        return;
+      }
+
+      const { amount, id: order_id, currency } = result.data;
+
+      const options = {
+        key: 'rzp_test_T5QCR3Ba0l8d1E', // Provided Test Key
+        amount: amount.toString(),
+        currency: currency,
+        name: 'MandirSetu',
+        description: 'E-commerce Purchase',
+        order_id: order_id,
+        handler: async function (response) {
+          const data = {
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+            orderPayload: orderPayload // Send the prepared order payload
+          };
+
+          try {
+            const verifyRes = await api.post('/ecommerce/payment/verify-payment', data);
+            if (verifyRes.data.message === 'Payment verified successfully') {
+              alert(`Order Placed Successfully for ${formData.fullName}!\n\nPayment ID: ${response.razorpay_payment_id}`);
+              clearCart();
+              navigate('/');
+            } else {
+              alert('Payment Verification Failed!');
+            }
+          } catch (error) {
+            alert('Payment Verification Failed due to server error!');
+            console.error(error);
+          }
+        },
+        prefill: {
+          name: formData.fullName,
+          email: formData.email,
+          contact: formData.mobile,
+        },
+        theme: {
+          color: '#f97316', // orange-500
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } catch (error) {
+      console.error('Payment Error:', error);
+      alert('Something went wrong during payment initialization.');
+    }
   };
 
   if (cart.length === 0) {

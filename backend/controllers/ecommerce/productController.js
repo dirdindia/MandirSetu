@@ -5,7 +5,7 @@ import Staff from '../../models/users/Staff.js';
 // Create a Product
 export const createProduct = async (req, res) => {
   try {
-    const { name, description, category, price, sellingPrice, stock, displayImage, gallery, isVisible, mandir_id, dham_id } = req.body;
+    const { name, description, category, price, sellingPrice, stock, unit, displayImage, gallery, isVisible, mandir_id, dham_id } = req.body;
 
     if (!mandir_id && !dham_id) {
       return res.status(400).json({ message: 'Either Mandir ID or Dham ID is compulsory to create a product' });
@@ -35,6 +35,7 @@ export const createProduct = async (req, res) => {
       price,
       sellingPrice,
       stock,
+      unit,
       displayImage,
       gallery,
       isVisible,

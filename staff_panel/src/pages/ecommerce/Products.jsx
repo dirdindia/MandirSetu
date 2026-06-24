@@ -20,7 +20,7 @@ export default function Products() {
   // Form State
   const initialProductState = {
     name: '', description: '', category: '', price: '', 
-    sellingPrice: '', stock: 0, displayImage: '', gallery: [], isVisible: true
+    sellingPrice: '', stock: 0, unit: 'piece', displayImage: '', gallery: [], isVisible: true
   };
   const [newProduct, setNewProduct] = useState(initialProductState);
   const [editingProductId, setEditingProductId] = useState(null);
@@ -123,6 +123,7 @@ export default function Products() {
       price: product.price,
       sellingPrice: product.sellingPrice || '',
       stock: product.stock || 0,
+      unit: product.unit || 'piece',
       displayImage: product.displayImage || '', 
       gallery: product.gallery || [],
       isVisible: product.isVisible 
@@ -335,11 +336,11 @@ export default function Products() {
                       <div className="flex flex-col">
                         {product.sellingPrice ? (
                           <>
-                            <span className="font-semibold text-slate-800 dark:text-slate-200">₹{product.sellingPrice}</span>
+                            <span className="font-semibold text-slate-800 dark:text-slate-200">₹{product.sellingPrice} {product.unit && <span className="text-xs text-slate-500 font-normal">/ {product.unit}</span>}</span>
                             <span className="text-xs text-slate-400 line-through">₹{product.price}</span>
                           </>
                         ) : (
-                          <span className="font-semibold text-slate-800 dark:text-slate-200">₹{product.price}</span>
+                          <span className="font-semibold text-slate-800 dark:text-slate-200">₹{product.price} {product.unit && <span className="text-xs text-slate-500 font-normal">/ {product.unit}</span>}</span>
                         )}
                       </div>
                     </td>
@@ -548,7 +549,7 @@ export default function Products() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Current Stock *</label>
                   <input 
@@ -557,6 +558,23 @@ export default function Products() {
                     onChange={(e) => setNewProduct({...newProduct, stock: e.target.value})}
                     className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Unit *</label>
+                  <select 
+                    required
+                    value={newProduct.unit}
+                    onChange={(e) => setNewProduct({...newProduct, unit: e.target.value})}
+                    className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="piece">Piece (pc)</option>
+                    <option value="kg">Kilogram (kg)</option>
+                    <option value="g">Gram (g)</option>
+                    <option value="l">Liter (L)</option>
+                    <option value="ml">Milliliter (ml)</option>
+                    <option value="pack">Pack</option>
+                    <option value="box">Box</option>
+                  </select>
                 </div>
                 <div className="flex items-center gap-3 pt-6">
                   <button

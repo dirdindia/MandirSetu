@@ -89,9 +89,18 @@ export default function EntityEcommerce() {
             </div>
             <div>
               <h4 className="font-medium text-slate-800 dark:text-slate-200">{product.name}</h4>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-                {product.category?.name || 'Uncategorized'} • ₹{product.sellingPrice || product.price}
-              </p>
+              <div className="text-sm text-slate-500 dark:text-slate-400 mt-0.5 flex items-baseline gap-2">
+                <span>{product.category?.name || 'Uncategorized'}</span>
+                <span>•</span>
+                {product.sellingPrice ? (
+                  <>
+                    <span className="font-semibold text-slate-800 dark:text-slate-200">₹{product.sellingPrice} {product.unit && <span className="text-xs text-slate-500 font-normal">/ {product.unit}</span>}</span>
+                    <span className="text-xs text-slate-400 line-through">₹{product.price}</span>
+                  </>
+                ) : (
+                  <span className="font-semibold text-slate-800 dark:text-slate-200">₹{product.price} {product.unit && <span className="text-xs text-slate-500 font-normal">/ {product.unit}</span>}</span>
+                )}
+              </div>
               
               <div className="flex flex-wrap gap-2 mt-2">
                 <div className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
@@ -107,6 +116,49 @@ export default function EntityEcommerce() {
                 )}
               </div>
             </div>
+          </div>
+        </div>
+      </li>
+    ));
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Processing': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
+      case 'Shipped': return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400';
+      case 'Delivered': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
+      case 'Cancelled': return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
+      default: return 'bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-400';
+    }
+  };
+
+  const renderOrders = () => {
+    return dataList.map((order) => (
+      <li key={order._id} className="p-4 sm:p-5 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors border-b border-slate-100 dark:border-slate-800/60 last:border-0">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h4 className="font-medium text-slate-800 dark:text-slate-200">
+              Order #{order._id.substring(18).toUpperCase()}
+            </h4>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+              {new Date(order.createdAt).toLocaleDateString()} • {order.items.length} item(s)
+            </p>
+            <div className="flex flex-wrap gap-2 mt-2">
+              <div className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getStatusColor(order.status)}`}>
+                {order.status}
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex flex-col sm:items-end w-full sm:w-auto bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">Customer</p>
+            <p className="font-medium text-slate-800 dark:text-slate-200 text-sm">{order.customerDetails.fullName}</p>
+            <p className="text-xs text-slate-500">{order.customerDetails.mobile}</p>
+          </div>
+          
+          <div className="flex flex-col sm:items-end w-full sm:w-auto">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">Total</p>
+            <p className="font-bold text-slate-800 dark:text-slate-200">₹{order.totalAmount}</p>
           </div>
         </div>
       </li>
@@ -134,8 +186,11 @@ export default function EntityEcommerce() {
             >
               Products
             </button>
-            <button className="px-3 py-1.5 hover:bg-slate-50 text-slate-600 dark:hover:bg-slate-800 dark:text-slate-400 rounded-lg text-sm font-medium transition-colors opacity-50 cursor-not-allowed">
-              Orders (Soon)
+            <button 
+              onClick={() => handleTabChange('orders')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeSubTab === 'orders' ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400' : 'hover:bg-slate-50 text-slate-600 dark:hover:bg-slate-800 dark:text-slate-400'}`}
+            >
+              Orders
             </button>
         </div>
       </div>
@@ -149,6 +204,7 @@ export default function EntityEcommerce() {
           <ul className="flex flex-col">
             {activeSubTab === 'categories' ? renderCategories() : null}
             {activeSubTab === 'products' ? renderProducts() : null}
+            {activeSubTab === 'orders' ? renderOrders() : null}
           </ul>
         ) : (
           <div className="p-12 text-center text-slate-500">

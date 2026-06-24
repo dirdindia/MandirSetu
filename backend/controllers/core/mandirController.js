@@ -184,6 +184,11 @@ export const getMandirFullDetails = async (req, res) => {
         ];
         queryField = 'mandir_id';
         break;
+      case 'orders':
+        ModelToFetch = (await import('../../models/ecommerce/Order.js')).default;
+        populateField = null; // Can populate items.product_id if needed, but keeping simple for now
+        queryField = 'items.mandir_id';
+        break;
       default:
         return res.status(400).json({ message: 'Invalid type requested' });
     }
