@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/users/authRoutes.js';
+import userRoutes from './routes/users/userRoutes.js';
 import mandirRoutes from './routes/core/mandirRoutes.js';
 import dhamRoutes from './routes/core/dhamRoutes.js';
 import uploadRoutes from './routes/system/uploadRoutes.js';
@@ -56,6 +57,7 @@ mongoose
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/mandirs', mandirRoutes);
 app.use('/api/dhams', dhamRoutes);
 app.use('/api/staff', staffRoutes);

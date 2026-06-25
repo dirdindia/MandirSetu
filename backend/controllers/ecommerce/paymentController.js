@@ -2,6 +2,8 @@ import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import Order from '../../models/ecommerce/Order.js';
+import User from '../../models/users/User.js';
+import bcrypt from 'bcryptjs';
 dotenv.config();
 
 const razorpay = new Razorpay({
@@ -49,8 +51,30 @@ export const verifyPayment = async (req, res) => {
     if (generated_signature === razorpay_signature) {
       // Payment is successful, save the order
       if (orderPayload) {
+        let user_id = req.user ? req.user._id : undefined;
+        
+        // Find or create customer account if not logged in
+        if (!user_id && orderPayload.customerDetails && orderPayload.customerDetails.email) {
+          let user = await User.findOne({ email: orderPayload.customerDetails.email });
+          
+          if (!user) {
+            const mobile = orderPayload.customerDetails.mobile || '0000000000';
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(mobile, salt);
+            
+            user = new User({
+              email: orderPayload.customerDetails.email,
+              phone: mobile,
+              password: hashedPassword,
+              role: 'user'
+            });
+            await user.save();
+          }
+          user_id = user._id;
+        }
+
         const newOrder = new Order({
-          user_id: req.user ? req.user._id : undefined, // If authentication middleware is used
+          user_id: user_id,
           customerDetails: orderPayload.customerDetails,
           items: orderPayload.items,
           totalAmount: orderPayload.totalAmount,

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { ShoppingCart } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { ShoppingCart, User, ChevronDown, LogOut, Package, Settings } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
 
@@ -8,6 +8,27 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const { cartCount } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  };
 
   const navLinks = [
     { path: '/', label: 'Home' },
@@ -86,19 +107,66 @@ export default function Header() {
               </Link>
             )}
 
-            {/* Auth Buttons */}
-            <Link
-              to="/signin"
-              className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/signup"
-              className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-650 hover:to-amber-650 text-white shadow-md shadow-orange-500/20 active:scale-95 transition-all"
-            >
-              Sign Up
-            </Link>
+            {/* Auth or User Dropdown */}
+            {user ? (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer border border-slate-200 dark:border-slate-800"
+                >
+                  <div className="w-6 h-6 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
+                    <User size={14} />
+                  </div>
+                  <span className="text-sm font-medium max-w-[120px] truncate">
+                    {user.email.split('@')[0]}
+                  </span>
+                  <ChevronDown size={14} className={`transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-950 rounded-xl shadow-lg border border-slate-200 dark:border-slate-800 py-2 animate-in fade-in slide-in-from-top-2">
+                    <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800 mb-1">
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Signed in as</p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{user.email}</p>
+                    </div>
+                    
+                    <Link to="/profile" className="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+                      <User size={16} className="text-slate-400" /> My Profile
+                    </Link>
+                    <Link to="/orders" className="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+                      <Package size={16} className="text-slate-400" /> My Orders
+                    </Link>
+                    <Link to="/change-password" className="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+                      <Settings size={16} className="text-slate-400" /> Change Password
+                    </Link>
+                    
+                    <div className="h-px bg-slate-100 dark:bg-slate-800 my-1"></div>
+                    
+                    <button 
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-left cursor-pointer"
+                    >
+                      <LogOut size={16} /> Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/signin"
+                  className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-650 hover:to-amber-650 text-white shadow-md shadow-orange-500/20 active:scale-95 transition-all"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile buttons block */}
@@ -170,20 +238,58 @@ export default function Header() {
             ))}
           </div>
           <div className="pt-4 pb-4 border-t border-slate-200 dark:border-slate-900 px-4 flex flex-col space-y-2">
-            <Link
-              to="/signin"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/signup"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/10 transition-colors"
-            >
-              Sign Up
-            </Link>
+            {user ? (
+              <>
+                <div className="py-2 px-3 bg-slate-50 dark:bg-slate-900 rounded-lg mb-2">
+                  <p className="text-xs text-slate-500">Signed in as</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{user.email}</p>
+                </div>
+                <Link
+                  to="/profile"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full text-left py-2.5 px-3 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2"
+                >
+                  <User size={16} /> Profile
+                </Link>
+                <Link
+                  to="/orders"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full text-left py-2.5 px-3 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2"
+                >
+                  <Package size={16} /> My Orders
+                </Link>
+                <Link
+                  to="/change-password"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full text-left py-2.5 px-3 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2"
+                >
+                  <Settings size={16} /> Change Password
+                </Link>
+                <button
+                  onClick={() => { setIsMobileMenuOpen(false); handleLogout(); }}
+                  className="w-full text-left py-2.5 px-3 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors flex items-center gap-2"
+                >
+                  <LogOut size={16} /> Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/signin"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full text-center py-2.5 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full text-center py-2.5 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/10 transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

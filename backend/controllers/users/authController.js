@@ -88,3 +88,114 @@ export const changePassword = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const customerLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'Invalid email or password' });
+
+    const validPass = await bcrypt.compare(password, user.password);
+    if (!validPass) return res.status(400).json({ message: 'Invalid email or password' });
+
+    if (user.role !== 'user') {
+      return res.status(403).json({ message: 'Access denied. Only customers can login here.' });
+    }
+
+    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET || 'supersecretkey123', { expiresIn: '7d' });
+
+    res.status(200).json({
+      message: 'Logged in successfully',
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        phone: user.phone,
+        role: user.role
+      }
+    });
+
+  } catch (err) {
+    console.error('Customer login error:', err);
+    res.status(500).json({ message: 'Server error during login' });
+  }
+};
+
+// Global object to store mock OTPs
+global.otpStore = global.otpStore || {};
+
+export const generateOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: 'Email is required' });
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (user.role !== 'user') return res.status(403).json({ message: 'Not a customer account' });
+
+    // Generate random 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    // Store in memory (expires in 5 mins logically, but we'll just overwrite)
+    global.otpStore[email] = {
+      otp,
+      expiresAt: Date.now() + 5 * 60 * 1000 // 5 minutes
+    };
+
+    console.log(`\n\n================================`);
+    console.log(`🚀 MOCK OTP for ${email}: ${otp} 🚀`);
+    console.log(`================================\n\n`);
+
+    res.status(200).json({ message: 'OTP sent successfully (check console)' });
+  } catch (err) {
+    console.error('Generate OTP error:', err);
+    res.status(500).json({ message: 'Failed to generate OTP' });
+  }
+};
+
+export const verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) return res.status(400).json({ message: 'Email and OTP are required' });
+
+    const storedData = global.otpStore[email];
+    if (!storedData) {
+      return res.status(400).json({ message: 'No OTP generated for this email' });
+    }
+
+    if (Date.now() > storedData.expiresAt) {
+      delete global.otpStore[email];
+      return res.status(400).json({ message: 'OTP has expired' });
+    }
+
+    if (storedData.otp !== otp) {
+      return res.status(400).json({ message: 'Invalid OTP' });
+    }
+
+    // OTP is valid
+    delete global.otpStore[email];
+
+    const user = await User.findOne({ email });
+    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET || 'supersecretkey123', { expiresIn: '7d' });
+
+    res.status(200).json({
+      message: 'Logged in successfully',
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        phone: user.phone,
+        role: user.role
+      }
+    });
+
+  } catch (err) {
+    console.error('Verify OTP error:', err);
+    res.status(500).json({ message: 'Failed to verify OTP' });
+  }
+};

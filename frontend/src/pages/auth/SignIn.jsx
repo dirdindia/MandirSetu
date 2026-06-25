@@ -1,18 +1,61 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import api from '../../api';
 
 export default function SignIn() {
-  const [role, setRole] = useState('devotee');
+  const navigate = useNavigate();
+  const [loginMethod, setLoginMethod] = useState('password'); // 'password' or 'otp'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [otp, setOtp] = useState('');
 
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (role === 'admin') {
-      window.location.href = 'http://localhost:5174/login';
-      return;
+
+    // Customer Login
+    setIsProcessing(true);
+    try {
+      if (loginMethod === 'password') {
+        const res = await api.post('/auth/customer-login', { email, password });
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        Swal.fire('Success', 'Logged in successfully', 'success').then(() => {
+          window.location.href = '/';
+        });
+      } else {
+        // OTP verify
+        const res = await api.post('/auth/verify-otp', { email, otp });
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        Swal.fire('Success', 'Logged in successfully', 'success').then(() => {
+          window.location.href = '/';
+        });
+      }
+    } catch (error) {
+      Swal.fire('Error', error.response?.data?.message || 'Login failed', 'error');
+    } finally {
+      setIsProcessing(false);
     }
-    alert(`Mock Login Success!\nRole: ${role.toUpperCase()}\nEmail: ${email}`);
+  };
+
+  const handleSendOTP = async () => {
+    if (!email) {
+      return Swal.fire('Error', 'Please enter your email first', 'error');
+    }
+    setIsProcessing(true);
+    try {
+      const res = await api.post('/auth/generate-otp', { email });
+      setOtpSent(true);
+      Swal.fire('Success', res.data.message, 'success');
+    } catch (error) {
+      Swal.fire('Error', error.response?.data?.message || 'Failed to send OTP', 'error');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -31,22 +74,21 @@ export default function SignIn() {
           </p>
         </div>
 
-        {/* Role Tabs */}
-        <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 dark:bg-slate-950 rounded-xl">
-          {['devotee', 'agent', 'admin'].map((r) => (
-            <button
-              key={r}
-              type="button"
-              onClick={() => setRole(r)}
-              className={`py-2 text-xs font-bold rounded-lg uppercase tracking-wider transition-all cursor-pointer ${
-                role === r
-                  ? 'bg-white dark:bg-slate-900 text-orange-650 dark:text-orange-450 shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'
-              }`}
-            >
-              {r}
-            </button>
-          ))}
+        <div className="flex gap-4 mt-4 border-b border-slate-200 dark:border-slate-800 pb-2">
+          <button 
+            type="button"
+            onClick={() => setLoginMethod('password')}
+            className={`text-sm font-semibold transition-colors cursor-pointer ${loginMethod === 'password' ? 'text-orange-500 border-b-2 border-orange-500' : 'text-slate-500'}`}
+          >
+            Password Login
+          </button>
+          <button 
+            type="button"
+            onClick={() => { setLoginMethod('otp'); setOtpSent(false); }}
+            className={`text-sm font-semibold transition-colors cursor-pointer ${loginMethod === 'otp' ? 'text-orange-500 border-b-2 border-orange-500' : 'text-slate-500'}`}
+          >
+            OTP Login
+          </button>
         </div>
 
         {/* Credentials Form */}
@@ -68,47 +110,85 @@ export default function SignIn() {
             </div>
 
             {/* Password */}
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                Password
-              </label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
-                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm"
-              />
-            </div>
+            {loginMethod === 'password' && (
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm"
+                />
+              </div>
+            )}
+
+            {/* OTP Section */}
+            {loginMethod === 'otp' && (
+              <div className="space-y-4">
+                {!otpSent ? (
+                  <button 
+                    type="button" 
+                    onClick={handleSendOTP}
+                    disabled={isProcessing}
+                    className="w-full py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-xl font-medium hover:bg-slate-300 transition-colors disabled:opacity-50 cursor-pointer"
+                  >
+                    Send OTP
+                  </button>
+                ) : (
+                  <div className="space-y-1 animate-in fade-in slide-in-from-top-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
+                      Enter OTP
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="6-digit OTP"
+                      maxLength={6}
+                      className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm tracking-widest text-center font-bold"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Remember me & Forget */}
-          <div className="flex items-center justify-between text-xs sm:text-sm">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-orange-500 border-slate-300 rounded focus:ring-orange-500 cursor-pointer"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-slate-500 dark:text-slate-400 cursor-pointer">
-                Remember me
-              </label>
-            </div>
+          {loginMethod === 'password' && (
+            <div className="flex items-center justify-between text-xs sm:text-sm">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 text-orange-500 border-slate-300 rounded focus:ring-orange-500 cursor-pointer"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-slate-500 dark:text-slate-400 cursor-pointer">
+                  Remember me
+                </label>
+              </div>
 
-            <button type="button" className="font-semibold text-orange-655 hover:text-orange-500 dark:text-orange-455 cursor-pointer">
-              Forgot password?
-            </button>
-          </div>
+              <button type="button" className="font-semibold text-orange-655 hover:text-orange-500 dark:text-orange-455 cursor-pointer">
+                Forgot password?
+              </button>
+            </div>
+          )}
 
           {/* Submit */}
           <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 focus:outline-none active:scale-[0.98] shadow-md shadow-orange-500/10 transition-all cursor-pointer"
-            >
-              Sign In as {role.toUpperCase()}
-            </button>
+            {!(loginMethod === 'otp' && !otpSent) && (
+              <button
+                type="submit"
+                disabled={isProcessing}
+                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 focus:outline-none active:scale-[0.98] shadow-md shadow-orange-500/10 transition-all cursor-pointer disabled:opacity-50"
+              >
+                {isProcessing ? 'Processing...' : `Sign In`}
+              </button>
+            )}
           </div>
         </form>
 

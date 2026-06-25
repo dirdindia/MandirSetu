@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { Loader2, Box, Layers, Package } from 'lucide-react';
+import { Loader2, Box, Layers, Package, Download } from 'lucide-react';
 import axiosInstance from '../../../api/axiosInstance';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function EntityEcommerce() {
   const { endpointBase, type } = useOutletContext();
@@ -132,6 +134,71 @@ export default function EntityEcommerce() {
     }
   };
 
+  const handleDownloadInvoice = (order) => {
+    const doc = new jsPDF();
+    const paymentId = order.paymentDetails?.razorpay_payment_id || 'N/A';
+    
+    // Header
+    doc.setFontSize(22);
+    doc.setTextColor(249, 115, 22); // orange-500
+    doc.text("MandirSetu", 14, 20);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(`Order ID: ${order._id}`, 14, 30);
+    doc.text(`Payment ID: ${paymentId}`, 14, 35);
+    doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString()}`, 14, 40);
+    
+    // Customer Details
+    doc.setFontSize(12);
+    doc.setTextColor(40);
+    doc.text("Bill To:", 14, 50);
+    doc.setFontSize(10);
+    doc.setTextColor(80);
+    doc.text(order.customerDetails.fullName, 14, 57);
+    doc.text(order.customerDetails.mobile, 14, 62);
+    doc.text(order.customerDetails.email, 14, 67);
+    doc.text(`${order.customerDetails.address}, ${order.customerDetails.city}`, 14, 72);
+    doc.text(`${order.customerDetails.state} - ${order.customerDetails.pincode}`, 14, 77);
+
+    // Table
+    const tableColumn = ["Item", "Quantity", "Price", "Total"];
+    const tableRows = [];
+
+    order.items.forEach(item => {
+      const itemData = [
+        item.name,
+        item.quantity.toString(),
+        `Rs. ${item.price}`,
+        `Rs. ${item.price * item.quantity}`
+      ];
+      tableRows.push(itemData);
+    });
+
+    autoTable(doc, {
+      startY: 90,
+      head: [tableColumn],
+      body: tableRows,
+      theme: 'striped',
+      headStyles: { fillColor: [249, 115, 22] }, // orange header
+      styles: { fontSize: 10 },
+      margin: { top: 10 },
+    });
+
+    // Total Amount
+    const finalY = doc.lastAutoTable.finalY || 90;
+    doc.setFontSize(12);
+    doc.setTextColor(40);
+    doc.text(`Total Amount: Rs. ${order.totalAmount}`, 14, finalY + 15);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(150);
+    doc.text("Thank you for shopping with MandirSetu!", 14, finalY + 30);
+
+    // Download
+    doc.save(`Invoice_${order._id}.pdf`);
+  };
+
   const renderOrders = () => {
     return dataList.map((order) => (
       <li key={order._id} className="p-4 sm:p-5 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors border-b border-slate-100 dark:border-slate-800/60 last:border-0">
@@ -158,7 +225,16 @@ export default function EntityEcommerce() {
           
           <div className="flex flex-col sm:items-end w-full sm:w-auto">
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">Total</p>
-            <p className="font-bold text-slate-800 dark:text-slate-200">₹{order.totalAmount}</p>
+            <div className="flex items-center gap-3">
+              <p className="font-bold text-slate-800 dark:text-slate-200">₹{order.totalAmount}</p>
+              <button 
+                onClick={() => handleDownloadInvoice(order)}
+                className="text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 p-1.5 rounded-lg transition-colors cursor-pointer"
+                title="Download Invoice"
+              >
+                <Download size={18} />
+              </button>
+            </div>
           </div>
         </div>
       </li>

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 import { 
-  Search, Loader2, ChevronLeft, ChevronRight, Eye, Package, User
+  Search, Loader2, ChevronLeft, ChevronRight, Eye, Package, User, Trash2, Download
 } from 'lucide-react';
+import Swal from 'sweetalert2';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
@@ -48,6 +51,114 @@ export default function Orders() {
 
   const toggleExpand = (orderId) => {
     setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
+  };
+
+  const handleUpdateStatus = async (orderId, newStatus) => {
+    try {
+      await axiosInstance.put(`/ecommerce/orders/${orderId}/status`, { status: newStatus });
+      setOrders(orders.map(order => 
+        order._id === orderId ? { ...order, status: newStatus } : order
+      ));
+      Swal.fire({
+        icon: 'success',
+        title: 'Status Updated',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
+    } catch (error) {
+      console.error('Failed to update status:', error);
+      Swal.fire('Error', 'Failed to update order status', 'error');
+    }
+  };
+
+  const handleDelete = async (orderId) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axiosInstance.delete(`/ecommerce/orders/${orderId}`);
+        setOrders(orders.filter(order => order._id !== orderId));
+        Swal.fire('Deleted!', 'The order has been deleted.', 'success');
+      } catch (error) {
+        console.error('Failed to delete order:', error);
+        Swal.fire('Error', 'Failed to delete order', 'error');
+      }
+    }
+  };
+
+  const handleDownloadInvoice = (order) => {
+    const doc = new jsPDF();
+    const paymentId = order.paymentDetails?.razorpay_payment_id || 'N/A';
+    
+    // Header
+    doc.setFontSize(22);
+    doc.setTextColor(249, 115, 22); // orange-500
+    doc.text("MandirSetu", 14, 20);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(`Order ID: ${order._id}`, 14, 30);
+    doc.text(`Payment ID: ${paymentId}`, 14, 35);
+    doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString()}`, 14, 40);
+    
+    // Customer Details
+    doc.setFontSize(12);
+    doc.setTextColor(40);
+    doc.text("Bill To:", 14, 50);
+    doc.setFontSize(10);
+    doc.setTextColor(80);
+    doc.text(order.customerDetails.fullName, 14, 57);
+    doc.text(order.customerDetails.mobile, 14, 62);
+    doc.text(order.customerDetails.email, 14, 67);
+    doc.text(`${order.customerDetails.address}, ${order.customerDetails.city}`, 14, 72);
+    doc.text(`${order.customerDetails.state} - ${order.customerDetails.pincode}`, 14, 77);
+
+    // Table
+    const tableColumn = ["Item", "Quantity", "Price", "Total"];
+    const tableRows = [];
+
+    order.items.forEach(item => {
+      const itemData = [
+        item.name,
+        item.quantity.toString(),
+        `Rs. ${item.price}`,
+        `Rs. ${item.price * item.quantity}`
+      ];
+      tableRows.push(itemData);
+    });
+
+    autoTable(doc, {
+      startY: 90,
+      head: [tableColumn],
+      body: tableRows,
+      theme: 'striped',
+      headStyles: { fillColor: [249, 115, 22] }, // orange header
+      styles: { fontSize: 10 },
+      margin: { top: 10 },
+    });
+
+    // Total Amount
+    const finalY = doc.lastAutoTable.finalY || 90;
+    doc.setFontSize(12);
+    doc.setTextColor(40);
+    doc.text(`Total Amount: Rs. ${order.totalAmount}`, 14, finalY + 15);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(150);
+    doc.text("Thank you for shopping with MandirSetu!", 14, finalY + 30);
+
+    // Download
+    doc.save(`Invoice_${order._id}.pdf`);
   };
 
   const getStatusColor = (status) => {
@@ -137,17 +248,43 @@ export default function Orders() {
                         ₹{order.totalAmount}
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                          {order.status}
-                        </span>
+                        <select
+                          value={order.status}
+                          onChange={(e) => handleUpdateStatus(order._id, e.target.value)}
+                          className={`px-3 py-1 rounded-full text-xs font-medium cursor-pointer focus:outline-none appearance-none bg-slate-100 ${getStatusColor(order.status)}`}
+                          style={{ backgroundImage: 'none' }}
+                        >
+                          <option value="Pending">Pending</option>
+                          <option value="Processing">Processing</option>
+                          <option value="Shipped">Shipped</option>
+                          <option value="Delivered">Delivered</option>
+                          <option value="Cancelled">Cancelled</option>
+                        </select>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <button 
-                          onClick={() => toggleExpand(order._id)}
-                          className="text-slate-500 hover:text-blue-600 dark:hover:text-blue-500 transition-colors cursor-pointer inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-medium"
-                        >
-                          <Eye size={14} /> View
-                        </button>
+                        <div className="flex justify-end gap-2">
+                          <button 
+                            onClick={() => toggleExpand(order._id)}
+                            className="text-slate-500 hover:text-blue-600 dark:hover:text-blue-500 transition-colors cursor-pointer inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-medium"
+                            title="View Details"
+                          >
+                            <Eye size={14} /> 
+                          </button>
+                          <button 
+                            onClick={() => handleDownloadInvoice(order)}
+                            className="text-slate-500 hover:text-orange-600 dark:hover:text-orange-500 transition-colors cursor-pointer inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-medium"
+                            title="Download Invoice"
+                          >
+                            <Download size={14} />
+                          </button>
+                          <button 
+                            onClick={() => handleDelete(order._id)}
+                            className="text-slate-500 hover:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-medium"
+                            title="Delete Order"
+                          >
+                            <Trash2 size={14} /> 
+                          </button>
+                        </div>
                       </td>
                     </tr>
                     {/* Expanded Content */}

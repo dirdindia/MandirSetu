@@ -17,6 +17,7 @@ import ProductDetail from './pages/ecommerce/ProductDetail';
 import Cart from './pages/ecommerce/Cart';
 import Checkout from './pages/ecommerce/Checkout';
 import ServiceList from './pages/directories/ServiceList';
+import Profile from './pages/user/Profile';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="services" element={<ServiceList />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>
