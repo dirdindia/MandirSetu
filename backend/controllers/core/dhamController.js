@@ -70,8 +70,13 @@ export const getDhams = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const totalItems = await Dham.countDocuments();
-    const dhams = await Dham.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
+    const filter = {};
+    if (req.query.sect) {
+      filter.category = req.query.sect;
+    }
+
+    const totalItems = await Dham.countDocuments(filter);
+    const dhams = await Dham.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit);
 
     res.status(200).json({
       data: dhams,

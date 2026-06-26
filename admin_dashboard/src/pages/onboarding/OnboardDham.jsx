@@ -316,16 +316,10 @@ export default function OnboardDham() {
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Category *</label>
                 <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none">
                   <option value="">Select Category</option>
-                  <option value="Shiva">Shiva</option>
-                  <option value="Vishnu">Vishnu</option>
-                  <option value="Hanuman">Hanuman</option>
-                  <option value="Devi">Devi (Durga/Kali/etc)</option>
-                  <option value="Ganesha">Ganesha</option>
-                  <option value="Krishna">Krishna</option>
-                  <option value="Rama">Rama</option>
-                  <option value="Swaminarayan">Swaminarayan</option>
-                  <option value="Jain">Jain Temple</option>
-                  <option value="Other">Other</option>
+                  <option value="vaishnava">Vaishnava</option>
+                  <option value="shiva">Shiva</option>
+                  <option value="shakti">Shakti</option>
+                  <option value="anya">Anya Devta</option>
                 </select>
               </div>
               <div>
