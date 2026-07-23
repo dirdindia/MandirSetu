@@ -144,7 +144,9 @@ export const mandirDhamValidationSchema = Joi.object({
   gallery: Joi.array().items(Joi.string()).optional(),
   latitude: Joi.string().allow(''),
   longitude: Joi.string().allow(''),
-  status: Joi.string().valid('active', 'pending', 'inactive').optional()
+  status: Joi.string().valid('active', 'pending', 'inactive').optional(),
+  affiliationType: Joi.string().valid('individual', 'dham').optional(),
+  dham: Joi.string().hex().length(24).optional().allow('')
 });
 
 export const staffValidationSchema = Joi.object({

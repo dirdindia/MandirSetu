@@ -9,7 +9,7 @@ export const createMandir = async (req, res) => {
       address, city, state, pincode, 
       phone, email, website,
       profilePic, gallery, latitude, longitude,
-      category, schedule, howToReach
+      category, affiliationType, dham, schedule, howToReach
     } = req.body;
 
     // Joi validation
@@ -23,6 +23,8 @@ export const createMandir = async (req, res) => {
       establishedYear,
       mainDeity,
       category,
+      affiliationType: affiliationType || 'individual',
+      dham: affiliationType === 'dham' ? dham : undefined,
       description,
       schedule,
       howToReach,
@@ -74,6 +76,16 @@ export const getMandirs = async (req, res) => {
     if (req.query.sect) {
       filter.category = req.query.sect;
     }
+    if (req.query.dham) {
+      filter.dham = req.query.dham;
+    }
+    if (req.query.independent === 'true') {
+      filter.$or = [
+        { affiliationType: 'individual' },
+        { affiliationType: { $exists: false } },
+        { dham: { $exists: false } }
+      ];
+    }
 
     const totalItems = await Mandir.countDocuments(filter);
     const mandirs = await Mandir.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit);
@@ -109,7 +121,7 @@ export const updateMandir = async (req, res) => {
       address, city, state, pincode, 
       phone, email, website,
       profilePic, gallery, latitude, longitude,
-      category, schedule, howToReach
+      category, affiliationType, dham, schedule, howToReach
     } = req.body;
 
     const { error } = mandirDhamValidationSchema.validate(req.body);
@@ -120,7 +132,10 @@ export const updateMandir = async (req, res) => {
     const updatedMandir = await Mandir.findByIdAndUpdate(
       id,
       {
-        name, establishedYear, mainDeity, category, description, schedule, howToReach,
+        name, establishedYear, mainDeity, category, 
+        affiliationType: affiliationType || 'individual',
+        dham: affiliationType === 'dham' ? dham : undefined,
+        description, schedule, howToReach,
         location: { address, city, state, pincode },
         contact: { phone, email, website },
         profilePic, gallery,

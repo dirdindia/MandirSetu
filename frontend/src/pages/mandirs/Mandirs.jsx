@@ -13,7 +13,7 @@ export default function Mandirs() {
     const fetchTemples = async () => {
       setLoading(true);
       try {
-        const res = await api.get(`/mandirs?page=${currentPage}&limit=${limit}`);
+        const res = await api.get(`/mandirs?page=${currentPage}&limit=${limit}&independent=true`);
         setTemples(res.data.data || []);
         setTotalPages(res.data.totalPages || 1);
       } catch (err) {

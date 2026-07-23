@@ -23,6 +23,15 @@ const mandirSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  affiliationType: {
+    type: String,
+    enum: ['individual', 'dham'],
+    default: 'individual',
+  },
+  dham: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Dham'
+  },
   schedule: {
     openTime: { type: String, trim: true },
     closeTime: { type: String, trim: true },

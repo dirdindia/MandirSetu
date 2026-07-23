@@ -13,6 +13,19 @@ export default function OnboardMandir() {
   const [uploadingField, setUploadingField] = useState("");
   const [quickLocationInput, setQuickLocationInput] = useState("");
   const [fetchedLocationDetails, setFetchedLocationDetails] = useState(null);
+  const [dhams, setDhams] = useState([]);
+
+  React.useEffect(() => {
+    const fetchDhams = async () => {
+      try {
+        const res = await api.get('/dhams?limit=100');
+        setDhams(res.data.data || []);
+      } catch (err) {
+        console.error("Failed to fetch dhams", err);
+      }
+    };
+    fetchDhams();
+  }, []);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -31,6 +44,8 @@ export default function OnboardMandir() {
     profilePic: '',
     gallery: [],
     category: '',
+    affiliationType: 'individual',
+    dham: '',
     schedule: { openTime: '', closeTime: '' },
     howToReach: { bus: '', train: '', air: '' },
   });
@@ -252,7 +267,7 @@ export default function OnboardMandir() {
         name: '', establishedYear: '', mainDeity: '', description: '',
         address: '', city: '', state: '', pincode: '', latitude: '', longitude: '',
         phone: '', email: '', website: '', profilePic: '', gallery: [],
-        category: '', schedule: { openTime: '', closeTime: '' }, howToReach: { bus: '', train: '', air: '' }
+        category: '', affiliationType: 'individual', dham: '', schedule: { openTime: '', closeTime: '' }, howToReach: { bus: '', train: '', air: '' }
       });
       setStep(1);
     } catch (err) {
@@ -312,16 +327,44 @@ export default function OnboardMandir() {
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Main Deity (Bhagwan) *</label>
                 <input type="text" name="mainDeity" value={formData.mainDeity} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. Lord Shiva" />
               </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Category *</label>
-                <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none">
-                  <option value="">Select Category</option>
-                  <option value="vaishnava">Vaishnava</option>
-                  <option value="shiva">Shiva</option>
-                  <option value="shakti">Shakti</option>
-                  <option value="anya">Anya Devta</option>
-                </select>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Mandir Affiliation *</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="affiliationType" value="individual" checked={formData.affiliationType === 'individual'} onChange={handleChange} className="text-orange-500 focus:ring-orange-500" />
+                    <span className="text-slate-700 dark:text-slate-300">Individual Mandir</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="affiliationType" value="dham" checked={formData.affiliationType === 'dham'} onChange={handleChange} className="text-orange-500 focus:ring-orange-500" />
+                    <span className="text-slate-700 dark:text-slate-300">Under a Dham</span>
+                  </label>
+                </div>
               </div>
+
+              {formData.affiliationType === 'individual' && (
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Category *</label>
+                  <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                    <option value="">Select Category</option>
+                    <option value="vaishnava">Vaishnava</option>
+                    <option value="shiva">Shiva</option>
+                    <option value="shakti">Shakti</option>
+                    <option value="anya">Anya Devta</option>
+                  </select>
+                </div>
+              )}
+
+              {formData.affiliationType === 'dham' && (
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Select Dham *</label>
+                  <select name="dham" value={formData.dham} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                    <option value="">Select Dham</option>
+                    {dhams.map(d => (
+                      <option key={d._id} value={d._id}>{d.name}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Established Year</label>
                 <input type="text" name="establishedYear" value={formData.establishedYear} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. 1780" />

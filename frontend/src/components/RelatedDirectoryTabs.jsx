@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api';
-import { Building, MapPin, Search, Star, Hotel, Store, Coffee } from 'lucide-react';
+import { Building, MapPin, Search, Star, Hotel, Store, Coffee, Landmark } from 'lucide-react';
 
 export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
-  const [activeTab, setActiveTab] = useState('hotels'); // 'hotels', 'ashrams', 'restaurants', 'shops', 'tours'
+  const [activeTab, setActiveTab] = useState(dhamId ? 'mandirs' : 'hotels'); // 'mandirs', 'hotels', 'ashrams', 'restaurants', 'shops', 'tours'
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   
@@ -13,13 +13,17 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10;
 
-  const tabs = [
+  const baseTabs = [
     { id: 'hotels', label: 'Hotels', icon: <Hotel size={18} /> },
     { id: 'ashrams', label: 'Ashrams', icon: <Building size={18} /> },
     { id: 'restaurants', label: 'Restaurants', icon: <Coffee size={18} /> },
     { id: 'shops', label: 'Shops (E-commerce)', icon: <Store size={18} /> },
     { id: 'tours', label: 'Tours & Travels', icon: <MapPin size={18} />, disabled: true }
   ];
+
+  const tabs = dhamId 
+    ? [{ id: 'mandirs', label: 'Mandirs', icon: <Landmark size={18} /> }, ...baseTabs]
+    : baseTabs;
 
   useEffect(() => {
     fetchData(activeTab, 1);
@@ -68,8 +72,10 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
   return (
     <div className="mt-16">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Explore Nearby Services</h2>
-        {data.length > 0 && (
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+          {activeTab === 'mandirs' ? 'Temples in this Dham' : 'Explore Nearby Services'}
+        </h2>
+        {data.length > 0 && activeTab !== 'mandirs' && (
           <Link 
             to={`/services?type=${activeTab}${mandirId ? `&mandir=${mandirId}` : ''}${dhamId ? `&dham=${dhamId}` : ''}`} 
             className="text-orange-600 hover:text-orange-700 font-semibold text-sm flex items-center gap-1"
@@ -120,13 +126,13 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {data.map((item) => (
-              <Link to={`/${activeTab}/${item._id}`} key={item._id} className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row gap-4 hover:shadow-md transition-shadow group">
+              <Link to={`/${activeTab === 'mandirs' ? 'mandir' : activeTab}/${item._id}`} key={item._id} className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row gap-4 hover:shadow-md transition-shadow group">
                 <div className="w-full sm:w-32 h-32 flex-shrink-0 relative overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
                   {item.profilePic || item.displayImage ? (
                     <img src={item.profilePic || item.displayImage} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-400">
-                      <Building size={32} />
+                      {activeTab === 'mandirs' ? <Landmark size={32} /> : <Building size={32} />}
                     </div>
                   )}
                   {item.starRating && (
