@@ -17,8 +17,8 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
     { id: 'hotels', label: 'Hotels', icon: <Hotel size={18} /> },
     { id: 'ashrams', label: 'Ashrams', icon: <Building size={18} /> },
     { id: 'restaurants', label: 'Restaurants', icon: <Coffee size={18} /> },
-    { id: 'shops', label: 'Shops (E-commerce)', icon: <Store size={18} /> },
-    { id: 'tours', label: 'Tours & Travels', icon: <MapPin size={18} />, disabled: true }
+    { id: 'shops', label: 'Prasad & Shops', icon: <Store size={18} /> },
+    { id: 'tours', label: 'Yatra & Tours', icon: <MapPin size={18} />, disabled: true }
   ];
 
   const tabs = dhamId 
@@ -70,23 +70,9 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
   };
 
   return (
-    <div className="mt-16">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-          {activeTab === 'mandirs' ? 'Temples in this Dham' : 'Explore Nearby Services'}
-        </h2>
-        {data.length > 0 && activeTab !== 'mandirs' && (
-          <Link 
-            to={`/services?type=${activeTab}${mandirId ? `&mandir=${mandirId}` : ''}${dhamId ? `&dham=${dhamId}` : ''}`} 
-            className="text-orange-600 hover:text-orange-700 font-semibold text-sm flex items-center gap-1"
-          >
-            View full service <span aria-hidden="true">&rarr;</span>
-          </Link>
-        )}
-      </div>
-      
+    <div className="w-full">
       {/* Tabs */}
-      <div className="flex overflow-x-auto space-x-2 border-b border-slate-200 dark:border-slate-800 pb-2 mb-6 scrollbar-hide">
+      <div className="flex overflow-x-auto space-x-2 border-b border-[#d4af37]/20 pb-4 mb-10 scrollbar-hide justify-center">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -97,81 +83,92 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
               }
             }}
             disabled={tab.disabled}
-            className={`flex items-center space-x-2 px-5 py-3 rounded-t-xl font-bold transition-all whitespace-nowrap cursor-pointer
+            className={`flex items-center space-x-2 px-6 py-3 rounded-full font-serif font-bold transition-all whitespace-nowrap cursor-pointer shadow-sm
               ${activeTab === tab.id 
-                ? 'bg-orange-50 dark:bg-orange-900/20 text-orange-600 border-b-2 border-orange-500' 
-                : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-[#791916] text-[#fdfbf7] shadow-md border border-[#791916]' 
+                : 'bg-white text-[#3a0d0a] hover:bg-[#d4af37]/10 border border-[#d4af37]/30'
               }
               ${tab.disabled ? 'opacity-50 cursor-not-allowed' : ''}
             `}
           >
             {tab.icon}
             <span>{tab.label}</span>
-            {tab.disabled && <span className="ml-2 text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full uppercase tracking-wider">Soon</span>}
+            {tab.disabled && <span className="ml-2 text-[10px] bg-[#3a0d0a]/10 px-2 py-0.5 rounded-full uppercase tracking-wider">Soon</span>}
           </button>
         ))}
+      </div>
+
+      <div className="flex justify-end mb-4">
+        {data.length > 0 && activeTab !== 'mandirs' && (
+          <Link 
+            to={`/services?type=${activeTab}${mandirId ? `&mandir=${mandirId}` : ''}${dhamId ? `&dham=${dhamId}` : ''}`} 
+            className="text-[#d4af37] hover:text-[#791916] font-bold text-sm flex items-center gap-1 uppercase tracking-wider transition-colors"
+          >
+            View all {tabs.find(t => t.id === activeTab)?.label || activeTab} <span aria-hidden="true">&rarr;</span>
+          </Link>
+        )}
       </div>
 
       {/* Content */}
       <div className="min-h-[300px]">
         {loading ? (
           <div className="flex justify-center items-center h-48">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#d4af37]"></div>
           </div>
         ) : data.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-48 text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700">
+          <div className="flex flex-col items-center justify-center h-48 text-[#791916]/70 bg-white rounded-3xl border border-dashed border-[#d4af37]/30">
             <MapPin size={32} className="mb-2 opacity-50" />
-            <p className="font-medium">No {activeTab} found for this location yet.</p>
+            <p className="font-serif italic text-lg">No {activeTab} found for this location yet.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {data.map((item) => (
-              <Link to={`/${activeTab === 'mandirs' ? 'mandir' : activeTab}/${item._id}`} key={item._id} className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row gap-4 hover:shadow-md transition-shadow group">
-                <div className="w-full sm:w-32 h-32 flex-shrink-0 relative overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+              <Link to={`/${activeTab === 'mandirs' ? 'mandir' : activeTab}/${item._id}`} key={item._id} className="bg-white rounded-[2rem] p-4 shadow-sm border border-[#d4af37]/20 flex flex-col sm:flex-row gap-6 hover:shadow-xl hover:shadow-[#791916]/5 transition-all group">
+                <div className="w-full sm:w-40 h-40 flex-shrink-0 relative overflow-hidden rounded-2xl bg-[#fdfbf7]">
                   {item.profilePic || item.displayImage ? (
-                    <img src={item.profilePic || item.displayImage} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <img src={item.profilePic || item.displayImage} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-400">
-                      {activeTab === 'mandirs' ? <Landmark size={32} /> : <Building size={32} />}
+                    <div className="w-full h-full flex items-center justify-center text-[#d4af37]/50">
+                      {activeTab === 'mandirs' ? <Landmark size={40} /> : <Building size={40} />}
                     </div>
                   )}
                   {item.starRating && (
-                    <div className="absolute top-2 left-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded shadow flex items-center gap-1">
+                    <div className="absolute top-2 left-2 bg-white/95 backdrop-blur text-[#791916] text-xs font-bold px-2 py-1 rounded-full shadow flex items-center gap-1">
                       {item.starRating} <Star size={10} fill="currentColor" />
                     </div>
                   )}
                 </div>
                 
-                <div className="flex flex-col flex-grow justify-between">
+                <div className="flex flex-col flex-grow justify-center py-2">
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 dark:text-white line-clamp-1">{item.name}</h3>
+                    <h3 className="font-serif font-bold text-xl text-[#791916] line-clamp-1">{item.name}</h3>
                     {item.location && (
-                      <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
+                      <p className="text-sm text-[#3a0d0a]/60 flex items-center gap-1 mt-1">
                         <MapPin size={14} /> {item.location?.city}, {item.location?.state}
                       </p>
                     )}
                     
                     {activeTab === 'hotels' && item.startingPrice && (
-                      <p className="mt-2 text-sm font-semibold text-orange-600 dark:text-orange-400">Starts at ₹{item.startingPrice}</p>
+                      <p className="mt-3 text-sm font-semibold text-[#d4af37]">Starts at ₹{item.startingPrice}</p>
                     )}
                     {activeTab === 'restaurants' && item.averageCostForTwo && (
-                      <p className="mt-2 text-sm font-semibold text-orange-600 dark:text-orange-400">Avg Cost: ₹{item.averageCostForTwo} for two</p>
+                      <p className="mt-3 text-sm font-semibold text-[#d4af37]">Avg Cost: ₹{item.averageCostForTwo} for two</p>
                     )}
                     {activeTab === 'shops' && item.sellingPrice && (
-                      <p className="mt-2 text-sm font-semibold text-orange-600 dark:text-orange-400">Price: ₹{item.sellingPrice}</p>
+                      <p className="mt-3 text-sm font-semibold text-[#d4af37]">Price: ₹{item.sellingPrice}</p>
                     )}
                   </div>
                   
                   {item.contact?.phone && activeTab !== 'shops' && (
                     <div className="mt-4 flex items-center gap-2">
-                      <a href={`tel:${item.contact.phone}`} onClick={(e) => e.stopPropagation()} className="text-sm bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-lg font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
-                        Call {item.contact.phone}
-                      </a>
+                      <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href=`tel:${item.contact.phone}`; }} className="text-xs uppercase tracking-wider bg-[#d4af37]/10 text-[#791916] px-4 py-2 rounded-full font-bold hover:bg-[#d4af37] hover:text-[#3a0d0a] transition-colors border border-[#d4af37]/20">
+                        Call Now
+                      </button>
                     </div>
                   )}
                   {activeTab === 'shops' && (
                     <div className="mt-4">
-                      <button className="w-full text-sm bg-orange-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-orange-600 transition-colors shadow-sm shadow-orange-500/20">
+                      <button className="text-xs uppercase tracking-wider bg-[#791916] text-white px-6 py-2 rounded-full font-bold hover:bg-[#3a0d0a] transition-colors shadow-md">
                         Buy Now
                       </button>
                     </div>
@@ -185,23 +182,23 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
 
       {/* Pagination Controls */}
       {!loading && totalPages > 1 && (
-        <div className="flex justify-center items-center mt-10 gap-4">
+        <div className="flex justify-center items-center mt-12 gap-4">
           <button 
             onClick={handlePrev} 
             disabled={page === 1}
-            className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+            className="px-6 py-2.5 rounded-full bg-white border border-[#d4af37]/30 text-[#791916] font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d4af37]/10 transition-colors shadow-sm"
           >
-            Previous
+            &larr; Prev
           </button>
-          <span className="text-slate-600 dark:text-slate-400 font-medium">
-            Page {page} of {totalPages}
+          <span className="text-[#3a0d0a] font-serif font-medium">
+            {page} / {totalPages}
           </span>
           <button 
             onClick={handleNext} 
             disabled={page === totalPages}
-            className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+            className="px-6 py-2.5 rounded-full bg-white border border-[#d4af37]/30 text-[#791916] font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#d4af37]/10 transition-colors shadow-sm"
           >
-            Next
+            Next &rarr;
           </button>
         </div>
       )}

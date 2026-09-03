@@ -19,140 +19,152 @@ export default function About() {
     },
   ];
 
-  return (
-    <div className="space-y-4 pb-20">
-      <section className="w-full bg-white dark:bg-slate-950 pt-0 sm:pt-0 pb-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6 ">
-          <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] min-h-[300px] max-h-[500px] rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl border-[6px] border-slate-50 dark:border-slate-800/50 ">
-            {/* <div className="absolute inset-0 bg-slate-900/30 z-10 mix-blend-multiply transition-colors"></div> */}
-            <img
-              src="/hero/img2.jpg"
-              alt="About Us Hero Banner"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </section>
+  const gradient = 'from-[#3a0d0a]/90 via-[#791916]/70 to-[#fdfbf7]';
 
-      {/* Intro Heading Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="text-left border-b border-slate-200 dark:border-slate-800 pb-6">
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-orange-600 dark:text-orange-500 leading-tight">
+  return (
+    <div className="bg-[#fdfbf7] min-h-screen text-[#3a0d0a] font-sans pb-20">
+      
+      {/* Hero Section */}
+      <section className="relative h-[60vh] min-h-[400px] flex flex-col justify-end items-center pt-16">
+        <div className="absolute inset-0">
+          <img
+            src="/hero/img2.jpg"
+            alt="About Us Hero Banner"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className={`absolute inset-0 z-10 bg-gradient-to-b ${gradient} pointer-events-none`}></div>
+        
+        {/* Hero Content */}
+        <div className="relative z-20 flex flex-col items-center text-center px-4 w-full max-w-5xl pb-16">
+          <h2 className="text-[#d4af37] text-lg sm:text-xl font-serif tracking-widest mb-2">॥ ॐ नमः शिवाय ॥</h2>
+          <h1 className="text-5xl sm:text-7xl font-serif text-white mb-4 drop-shadow-xl uppercase tracking-wider">
             About Us
           </h1>
-          <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg">
+          <p className="text-sm sm:text-lg text-[#fdfbf7] max-w-2xl mx-auto leading-relaxed drop-shadow-md font-light italic">
             Discover our mission to bridge India's ancient spiritual traditions with modern technology.
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      </section>
+
+      {/* Decorative Divider */}
+      <div className="mt-20 mb-10 flex justify-center text-[#d4af37]">
+         <span className="text-2xl">▲</span>
+      </div>
+
+      {/* Intro Heading Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
-            <span className="text-sm font-bold text-orange-500 uppercase tracking-widest">
+            <span className="text-sm font-bold text-[#d4af37] uppercase tracking-widest">
               Our Vision
             </span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight">
+            <h2 className="text-3xl sm:text-5xl font-serif text-[#791916] leading-tight uppercase tracking-wider">
               Bridging Ancient Traditions <br />
               With Modern Technology
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base sm:text-lg">
+            <div className="w-24 h-1 bg-[#d4af37]/30 my-6"></div>
+            <p className="text-[#3a0d0a]/80 leading-relaxed text-base sm:text-lg font-light">
               Every year, billions of devotees set off on holy pilgrimages across India. However, due to lack of digitization, they frequently encounter unhygienic lodgings, fake guides, overpriced services, and generic Prasad. 
             </p>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm sm:text-base">
-              **MandirSetu** (meaning *Temple Bridge*) was built to establish a transparent, uncorrupted, and secure digital portal. By placing a verified **Temple Agent** on-ground at each shrine, we verify every priest, inspect every room, and pack every package of Prasad ourselves, bringing trust back to spiritual travels.
+            <p className="text-[#3a0d0a]/80 leading-relaxed text-base sm:text-lg font-light">
+              <strong className="text-[#791916] font-serif">MandirSetu</strong> (meaning <em>Temple Bridge</em>) was built to establish a transparent, uncorrupted, and secure digital portal. By placing a verified <strong>Temple Agent</strong> on-ground at each shrine, we verify every priest, inspect every room, and pack every package of Prasad ourselves, bringing trust back to spiritual travels.
             </p>
           </div>
           {/* Visual Image Block */}
-          <div className="relative h-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800">
+          <div className="relative">
             <img 
               src="https://img.jagranjosh.com/images/2021/November/17112021/world's-largest-vedic-temple-temple-of-vedic-planetarium.webp" 
               alt="Ancient Temple Architecture" 
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
+              className="w-full h-[500px] object-cover rounded-3xl shadow-2xl border border-[#d4af37]/20"
             />
-            {/* Overlay to blend with design */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-orange-900/40 to-transparent"></div>
+            <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-[#d4af37] text-[#3a0d0a] rounded-full flex items-center justify-center text-4xl shadow-xl border-4 border-[#fdfbf7]">
+               ॐ
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Core Pillars Grid */}
-      <section className="bg-slate-100/50 dark:bg-slate-900/10 py-16 border-y border-slate-200 dark:border-slate-900 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
-              Our Core Pillars
-            </h2>
-            <p className="mt-4 text-slate-500 dark:text-slate-400">
-              We focus on building a community-first ecosystem to serve pilgrims with ultimate honesty.
-            </p>
-          </div>
+      {/* Decorative Divider */}
+      <div className="mb-16 flex justify-center text-[#d4af37]">
+         <span className="text-2xl">▲</span>
+      </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {pillars.map((plr, idx) => (
-              <div key={idx} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-2xl shadow-sm space-y-4">
-                <div className="text-4xl">{plr.icon}</div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">{plr.title}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                  {plr.desc}
-                </p>
+      {/* Core Pillars Grid */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-3xl sm:text-5xl font-serif text-[#791916] uppercase tracking-wider">
+            Our Core Pillars
+          </h2>
+          <p className="mt-4 text-[#3a0d0a]/70 font-serif italic text-lg">
+            We focus on building a community-first ecosystem to serve pilgrims with ultimate honesty.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {pillars.map((plr, idx) => (
+            <div key={idx} className="bg-white border border-[#d4af37]/20 p-10 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-[#791916]/5 transition-all text-center group">
+              <div className="w-20 h-20 mx-auto bg-[#d4af37]/10 rounded-full flex items-center justify-center text-4xl mb-6 border border-[#d4af37]/30 group-hover:bg-[#791916] transition-colors duration-500">
+                <span className="group-hover:scale-110 transition-transform">{plr.icon}</span>
               </div>
-            ))}
-          </div>
+              <h3 className="text-xl font-serif font-bold text-[#791916] mb-4 uppercase tracking-wider">{plr.title}</h3>
+              <p className="text-[#3a0d0a]/70 font-light leading-relaxed">
+                {plr.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* Meet the Agents section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 relative overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div className="bg-[#791916] text-white rounded-[3rem] p-10 sm:p-16 border border-[#d4af37]/20 relative overflow-hidden shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold">Why the "Temple Agent" is our Hero</h2>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+              <h3 className="text-[#d4af37] text-lg font-serif tracking-widest uppercase">Our Ground Force</h3>
+              <h2 className="text-3xl sm:text-5xl font-serif leading-tight">Why the "Temple Agent" is our Hero</h2>
+              <div className="w-16 h-1 bg-[#d4af37]/50 my-4"></div>
+              <p className="text-[#fdfbf7]/80 text-base sm:text-lg font-light leading-relaxed">
                 Most platforms operate purely online, leaving travellers at the mercy of virtual profiles. MandirSetu takes an offline-to-online approach. 
               </p>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+              <p className="text-[#fdfbf7]/80 text-base sm:text-lg font-light leading-relaxed">
                 Our hired Agents live at the pilgrimage site. They act as your host, quality-controller, and emergency helper, ensuring your rituals go smoothly and packages are dispatched on time.
               </p>
-              <div className="pt-2">
+              <div className="pt-6">
                 <Link
                   to="/signup"
-                  className="inline-flex px-5 py-2.5 bg-orange-500 hover:bg-orange-600 font-bold rounded-lg text-sm active:scale-95 transition-colors cursor-pointer"
+                  className="inline-flex px-8 py-3.5 bg-[#d4af37] text-[#3a0d0a] font-bold rounded-full hover:bg-[#c29b26] transition-all shadow-md active:scale-95 text-sm sm:text-base cursor-pointer"
                 >
-                  Apply as Temple Agent →
+                  Apply as Temple Agent &rarr;
                 </Link>
               </div>
             </div>
+            
             {/* Visual Agent list mock */}
-            <div className="space-y-4">
-              <div className="bg-slate-800/60 border border-slate-700/50 p-4 rounded-xl flex items-center space-x-4">
-                <div className="w-10 h-10 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center font-bold text-orange-400">
-                  R
+            <div className="space-y-6">
+              {[
+                { name: 'Rahul Sharma', role: 'Kedarnath Cluster Agent', color: 'bg-[#d4af37]/20 text-[#d4af37]' },
+                { name: 'Suresh K. Iyer', role: 'Tirupati Cluster Agent', color: 'bg-[#fdfbf7]/20 text-[#fdfbf7]' },
+                { name: 'Amit Pandey', role: 'Varanasi Cluster Agent', color: 'bg-white/10 text-white' }
+              ].map((agent, i) => (
+                <div key={i} className="bg-black/20 border border-[#d4af37]/20 p-5 rounded-2xl flex items-center space-x-5 hover:bg-black/30 transition-colors backdrop-blur-sm">
+                  <div className={`w-12 h-12 rounded-full ${agent.color} border border-current flex items-center justify-center font-bold text-xl`}>
+                    {agent.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg font-serif tracking-wide">{agent.name}</h4>
+                    <p className="text-sm text-[#d4af37] flex items-center gap-2">
+                       <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> {agent.role} (Active)
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-sm">Rahul Sharma</h4>
-                  <p className="text-xs text-slate-400">Kedarnath Cluster Agent (Active)</p>
-                </div>
-              </div>
-              <div className="bg-slate-800/60 border border-slate-700/50 p-4 rounded-xl flex items-center space-x-4">
-                <div className="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center font-bold text-amber-400">
-                  S
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm">Suresh K. Iyer</h4>
-                  <p className="text-xs text-slate-400">Tirupati Cluster Agent (Active)</p>
-                </div>
-              </div>
-              <div className="bg-slate-800/60 border border-slate-700/50 p-4 rounded-xl flex items-center space-x-4">
-                <div className="w-10 h-10 rounded-full bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center font-bold text-yellow-400">
-                  A
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm">Amit Pandey</h4>
-                  <p className="text-xs text-slate-400">Varanasi Cluster Agent (Active)</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#d4af37]/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
         </div>
       </section>
+
     </div>
   );
 }

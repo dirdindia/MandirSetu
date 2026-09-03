@@ -44,59 +44,71 @@ export default function Gallery() {
     },
   ];
 
-  return (
-    <div className="space-y-4 pb-20">
-      <section className="w-full bg-white dark:bg-slate-950 pt-0 sm:pt-0 pb-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] min-h-[300px] max-h-[500px] rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl border-[6px] border-slate-50 dark:border-slate-800/50">
-            <img
-              src="/hero/img4.jpg"
-              alt="Gallery Hero Banner"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </section>
+  const gradient = 'from-[#3a0d0a]/90 via-[#791916]/70 to-[#fdfbf7]';
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-left border-b border-slate-200 dark:border-slate-800 pb-6">
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-orange-600 dark:text-orange-500 leading-tight">
+  return (
+    <div className="bg-[#fdfbf7] min-h-screen text-[#3a0d0a] font-sans pb-20">
+      
+      {/* Hero Section */}
+      <section className="relative h-[60vh] min-h-[400px] flex flex-col justify-end items-center pt-16">
+        <div className="absolute inset-0">
+          <img
+            src="/hero/img4.jpg"
+            alt="Gallery Hero Banner"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className={`absolute inset-0 z-10 bg-gradient-to-b ${gradient} pointer-events-none`}></div>
+        
+        {/* Hero Content */}
+        <div className="relative z-20 flex flex-col items-center text-center px-4 w-full max-w-5xl pb-16">
+          <h2 className="text-[#d4af37] text-lg sm:text-xl font-serif tracking-widest mb-2">॥ दिव्य दर्शन ॥</h2>
+          <h1 className="text-5xl sm:text-7xl font-serif text-white mb-4 drop-shadow-xl uppercase tracking-wider">
             Photo Gallery
           </h1>
-          <p className="mt-4 text-slate-500 dark:text-slate-400 text-lg">
+          <p className="text-sm sm:text-lg text-[#fdfbf7] max-w-2xl mx-auto leading-relaxed drop-shadow-md font-light italic">
             Glimpses of temples, ashrams, tourists, and holy rituals.
           </p>
         </div>
+      </section>
 
+      {/* Decorative Divider */}
+      <div className="mt-20 mb-10 flex justify-center text-[#d4af37]">
+         <span className="text-2xl">▲</span>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 mb-24">
+        
         {/* Image Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {galleryItems.map((item) => (
           <div
             key={item.id}
-            className="group flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-orange-500/30 transition-all duration-300"
+            className="group flex flex-col bg-white border border-[#d4af37]/20 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-[#791916]/10 transition-all duration-500"
           >
             {/* Clickable Image via <a> tag */}
             <a 
               href={item.fullUrl} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="relative h-64 overflow-hidden block cursor-pointer"
+              className="relative h-72 overflow-hidden block cursor-pointer"
             >
               <img 
                 src={item.imageUrl} 
                 alt={item.title} 
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                 <span className="opacity-0 group-hover:opacity-100 text-white font-bold bg-black/60 px-4 py-2 rounded-xl backdrop-blur-sm transition-all duration-300 scale-95 group-hover:scale-100">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#3a0d0a]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-6">
+                 <span className="text-[#d4af37] font-serif font-bold tracking-wider uppercase border border-[#d4af37] px-6 py-2 rounded-full backdrop-blur-sm transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
                    View Full Image
                  </span>
               </div>
             </a>
 
             {/* Description */}
-            <div className="p-5 flex-grow">
-              <p className="text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+            <div className="p-8 flex-grow text-center">
+              <h3 className="font-serif font-bold text-2xl text-[#791916] mb-3">{item.title}</h3>
+              <p className="text-base text-[#3a0d0a]/70 font-light leading-relaxed">
                 {item.description}
               </p>
             </div>
