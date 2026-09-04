@@ -16,6 +16,8 @@ import EntityHotels from './pages/directories/entityDetails/EntityHotels';
 import EntityRestaurants from './pages/directories/entityDetails/EntityRestaurants';
 import EntityAshrams from './pages/directories/entityDetails/EntityAshrams';
 import EntityEcommerce from './pages/directories/entityDetails/EntityEcommerce';
+import CreateEvent from './pages/onboarding/CreateEvent';
+import EventsList from './pages/directories/EventsList';
 import Layout from './components/Layout';
 
 function App() {
@@ -52,6 +54,8 @@ function App() {
             <Route path="ecommerce" element={<EntityEcommerce />} />
           </Route>
           <Route path="/staff" element={<StaffList />} />
+          <Route path="/create-event" element={<CreateEvent />} />
+          <Route path="/events" element={<EventsList />} />
         </Route>
       </Routes>
     </BrowserRouter>

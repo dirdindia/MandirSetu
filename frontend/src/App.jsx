@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Home from './pages/landing/Home';
 import Gallery from './pages/landing/Gallery';
 import About from './pages/landing/About';
+import Events from './pages/landing/Events';
 import Contact from './pages/landing/Contact';
 import SignIn from './pages/auth/SignIn';
 import SignUp from './pages/auth/SignUp';
@@ -27,7 +28,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="gallery" element={<Gallery />} />
           <Route path="about" element={<About />} />
-          <Route path="events" element={<About />} />
+          <Route path="events" element={<Events />} />
           <Route path="contact" element={<Contact />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />

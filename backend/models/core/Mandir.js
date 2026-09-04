@@ -69,5 +69,11 @@ const mandirSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+mandirSchema.index({ dham: 1 });
+mandirSchema.index({ status: 1 });
+mandirSchema.index({ 'location.city': 1 });
+mandirSchema.index({ 'location.state': 1 });
+mandirSchema.index({ name: 'text' });
+
 const Mandir = mongoose.model('Mandir', mandirSchema);
 export default Mandir;

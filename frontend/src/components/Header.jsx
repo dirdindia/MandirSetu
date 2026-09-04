@@ -55,9 +55,9 @@ export default function Header() {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center space-x-2.5">
-              <img src="/favicon.webp" alt="MandirSetu Logo" className="h-9 w-auto rounded-lg shadow-sm" />
+              <img src="/logo1.png" alt="MandirSetu Logo" className="h-9 w-auto rounded-lg shadow-sm" />
               <div className="flex flex-col">
-                <span className="text-2xl font-black bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 bg-clip-text text-transparent tracking-wide">
+                <span className="text-2xl font-serif font-black bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 bg-clip-text text-transparent tracking-widest uppercase">
                   MANDIRSETU
                 </span>
             

@@ -28,7 +28,8 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
       subItems: [
         { name: 'Mandirs List', path: '/mandirs', icon: <Landmark size={16} /> },
         { name: 'Dhams List', path: '/dhams', icon: <Landmark size={16} /> },
-        { name: 'Staff List', path: '/staff', icon: <Users size={16} /> }
+        { name: 'Staff List', path: '/staff', icon: <Users size={16} /> },
+        { name: 'Events List', path: '/events', icon: <CalendarDays size={16} /> }
       ]
     },
     { 
@@ -37,7 +38,8 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
       subItems: [
         { name: 'Onboard Mandir', path: '/onboard-mandir', icon: <Landmark size={16} /> },
         { name: 'Onboard Dham', path: '/onboard-dham', icon: <Landmark size={16} /> },
-        { name: 'Hire Staff', path: '/hire-staff', icon: <Users size={16} /> }
+        { name: 'Hire Staff', path: '/hire-staff', icon: <Users size={16} /> },
+        { name: 'Create Event', path: '/create-event', icon: <CalendarDays size={16} /> }
       ]
     },
     { name: 'Bookings', icon: <CalendarDays size={20} />, path: '/bookings' },
@@ -64,7 +66,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
           {!isCollapsed ? (
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg  shrink-0">
-                <img src="/favicon.webp" alt="dird" className="w-full h-full object-contain" />
+                <img src="/logo1.png" alt="dird" className="w-full h-full object-contain" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent truncate tracking-wide">
                 MANDIRSETU
@@ -72,7 +74,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
             </div>
           ) : (
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg ">
-              <img src="/favicon.webp" alt="dird" className="w-full h-full object-contain" />
+              <img src="/logo1.png" alt="dird" className="w-full h-full object-contain" />
             </div>
           )}
           

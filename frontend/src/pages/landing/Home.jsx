@@ -10,6 +10,8 @@ export default function Home() {
   const [loadingTemples, setLoadingTemples] = useState(true);
   const [dhams, setDhams] = useState([]);
   const [loadingDhams, setLoadingDhams] = useState(true);
+  const [events, setEvents] = useState([]);
+  const [loadingEvents, setLoadingEvents] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
 
@@ -81,6 +83,21 @@ export default function Home() {
     fetchTemples();
     fetchDhams();
   }, [selectedSect]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setLoadingEvents(true);
+        const res = await api.get('/events');
+        setEvents(res.data);
+      } catch (err) {
+        console.error('Failed to fetch events', err);
+      } finally {
+        setLoadingEvents(false);
+      }
+    };
+    fetchEvents();
+  }, []);
 
   const services = [
     { icon: '🪔', title: 'Puja Booking', desc: 'Book verified pandits for physical rituals or live virtual pujas with sankalp details.' },
@@ -194,20 +211,28 @@ export default function Home() {
               <Link to="/events" className="hidden md:inline-block text-[#d4af37] font-semibold hover:text-[#791916] transition-colors mt-4 md:mt-0">View All Events &rarr;</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {[{ id: 1, title: "Maha Shivaratri", date: "March 8, 2024", location: "Kashi Vishwanath", image: "https://www.templepurohit.com/wp-content/uploads/2017/04/Maha-Shivratri.jpg" }, { id: 2, title: "Holi Festival", date: "March 25, 2024", location: "Banke Bihari", image: "https://c8.alamy.com/comp/3DX89E2/devotees-celebrating-holi-at-banke-bihari-temple-vrindavan-uttar-pradesh-india-vibrant-colors-spirituality-and-cultural-tradition-3DX89E2.jpg" }, { id: 3, title: "Ram Navami", date: "April 17, 2024", location: "Ram Janmabhoomi", image: "https://www.eurokidsindia.com/blog/wp-content/uploads/2026/03/Ram-Navami-Story-for-Kids-%E2%80%93-Simple-and-Moral-Story-870x437.jpg" }].map((event) => (
-                <div key={event.id} className="bg-white rounded-3xl overflow-hidden shadow-lg shadow-[#791916]/5 border border-[#d4af37]/20 group hover:shadow-xl transition-all">
-                  <div className="h-48 overflow-hidden relative">
-                    <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#791916]/90 to-transparent p-4 pt-10">
-                       <div className="text-[#d4af37] text-xs font-bold uppercase tracking-wider">{event.date}</div>
-                       <h3 className="text-xl font-serif text-white">{event.title}</h3>
+              {loadingEvents ? (
+                <div className="col-span-full flex justify-center py-10">
+                  <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#d4af37]"></div>
+                </div>
+              ) : events.length === 0 ? (
+                <div className="col-span-full text-center text-[#791916]/70 font-serif py-10">No upcoming events found.</div>
+              ) : (
+                events.slice(0, 3).map((event) => (
+                  <div key={event._id} className="bg-white rounded-3xl overflow-hidden shadow-lg shadow-[#791916]/5 border border-[#d4af37]/20 group hover:shadow-xl transition-all">
+                    <div className="h-48 overflow-hidden relative">
+                      <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#791916]/90 to-transparent p-4 pt-10">
+                         <div className="text-[#d4af37] text-xs font-bold uppercase tracking-wider">{event.date}</div>
+                         <h3 className="text-xl font-serif text-white truncate" title={event.title}>{event.title}</h3>
+                      </div>
+                    </div>
+                    <div className="p-4 bg-[#fdfbf7]">
+                      <div className="flex items-center text-[#791916]/80 text-sm"><span className="mr-2">📍</span> <span className="truncate" title={event.location}>{event.location}</span></div>
                     </div>
                   </div>
-                  <div className="p-4 bg-[#fdfbf7]">
-                    <div className="flex items-center text-[#791916]/80 text-sm"><span className="mr-2">📍</span> <span className="truncate">{event.location}</span></div>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
             <div className="text-center mt-8 md:hidden">
                <Link to="/events" className="inline-block px-8 py-3 border border-[#791916] text-[#791916] font-serif hover:bg-[#791916] hover:text-white rounded-full transition-colors">View All Events</Link>

@@ -60,5 +60,10 @@ const dhamSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+dhamSchema.index({ status: 1 });
+dhamSchema.index({ 'location.city': 1 });
+dhamSchema.index({ 'location.state': 1 });
+dhamSchema.index({ name: 'text' });
+
 const Dham = mongoose.model('Dham', dhamSchema);
 export default Dham;

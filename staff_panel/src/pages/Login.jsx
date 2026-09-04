@@ -70,7 +70,7 @@ export default function Login() {
         <div className="text-center flex flex-col items-center">
           <div className="flex items-center justify-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-              <img src="/favicon.webp" alt="dird" className="w-full h-full object-contain" />
+              <img src="/logo1.png" alt="dird" className="w-full h-full object-contain" />
             </div>
             <span className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent tracking-wide">
               MANDIRSETU
