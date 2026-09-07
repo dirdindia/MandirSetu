@@ -107,7 +107,7 @@ export default function CreateEvent() {
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Image URL *</label>
               <input 
-                type="url" name="image" required value={formData.image} onChange={handleChange}
+                type="url" name="image"  value={formData.image} onChange={handleChange}
                 className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-orange-500 outline-none"
                 placeholder="https://..."
               />
@@ -116,7 +116,7 @@ export default function CreateEvent() {
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description *</label>
               <textarea 
-                name="description" required value={formData.description} onChange={handleChange} rows="4"
+                name="description"  value={formData.description} onChange={handleChange} rows="4"
                 className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-orange-500 outline-none"
                 placeholder="Describe the event..."
               ></textarea>

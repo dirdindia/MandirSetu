@@ -1,11 +1,22 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../../api';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [selectedSect, setSelectedSect] = useState('all');
+
+  // Custom Splash Screen Loader Effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 2000); // 2 seconds
+    return () => clearTimeout(timer);
+  }, []);
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
   const [temples, setTemples] = useState([]);
   const [loadingTemples, setLoadingTemples] = useState(true);
   const [dhams, setDhams] = useState([]);
@@ -14,6 +25,9 @@ export default function Home() {
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
+  
+  // New state for right sidebar preview
+  const [previewItem, setPreviewItem] = useState(null);
 
   const heroImages = ['/hero/img2.jpg', '/hero/img4.jpg', '/hero/img5.jpg', '/hero/img6.jpg'];
   // Dark overlay transitioning into cream background
@@ -31,6 +45,9 @@ export default function Home() {
     { id: 'shakti', label: 'Shakti', icon: '🌺' },
     { id: 'anya', label: 'Anya Devta', icon: '✨' }
   ];
+
+  const statesList = ['All', 'Uttarakhand', 'Uttar Pradesh', 'Gujarat', 'Maharashtra', 'Madhya Pradesh', 'Tamil Nadu'];
+  const citiesList = ['All', 'Varanasi', 'Haridwar', 'Rishikesh', 'Mathura', 'Dwarka', 'Somnath', 'Ujjain'];
 
   useEffect(() => {
     const introTimer = setTimeout(() => {
@@ -114,266 +131,547 @@ export default function Home() {
     { icon: '🙏', title: 'Darshan', desc: 'Free Entry For All Devotees' }
   ];
 
+  const handlePreview = async (item, itemType) => {
+    try {
+      setPreviewItem({ ...item, itemType, isLoading: true });
+      const url = itemType === 'mandir' ? `/mandirs/${item._id}` : `/dhams/${item._id}`;
+      const res = await api.get(url);
+      const data = res.data.data || res.data;
+      setPreviewItem({ ...data, itemType, isLoading: false });
+    } catch (err) {
+      console.error('Failed to fetch full details', err);
+      setPreviewItem({ ...item, itemType, isLoading: false });
+    }
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="bg-[#fdfbf7] min-h-screen text-[#3a0d0a] font-sans pb-20"
-    >
-      {/* Hero Section */}
-      <section className="relative h-[85vh] min-h-[600px] flex flex-col justify-center items-center pt-16">
-        {heroImages.map((img, idx) => (
-          <div key={img} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${!showIntro && idx === currentSlide ? 'opacity-100' : 'opacity-0'}`}>
-            <img src={img} alt={`Hero slide ${idx + 1}`} className="w-full h-full object-cover" />
-          </div>
-        ))}
-        {/* Gradient Overlay */}
-        <div className={`absolute inset-0 z-10 bg-gradient-to-b ${gradient} pointer-events-none transition-opacity duration-1000 ${showIntro ? 'opacity-100' : 'opacity-100'}`}></div>
+    <>
+      {/* Thematic Initial Loader (Splash Screen) */}
+      <AnimatePresence>
+        {isInitialLoading && (
+          <motion.div
+            key="splash-screen"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[9999] bg-[#fdfbf7] flex flex-col items-center justify-center"
+          >
+            <div className="relative flex items-center justify-center mb-8">
+              {/* Spinning Mandala Rings */}
+              {/* <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                className="w-32 h-32 absolute inset-0 rounded-full border-[3px] border-dashed border-[#d4af37]/60"
+              /> */}
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                className="w-24 h-24 absolute rounded-full border-2 border-dotted border-[#791916]/50"
+              />
+              
+            
         
-        {/* Intro Loading Icon */}
-        <div className={`absolute inset-0 z-30 flex items-center justify-center pointer-events-none transition-opacity duration-1000 ${showIntro ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="relative flex flex-col items-center">
-             <div className="absolute inset-0 blur-[60px] bg-[#d4af37]/30 rounded-full animate-pulse"></div>
-             {introIcon}
-          </div>
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative z-20 flex flex-col items-center text-center px-4 w-full max-w-5xl mt-[-80px]">
-          {/* <h2 className="text-[#d4af37] text-lg sm:text-xl md:text-2xl font-serif tracking-widest mb-4">॥ ॐ श्री गणेशाय नमः ॥</h2> */}
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif text-white mb-6 drop-shadow-xl" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-            Discover India's Sacred <br />
-            <span className="text-[#d4af37]">Heritage & Pilgrimages</span>
-          </h1>
-          <p className="text-sm sm:text-lg text-[#fdfbf7] max-w-2xl mx-auto leading-relaxed mb-10 drop-shadow-md font-light">
-            Plan your complete yatra with verified local services. Book ritual priests, find cozy Dharamshalas, secure transport, and receive holy Prasad delivered straight to your home.
-          </p>
-
-          {/* Integrated Search Bar */}
-          <div className="w-full max-w-3xl mx-auto bg-white/95 backdrop-blur rounded-full p-2 flex items-center shadow-2xl border border-[#d4af37]/30">
-            <span className="pl-6 text-[#791916] text-xl">🔍</span>
-            <input type="text" placeholder="Search temples, dhams (e.g. Kedarnath, Kashi)..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-none text-[#3a0d0a] placeholder-[#791916]/50 py-3 px-4 focus:outline-none text-base sm:text-lg" />
-            <Link to="/gallery" className="px-8 py-3.5 bg-[#d4af37] hover:bg-[#c29b26] text-[#3a0d0a] font-bold rounded-full text-base transition-colors cursor-pointer shrink-0 shadow-md">
-              Search
-            </Link>
-          </div>
-        </div>
-
-        {/* Overlapping Info Cards */}
-        <div className="absolute bottom-0 translate-y-1/2 left-0 right-0 z-30 px-4">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-            {infoCards.map((card, idx) => (
-              <div key={idx} className="bg-white rounded-2xl p-6 shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20 flex items-center gap-4 hover:-translate-y-1 transition-transform">
-                <div className="w-12 h-12 rounded-full bg-[#fdfbf7] flex items-center justify-center text-2xl border border-[#d4af37]/30 shrink-0 text-[#791916]">
-                  {card.icon}
-                </div>
-                <div>
-                  <h4 className="font-serif font-bold text-[#791916] text-lg">{card.title}</h4>
-                  <p className="text-sm text-[#791916]/70 leading-tight mt-1">{card.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content with Sidebar Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-40 flex flex-col md:flex-row gap-8 items-start">
-        
-        {/* Left Sidebar Filter */}
-        <aside className="w-full md:w-72 sticky top-24 shrink-0 z-40 bg-white p-6 rounded-3xl shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20">
-          <h3 className="text-xl font-serif text-[#791916] mb-6 border-b border-[#d4af37]/20 pb-4">Explore Paths</h3>
-          <div className="flex flex-col gap-3">
-            {sects.map(sect => (
-              <button 
-                key={sect.id} 
-                onClick={() => setSelectedSect(sect.id)}
-                className={`flex items-center gap-4 w-full text-left px-5 py-3.5 rounded-2xl transition-all border ${selectedSect === sect.id ? 'bg-[#791916] border-[#791916] text-[#fdfbf7] shadow-lg shadow-[#791916]/20' : 'bg-[#fdfbf7] border-transparent text-[#3a0d0a] hover:bg-[#d4af37]/10 hover:border-[#d4af37]/30'}`}
-              >
-                <span className="text-2xl">{sect.icon}</span>
-                <span className="font-serif font-semibold text-lg">{sect.label}</span>
-              </button>
-            ))}
-          </div>
-        </aside>
-
-        {/* Main Content Area */}
-        <div className="flex-1 w-full min-w-0">
-          
-          {/* Upcoming Events Section */}
-          <section className="mb-24">
-            <div className="text-center md:text-left mb-10 flex flex-col md:flex-row md:items-end justify-between">
-              <div>
-                <h2 className="text-3xl sm:text-5xl font-serif text-[#791916] mb-2">Upcoming Events</h2>
-                <p className="text-[#3a0d0a]/70 font-serif italic text-lg">Celebrate the divine moments with us</p>
-              </div>
-              <Link to="/events" className="hidden md:inline-block text-[#d4af37] font-semibold hover:text-[#791916] transition-colors mt-4 md:mt-0">View All Events &rarr;</Link>
+                <img src="/logo1.png" alt="Mandir Setu" className="w-16 h-16 sm:w-20 sm:h-20 object-contain" />
+              
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+
+            <motion.h2 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-3xl font-serif text-[#791916] uppercase tracking-[0.3em] font-bold"
+            >
+              Mandir Setu
+            </motion.h2>
+            
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="text-[#d4af37] text-sm uppercase tracking-widest mt-2 font-medium"
+            >
+              Awakening The Divine
+            </motion.p>
+   
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="bg-[#fdfbf7] min-h-screen overflow-x-hidden text-[#3a0d0a] font-sans pb-20 pt-24">
+      
+      {/* Top Header Section - Full Width */}
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center flex flex-col items-center">
+        <motion.h1 
+          className="text-4xl md:text-6xl font-serif text-[#791916] mb-6 leading-tight uppercase tracking-wider"
+          initial="hidden"
+          animate={isInitialLoading ? "hidden" : "visible"}
+          variants={{
+            hidden: { opacity: 1 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.03 } }
+          }}
+        >
+          {["Discover", "India's", "Sacred,", "Heritage", "&", "Pilgrimages"].map((word, index) => {
+            const isSacred = word === "Sacred,";
+            const cleanWord = word.replace(',', '');
+            return (
+              <span key={`hword-${index}`}>
+                <span className="inline-block whitespace-nowrap">
+                  {cleanWord.split('').map((char, cIndex) => (
+                    <motion.span key={`hchar-${cIndex}`} className="inline-block" variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { type: 'spring', damping: 12, stiffness: 100 } } }}>
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
+                {isSacred ? <br className="hidden md:block" /> : ' '}
+              </span>
+            );
+          })}
+        </motion.h1>
+        
+        <motion.p 
+          className="text-[#3a0d0a]/80 text-base md:text-lg max-w-3xl font-medium leading-relaxed mb-8"
+          initial="hidden"
+          animate={isInitialLoading ? "hidden" : "visible"}
+          variants={{
+            hidden: { opacity: 1 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.01, delayChildren: 0.6 } }
+          }}
+        >
+          {"Plan your complete yatra with verified local services. Book ritual priests, find cozy Dharamshalas, secure transport, and receive holy Prasad delivered straight to your home.".split(' ').map((word, wIndex) => (
+            <span key={`pword-${wIndex}`}>
+              <span className="inline-block whitespace-nowrap">
+                {word.split('').map((char, cIndex) => (
+                  <motion.span key={`pchar-${cIndex}`} className="inline-block" variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { type: 'spring', damping: 12, stiffness: 100 } } }}>
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+              {' '}
+            </span>
+          ))}
+        </motion.p>
+
+        {/* Integrated Search Bar */}
+        <motion.div 
+          className="w-full max-w-3xl bg-white/95 backdrop-blur rounded-full p-2 flex items-center shadow-xl shadow-[#791916]/10 border border-[#d4af37]/30 mx-auto"
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={isInitialLoading ? { opacity: 0, scale: 0.9, y: 20 } : { opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.2, type: 'spring', stiffness: 100 }}
+        >
+          <span className="pl-5 text-[#791916] text-xl">🔍</span>
+          <input type="text" placeholder="Search temples, dhams (e.g. Kedarnath, Kashi)..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-none text-[#3a0d0a] placeholder-[#791916]/50 py-3 px-4 focus:outline-none text-base md:text-lg" />
+          <Link to="/gallery" className="px-8 py-3 bg-[#d4af37] hover:bg-[#c29b26] text-[#3a0d0a] font-bold rounded-full text-base transition-colors cursor-pointer shrink-0 shadow-sm">
+            Search
+          </Link>
+        </motion.div>
+      </div>
+
+      {/* Main Content with 3-Column Layout */}
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-6 items-start">
+        
+        {/* LEFT COLUMN: Sidebar Filter, Quick Info & Events */}
+        <aside className="w-full lg:w-72 xl:w-80 flex flex-col gap-6 shrink-0 z-40 sticky top-28 max-h-[calc(100vh-120px)] overflow-y-auto overflow-x-hidden pr-1 pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d4af37 transparent' }}>
+          
+          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20">
+            <h3 className="text-xl font-serif text-[#791916] mb-6 border-b border-[#d4af37]/20 pb-4">View By</h3>
+            
+            <div className="mb-6">
+              <h4 className="text-sm font-bold text-[#3a0d0a]/50 uppercase tracking-widest mb-3">Category</h4>
+              <div className="flex flex-col gap-2">
+                {sects.map(sect => (
+                  <button 
+                    key={sect.id} 
+                    onClick={() => setSelectedSect(sect.id)}
+                    className={`flex items-center gap-3 w-full text-left px-4 py-2.5 rounded-xl transition-all border ${selectedSect === sect.id ? 'bg-[#791916] border-[#791916] text-[#fdfbf7] shadow-md shadow-[#791916]/20' : 'bg-[#fdfbf7] border-transparent text-[#3a0d0a] hover:bg-[#d4af37]/10 hover:border-[#d4af37]/30'}`}
+                  >
+                    <span className="text-xl">{sect.icon}</span>
+                    <span className="font-serif font-medium text-base">{sect.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <h4 className="text-sm font-bold text-[#3a0d0a]/50 uppercase tracking-widest mb-3">State</h4>
+              <select 
+                value={selectedState} 
+                onChange={(e) => setSelectedState(e.target.value)}
+                className="w-full bg-[#fdfbf7] border border-[#d4af37]/30 text-[#3a0d0a] rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#791916] transition-colors"
+              >
+                {statesList.map(state => <option key={state} value={state === 'All' ? '' : state}>{state}</option>)}
+              </select>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-bold text-[#3a0d0a]/50 uppercase tracking-widest mb-3">City</h4>
+              <select 
+                value={selectedCity} 
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="w-full bg-[#fdfbf7] border border-[#d4af37]/30 text-[#3a0d0a] rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#791916] transition-colors"
+              >
+                {citiesList.map(city => <option key={city} value={city === 'All' ? '' : city}>{city}</option>)}
+              </select>
+            </div>
+          </div>
+
+          {/* Quick Info Cards Moved to Left Sidebar */}
+          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20">
+            <h4 className="text-sm font-serif text-[#791916] mb-4 border-b border-[#d4af37]/20 pb-3">Quick Info</h4>
+            <div className="flex flex-col gap-3">
+              {infoCards.map((card, idx) => (
+                <div key={idx} className="flex items-center gap-3 bg-[#791916]/5 p-3 rounded-xl border border-[#791916]/10 hover:bg-[#791916]/10 transition-colors">
+                  <span className="text-xl">{card.icon}</span>
+                  <div>
+                    <div className="text-sm font-bold text-[#791916]">{card.title}</div>
+                    <div className="text-[10px] text-[#3a0d0a]/70">{card.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Upcoming Events in Left Sidebar */}
+          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20">
+            <div className="flex items-center justify-between mb-4 border-b border-[#d4af37]/20 pb-3">
+              <h3 className="text-lg font-serif text-[#791916]">Upcoming Events</h3>
+              <Link to="/events" className="text-[#d4af37] text-xs font-semibold hover:text-[#791916]">All &rarr;</Link>
+            </div>
+            <div className="flex flex-col gap-4">
               {loadingEvents ? (
-                <div className="col-span-full flex justify-center py-10">
-                  <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#d4af37]"></div>
+                <div className="flex justify-center py-5">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#d4af37]"></div>
                 </div>
               ) : events.length === 0 ? (
-                <div className="col-span-full text-center text-[#791916]/70 font-serif py-10">No upcoming events found.</div>
+                <div className="text-center text-[#791916]/70 text-sm font-serif py-5">No events found.</div>
               ) : (
                 events.slice(0, 3).map((event) => (
-                  <div key={event._id} className="bg-white rounded-3xl overflow-hidden shadow-lg shadow-[#791916]/5 border border-[#d4af37]/20 group hover:shadow-xl transition-all">
-                    <div className="h-48 overflow-hidden relative">
-                      <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#791916]/90 to-transparent p-4 pt-10">
-                         <div className="text-[#d4af37] text-xs font-bold uppercase tracking-wider">{event.date}</div>
-                         <h3 className="text-xl font-serif text-white truncate" title={event.title}>{event.title}</h3>
-                      </div>
-                    </div>
-                    <div className="p-4 bg-[#fdfbf7]">
-                      <div className="flex items-center text-[#791916]/80 text-sm"><span className="mr-2">📍</span> <span className="truncate" title={event.location}>{event.location}</span></div>
-                    </div>
+                  <div key={event._id} className="group p-4 rounded-xl border border-[#d4af37]/20 cursor-pointer bg-[#fdfbf7] hover:bg-white shadow-sm hover:shadow-md transition-all flex flex-col gap-1.5">
+                     <div className="text-[#d4af37] text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                       {event.date || 'Upcoming'} {event.time && `• ${event.time}`}
+                     </div>
+                     <h4 className="text-sm sm:text-base font-serif text-[#791916] font-semibold line-clamp-1">{event.title}</h4>
+                     {event.location && (
+                       <div className="text-xs text-[#3a0d0a]/70 line-clamp-1 flex items-center gap-1">
+                         <span>📍</span> {event.location}
+                       </div>
+                     )}
+                     {event.description && (
+                       <p className="text-xs text-[#3a0d0a]/60 line-clamp-2 mt-1 leading-snug">
+                         {event.description}
+                       </p>
+                     )}
                   </div>
                 ))
               )}
             </div>
-            <div className="text-center mt-8 md:hidden">
-               <Link to="/events" className="inline-block px-8 py-3 border border-[#791916] text-[#791916] font-serif hover:bg-[#791916] hover:text-white rounded-full transition-colors">View All Events</Link>
-            </div>
-          </section>
-
-          {/* Decorative Divider */}
-          <div className="mb-16 flex justify-center text-[#d4af37]">
-             <span className="text-2xl">▲</span>
           </div>
 
+        </aside>
+
+        {/* MIDDLE COLUMN: Main Content Area */}
+        <div className="flex-1 w-full min-w-0 flex flex-col gap-10">
+          
           {/* Sacred Dhams Section */}
-          <section className="mb-24">
-            <div className="text-center md:text-left mb-10 flex flex-col md:flex-row md:items-end justify-between">
+          <section>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 border-b border-[#d4af37]/20 pb-3">
               <div>
-                <h2 className="text-3xl sm:text-5xl font-serif text-[#791916] mb-2">Sacred Dhams</h2>
-                <p className="text-[#3a0d0a]/70 font-serif italic text-lg">Explore the abodes of the divine</p>
+                <h2 className="text-2xl font-serif text-[#791916] mb-1">Sacred Dhams</h2>
+                <p className="text-[#3a0d0a]/70 font-serif italic text-sm">Explore the abodes of the divine</p>
               </div>
-              <Link to="/dhams" className="hidden md:inline-block text-[#d4af37] font-semibold hover:text-[#791916] transition-colors mt-4 md:mt-0">View All Dhams &rarr;</Link>
+              <Link to="/dhams" className="hidden md:inline-block text-[#d4af37] text-sm font-semibold hover:text-[#791916] transition-colors">View All &rarr;</Link>
             </div>
             {loadingDhams ? (
-              <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#d4af37]"></div></div>
+              <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4af37]"></div></div>
             ) : (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-                  {dhams.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()) || (d.location?.city || '').toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 4).map((dham) => (
-                    <div key={dham._id} className="bg-white rounded-[2rem] overflow-hidden shadow-lg shadow-[#791916]/5 border border-[#d4af37]/20 group flex flex-col hover:-translate-y-1 transition-transform">
-                      <div className="h-48 overflow-hidden relative shrink-0">
-                        <img src={dham.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(dham.name)}&background=791916&color=d4af37`} alt={dham.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dham.name)}&background=791916&color=d4af37` }} />
-                        <div className="absolute top-4 right-4 bg-white/95 text-[#791916] text-xs font-bold px-3 py-1.5 rounded-full shadow-md uppercase tracking-wider">{dham.status === 'active' ? 'Verified' : dham.status}</div>
-                      </div>
-                      <div className="p-6 flex flex-col flex-1 bg-gradient-to-b from-white to-[#fdfbf7]">
-                        <h3 className="text-2xl font-serif text-[#791916] mb-2 truncate" title={dham.name}>{dham.name}</h3>
-                        <div className="flex items-center text-[#3a0d0a]/60 text-sm mb-6"><span className="mr-2">📍</span> {dham.location?.city || 'Unknown'}, {dham.location?.state || 'India'}</div>
-                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-[#d4af37]/20">
-                          <div className="text-sm truncate mr-2 text-[#3a0d0a]/80"><span className="text-[#3a0d0a]/50">Deity: </span><span className="font-serif italic text-[#791916]">{dham.mainDeity || 'N/A'}</span></div>
-                          <Link to={`/dham/${dham._id}`} className="px-5 py-2 bg-[#d4af37]/10 text-[#791916] hover:bg-[#d4af37] hover:text-[#3a0d0a] rounded-full text-sm font-semibold transition-colors shrink-0">View</Link>
-                        </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                {dhams.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()) || (d.location?.city || '').toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 6).map((dham) => (
+                  <div key={dham._id} className={`bg-white rounded-2xl overflow-hidden shadow-lg shadow-[#791916]/5 border group flex flex-col hover:-translate-y-1 transition-transform ${previewItem?._id === dham._id ? 'border-[#791916] ring-2 ring-[#791916]/20' : 'border-[#d4af37]/20'}`}>
+                    <div className="h-32 overflow-hidden relative shrink-0">
+                      <img src={dham.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(dham.name)}&background=791916&color=d4af37`} alt={dham.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dham.name)}&background=791916&color=d4af37` }} />
+                      <div className="absolute top-2 right-2 bg-white/95 text-[#791916] text-[9px] font-bold px-2 py-0.5 rounded-full shadow-md uppercase tracking-wider">{dham.status === 'active' ? 'Verified' : dham.status}</div>
+                    </div>
+                    <div className="p-3 flex flex-col flex-1 bg-gradient-to-b from-white to-[#fdfbf7]">
+                      <h3 className="text-lg font-serif text-[#791916] mb-1 truncate" title={dham.name}>{dham.name}</h3>
+                      <div className="flex items-center text-[#3a0d0a]/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{dham.location?.city || 'Unknown'}, {dham.location?.state || 'India'}</span></div>
+                      <div className="flex items-center justify-between mt-auto pt-2 border-t border-[#d4af37]/20">
+                        <button 
+                          onClick={() => handlePreview(dham, 'dham')} 
+                          className={`w-full py-1.5 text-xs font-semibold rounded-full transition-colors ${previewItem?._id === dham._id ? 'bg-[#791916] text-white' : 'bg-[#d4af37]/10 text-[#791916] hover:bg-[#d4af37] hover:text-[#3a0d0a]'}`}
+                        >
+                          {previewItem?._id === dham._id ? (previewItem.isLoading ? 'Loading...' : 'Previewing') : 'View Preview'}
+                        </button>
                       </div>
                     </div>
-                  ))}
-                  {dhams.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()) || (d.location?.city || '').toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && !loadingDhams && (
-                     <div className="col-span-full text-center py-10 text-[#3a0d0a]/50 italic font-serif">No dhams found matching your search.</div>
-                  )}
-                </div>
-                <div className="text-center mt-8 md:hidden">
-                   <Link to="/dhams" className="inline-block px-8 py-3 border border-[#791916] text-[#791916] font-serif hover:bg-[#791916] hover:text-white rounded-full transition-colors">View All Dhams</Link>
-                </div>
-              </>
+                  </div>
+                ))}
+              </div>
             )}
           </section>
-
-          {/* Decorative Divider */}
-          <div className="mb-16 flex justify-center text-[#d4af37]">
-             <span className="text-2xl">▲</span>
-          </div>
 
           {/* Sacred Temples Section */}
-          <section className="mb-24">
-            <div className="text-center md:text-left mb-10 flex flex-col md:flex-row md:items-end justify-between">
+          <section className="mb-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 border-b border-[#d4af37]/20 pb-3">
               <div>
-                <h2 className="text-3xl sm:text-5xl font-serif text-[#791916] mb-2">Sacred Temples</h2>
-                <p className="text-[#3a0d0a]/70 font-serif italic text-lg">Discover the heritage of our temples</p>
+                <h2 className="text-2xl font-serif text-[#791916] mb-1">Sacred Temples</h2>
+                <p className="text-[#3a0d0a]/70 font-serif italic text-sm">Discover the heritage of our temples</p>
               </div>
-              <Link to="/mandirs" className="hidden md:inline-block text-[#d4af37] font-semibold hover:text-[#791916] transition-colors mt-4 md:mt-0">View All Temples &rarr;</Link>
+              <Link to="/mandirs" className="hidden md:inline-block text-[#d4af37] text-sm font-semibold hover:text-[#791916] transition-colors">View All &rarr;</Link>
             </div>
             {loadingTemples ? (
-              <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#d4af37]"></div></div>
+              <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4af37]"></div></div>
             ) : (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-                  {temples.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()) || (t.location?.city || '').toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 4).map((temple) => (
-                    <div key={temple._id} className="bg-white rounded-[2rem] overflow-hidden shadow-lg shadow-[#791916]/5 border border-[#d4af37]/20 group flex flex-col hover:-translate-y-1 transition-transform">
-                      <div className="h-48 overflow-hidden relative shrink-0">
-                        <img src={temple.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(temple.name)}&background=791916&color=d4af37`} alt={temple.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(temple.name)}&background=791916&color=d4af37` }} />
-                        <div className="absolute top-4 right-4 bg-white/95 text-[#791916] text-xs font-bold px-3 py-1.5 rounded-full shadow-md uppercase tracking-wider">{temple.status === 'active' ? 'Verified' : temple.status}</div>
-                      </div>
-                      <div className="p-6 flex flex-col flex-1 bg-gradient-to-b from-white to-[#fdfbf7]">
-                        <h3 className="text-2xl font-serif text-[#791916] mb-2 truncate" title={temple.name}>{temple.name}</h3>
-                        <div className="flex items-center text-[#3a0d0a]/60 text-sm mb-6"><span className="mr-2">📍</span> {temple.location?.city || 'Unknown'}, {temple.location?.state || 'India'}</div>
-                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-[#d4af37]/20">
-                          <div className="text-sm truncate mr-2 text-[#3a0d0a]/80"><span className="text-[#3a0d0a]/50">Deity: </span><span className="font-serif italic text-[#791916]">{temple.mainDeity || 'N/A'}</span></div>
-                          <Link to={`/mandir/${temple._id}`} className="px-5 py-2 bg-[#d4af37]/10 text-[#791916] hover:bg-[#d4af37] hover:text-[#3a0d0a] rounded-full text-sm font-semibold transition-colors shrink-0">View</Link>
-                        </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                {temples.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()) || (t.location?.city || '').toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 6).map((temple) => (
+                  <div key={temple._id} className={`bg-white rounded-2xl overflow-hidden shadow-lg shadow-[#791916]/5 border group flex flex-col hover:-translate-y-1 transition-transform ${previewItem?._id === temple._id ? 'border-[#791916] ring-2 ring-[#791916]/20' : 'border-[#d4af37]/20'}`}>
+                    <div className="h-32 overflow-hidden relative shrink-0">
+                      <img src={temple.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(temple.name)}&background=791916&color=d4af37`} alt={temple.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(temple.name)}&background=791916&color=d4af37` }} />
+                      <div className="absolute top-2 right-2 bg-white/95 text-[#791916] text-[9px] font-bold px-2 py-0.5 rounded-full shadow-md uppercase tracking-wider">{temple.status === 'active' ? 'Verified' : temple.status}</div>
+                    </div>
+                    <div className="p-3 flex flex-col flex-1 bg-gradient-to-b from-white to-[#fdfbf7]">
+                      <h3 className="text-lg font-serif text-[#791916] mb-1 truncate" title={temple.name}>{temple.name}</h3>
+                      <div className="flex items-center text-[#3a0d0a]/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{temple.location?.city || 'Unknown'}, {temple.location?.state || 'India'}</span></div>
+                      <div className="flex items-center justify-between mt-auto pt-2 border-t border-[#d4af37]/20">
+                        <button 
+                          onClick={() => handlePreview(temple, 'mandir')} 
+                          className={`w-full py-1.5 text-xs font-semibold rounded-full transition-colors ${previewItem?._id === temple._id ? 'bg-[#791916] text-white' : 'bg-[#d4af37]/10 text-[#791916] hover:bg-[#d4af37] hover:text-[#3a0d0a]'}`}
+                        >
+                          {previewItem?._id === temple._id ? (previewItem.isLoading ? 'Loading...' : 'Previewing') : 'View Preview'}
+                        </button>
                       </div>
                     </div>
-                  ))}
-                  {temples.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()) || (t.location?.city || '').toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && !loadingTemples && (
-                     <div className="col-span-full text-center py-10 text-[#3a0d0a]/50 italic font-serif">No temples found matching your search.</div>
-                  )}
-                </div>
-                <div className="text-center mt-8 md:hidden">
-                   <Link to="/mandirs" className="inline-block px-8 py-3 border border-[#791916] text-[#791916] font-serif hover:bg-[#791916] hover:text-white rounded-full transition-colors">View All Temples</Link>
-                </div>
-              </>
+                  </div>
+                ))}
+              </div>
             )}
-          </section>
-
-          {/* Decorative Divider */}
-          <div className="mb-16 flex justify-center text-[#d4af37]">
-             <span className="text-2xl">▲</span>
-          </div>
-
-          {/* Services Section */}
-          <section className="mb-24">
-            <div className="text-center md:text-left mb-10">
-              <h2 className="text-3xl sm:text-5xl font-serif text-[#791916] mb-2">Sevayein Aur Anushthan</h2>
-              <p className="text-[#3a0d0a]/70 font-serif italic text-lg">Physical and virtual offerings facilitated by local Dham Sevaks</p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {services.map((srv, idx) => (
-                <div key={idx} className="bg-white border border-[#d4af37]/20 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:shadow-[#791916]/10 transition-all duration-300 group">
-                  <div className="w-12 h-12 bg-[#fdfbf7] rounded-full border border-[#d4af37]/30 flex items-center justify-center text-2xl mb-6 text-[#791916]">{srv.icon}</div>
-                  <h3 className="text-xl font-serif text-[#791916] mb-3">{srv.title}</h3>
-                  <p className="text-sm text-[#3a0d0a]/70 leading-relaxed mb-6 font-light">{srv.desc}</p>
-                  <Link to="/gallery" className="text-xs font-bold text-[#d4af37] uppercase tracking-wider group-hover:text-[#791916] inline-block transition-colors">{srv.buttonText || 'Book Now →'}</Link>
-                </div>
-              ))}
-            </div>
           </section>
 
         </div>
+
+        {/* RIGHT COLUMN: Preview & Info */}
+        <aside className="w-full lg:w-80 xl:w-96 sticky top-28 shrink-0 z-40 flex flex-col gap-6 max-h-[calc(100vh-120px)] overflow-y-auto overflow-x-hidden pr-1 pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d4af37 transparent' }}>
+          
+          {/* Dynamic Preview Section - Full Details */}
+          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20 flex flex-col relative overflow-x-hidden">
+            <h3 className="text-lg font-serif text-[#791916] mb-4 border-b border-[#d4af37]/20 pb-3 relative z-10">Quick Preview</h3>
+            
+            {previewItem ? (
+              previewItem.isLoading ? (
+                <div className="flex-1 flex justify-center items-center h-48 relative z-10">
+                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4af37]"></div>
+                </div>
+              ) : (
+              <AnimatePresence mode="wait">
+                <motion.div 
+                  key={previewItem._id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex flex-col relative z-10"
+                >
+                  <div className="w-full h-48 rounded-2xl overflow-hidden mb-4 relative shadow-inner">
+                    <img src={previewItem.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(previewItem.name)}&background=791916&color=d4af37`} alt={previewItem.name} className="w-full h-full object-cover" />
+                    <div className="absolute top-2 left-2 bg-black/60 text-[#d4af37] text-[10px] uppercase font-bold px-2 py-1 rounded">
+                       {previewItem.itemType === 'dham' ? 'Dham' : 'Temple'}
+                    </div>
+                  </div>
+                  
+                  <h4 className="text-2xl font-serif text-[#791916] mb-2 leading-tight break-words">{previewItem.name}</h4>
+                  
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-start text-sm">
+                      <span className="w-6 text-center mr-2">📍</span>
+                      <span className="text-[#3a0d0a]/80 font-medium text-sm pt-0.5">
+                        {previewItem.location?.city ? `${previewItem.location.city}, ` : ''}{previewItem.location?.state || 'India'}
+                      </span>
+                    </div>
+                    
+                    {previewItem.mainDeity && (
+                      <div className="flex items-start text-sm">
+                        <span className="w-6 text-center mr-2">🕉️</span>
+                        <span className="text-[#3a0d0a]/80 text-sm pt-0.5">Deity: <span className="font-serif italic font-semibold">{previewItem.mainDeity}</span></span>
+                      </div>
+                    )}
+
+                    {/* Quick Timings */}
+                    <div className="flex items-start text-sm">
+                      <span className="w-6 text-center mr-2">🕒</span>
+                      <span className="text-[#3a0d0a]/80 text-xs pt-0.5 font-medium">Timings: {previewItem.schedule?.openTime ? `${previewItem.schedule.openTime} - ${previewItem.schedule.closeTime}` : 'Check timings online'}</span>
+                    </div>
+
+                    {/* Meta info */}
+                    <div className="flex items-start text-sm">
+                      <span className="w-6 text-center mr-2">🏛️</span>
+                      <span className="text-[#3a0d0a]/80 text-xs pt-0.5 font-medium">Established: {previewItem.establishedYear || 'Ancient'}</span>
+                    </div>
+
+                    {/* Quick Contact */}
+                    {(previewItem.contact?.phone || previewItem.contact?.website) && (
+                      <div className="flex items-start text-sm">
+                        <span className="w-6 text-center mr-2">📞</span>
+                        <span className="text-[#3a0d0a]/80 text-xs pt-0.5 font-medium truncate">
+                          {previewItem.contact?.phone || 'No phone'} | {previewItem.contact?.website ? <a href={previewItem.contact.website} target="_blank" rel="noreferrer" className="text-[#d4af37] hover:underline">Website</a> : 'No website'}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Quick Services */}
+                    {previewItem.services && previewItem.services.length > 0 && (
+                      <div className="pt-4 border-t border-[#d4af37]/20 mt-4">
+                        <h5 className="text-sm font-bold text-[#791916] mb-3">Available Services</h5>
+                        <div className="flex flex-wrap gap-2">
+                          {previewItem.services.map((svc, i) => (
+                             <span key={i} className="bg-[#791916]/5 border border-[#791916]/20 text-[#791916] text-[10px] px-2.5 py-1 rounded-full font-semibold">{svc}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* More details section */}
+                    <div className="pt-4 border-t border-[#d4af37]/20 mt-4">
+                      <h5 className="text-sm font-bold text-[#791916] mb-2">About</h5>
+                      <p className="text-xs text-[#3a0d0a]/80 leading-relaxed font-medium break-words">
+                        {previewItem.description || 'No description available for this sacred place.'}
+                      </p>
+                    </div>
+
+                    {/* Location Map */}
+                    <div className="pt-4 border-t border-[#d4af37]/20 mt-4">
+                      <h5 className="text-sm font-bold text-[#791916] mb-3">Location Map</h5>
+                      <div className="w-full h-32 md:h-40 bg-gray-100 rounded-xl overflow-hidden shadow-inner border border-[#d4af37]/20">
+                        <iframe 
+                          src={`https://maps.google.com/maps?q=${previewItem.geolocation?.latitude ? `${previewItem.geolocation.latitude},${previewItem.geolocation.longitude}` : encodeURIComponent(previewItem.name + ' ' + (previewItem.location?.city || ''))}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                          width="100%" 
+                          height="100%" 
+                          style={{ border: 0 }} 
+                          allowFullScreen="" 
+                          loading="lazy" 
+                          title="Location Map"
+                          referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 pt-4 border-t border-[#d4af37]/20">
+                    <Link 
+                      to={`/${previewItem.itemType}/${previewItem._id}`} 
+                      className="flex items-center justify-center w-full py-3.5 bg-[#791916] hover:bg-[#5a1210] text-white text-sm font-bold rounded-xl transition-colors shadow-md group"
+                    >
+                      Explore Full Details
+                      <span className="ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                    </Link>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+              )
+            ) : (
+              <div className="flex-1 flex flex-col items-center justify-center text-center p-6 bg-[#fdfbf7]/50 rounded-2xl border border-dashed border-[#d4af37]/40 relative z-10 mt-2">
+                <span className="text-4xl mb-4 opacity-50 grayscale filter drop-shadow-sm">🛕</span>
+                <p className="text-sm font-serif text-[#791916]/70 leading-relaxed">
+                  Select <span className="font-bold text-[#791916]">"View Preview"</span> on any Dham or Temple to see full details here.
+                </p>
+              </div>
+            )}
+            
+            {/* Background decorative element */}
+            <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
+              <span className="text-9xl">🕉️</span>
+            </div>
+          </div>
+        </aside>
+
       </div>
 
+      {/* Services Section Moved to Full Width Below 3-Column Layout */}
+      <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+         <div className="text-center mb-10 border-b border-[#d4af37]/20 pb-4">
+           <motion.h2 
+             className="text-3xl font-serif text-[#791916] mb-2"
+             initial="hidden"
+             whileInView="visible"
+             viewport={{ once: true, margin: "-100px" }}
+             variants={{
+               hidden: { opacity: 1 },
+               visible: { opacity: 1, transition: { staggerChildren: 0.05 } }
+             }}
+           >
+             {"Services and Rituals".split(' ').map((word, wIndex) => (
+                <span key={`srword-${wIndex}`}>
+                  <span className="inline-block whitespace-nowrap">
+                    {word.split('').map((char, cIndex) => (
+                      <motion.span key={`srchar-${cIndex}`} className="inline-block" variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { type: 'spring', damping: 12, stiffness: 100 } } }}>
+                        {char}
+                      </motion.span>
+                    ))}
+                  </span>
+                  {' '}
+                </span>
+             ))}
+           </motion.h2>
+           
+           <motion.p 
+             className="text-[#3a0d0a]/70 font-serif italic text-base"
+             initial="hidden"
+             whileInView="visible"
+             viewport={{ once: true, margin: "-100px" }}
+             variants={{
+               hidden: { opacity: 1 },
+               visible: { opacity: 1, transition: { staggerChildren: 0.015, delayChildren: 0.5 } }
+             }}
+           >
+             {"Physical and virtual offerings facilitated by local Dham Sevaks".split(' ').map((word, wIndex) => (
+               <span key={`srsubword-${wIndex}`}>
+                 <span className="inline-block whitespace-nowrap">
+                   {word.split('').map((char, cIndex) => (
+                     <motion.span key={`srsubchar-${cIndex}`} className="inline-block" variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { type: 'spring', damping: 12, stiffness: 100 } } }}>
+                       {char}
+                     </motion.span>
+                   ))}
+                 </span>
+                 {' '}
+               </span>
+             ))}
+           </motion.p>
+         </div>
+         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+           {services.map((srv, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: idx * 0.1, ease: "easeOut" }}
+                className="h-full"
+              >
+                <div className="h-full bg-white border border-[#d4af37]/20 rounded-3xl p-6 shadow-md shadow-[#791916]/5 hover:shadow-xl hover:shadow-[#791916]/10 hover:-translate-y-2 transition-all duration-300 group flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-[#fdfbf7] rounded-full border border-[#d4af37]/30 flex items-center justify-center text-2xl mb-5 text-[#791916] group-hover:scale-110 transition-transform">{srv.icon}</div>
+                  <h3 className="text-lg font-serif text-[#791916] mb-3 leading-tight">{srv.title}</h3>
+                  <p className="text-xs text-[#3a0d0a]/70 leading-relaxed mb-6 font-light flex-1">{srv.desc}</p>
+                  <Link to="/gallery" className="text-xs font-bold text-[#d4af37] uppercase tracking-wider group-hover:text-[#791916] inline-block transition-colors border border-[#d4af37]/30 rounded-full px-5 py-2 hover:bg-[#d4af37]/10">{srv.buttonText || 'Book Now →'}</Link>
+                </div>
+              </motion.div>
+           ))}
+         </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+      <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-10">
         <div className="bg-[#791916] rounded-[3rem] p-12 text-center text-white relative overflow-hidden shadow-2xl">
           <div className="relative z-10 max-w-3xl mx-auto space-y-6">
             <h3 className="text-[#d4af37] text-lg font-serif tracking-widest mb-2">॥ ॐ शिवाय नमः ॥</h3>
-            <h2 className="text-3xl sm:text-5xl font-serif mb-6 leading-tight">Apni Yatra Ki Yojana Banayein</h2>
+            <h2 className="text-3xl sm:text-5xl font-serif mb-6 leading-tight">Plan Your Journey</h2>
             <p className="text-[#fdfbf7]/80 leading-relaxed font-light mb-8">
-              Darshan timings, online puja booking aur sampoorna yatra ki jankari yahan uplabdh hai.
+              Darshan timings, online puja booking, and complete pilgrimage information are available here.
             </p>
             <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <Link to="/gallery" className="px-8 py-3.5 bg-[#d4af37] hover:bg-[#c29b26] text-[#3a0d0a] font-bold rounded-full transition-all shadow-md active:scale-95 text-sm sm:text-base cursor-pointer">Yatra ki jankari len</Link>
+              <Link to="/gallery" className="px-8 py-3.5 bg-[#d4af37] hover:bg-[#c29b26] text-[#3a0d0a] font-bold rounded-full transition-all shadow-md active:scale-95 text-sm sm:text-base cursor-pointer">Get Journey Details</Link>
             </div>
           </div>
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#d4af37]/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/20 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
         </div>
       </section>
-    </motion.div>
+    </div>
+    </>
   );
 }
