@@ -9,7 +9,10 @@ export const createDham = async (req, res) => {
       address, city, state, pincode, 
       phone, email, website,
       profilePic, gallery, latitude, longitude,
-      category, schedule, howToReach
+      category, schedule, howToReach,
+      bestTimeToVisit, placesToVisitNear, majorFestivals,
+      mandirSetuTip, religiousImportance,
+      aartiTimings, visitorInformation, darshanTimings
     } = req.body;
 
     // Joi validation
@@ -39,6 +42,14 @@ export const createDham = async (req, res) => {
       },
       profilePic,
       gallery,
+      bestTimeToVisit,
+      placesToVisitNear,
+      majorFestivals,
+      mandirSetuTip,
+      religiousImportance,
+      aartiTimings,
+      visitorInformation,
+      darshanTimings,
       geolocation: {
         latitude,
         longitude
@@ -109,7 +120,10 @@ export const updateDham = async (req, res) => {
       address, city, state, pincode, 
       phone, email, website,
       profilePic, gallery, latitude, longitude,
-      category, schedule, howToReach
+      category, schedule, howToReach,
+      bestTimeToVisit, placesToVisitNear, majorFestivals,
+      mandirSetuTip, religiousImportance,
+      aartiTimings, visitorInformation, darshanTimings
     } = req.body;
 
     const { error } = mandirDhamValidationSchema.validate(req.body);
@@ -124,6 +138,9 @@ export const updateDham = async (req, res) => {
         location: { address, city, state, pincode },
         contact: { phone, email, website },
         profilePic, gallery,
+        bestTimeToVisit, placesToVisitNear, majorFestivals,
+        mandirSetuTip, religiousImportance,
+        aartiTimings, visitorInformation, darshanTimings,
         geolocation: { latitude, longitude }
       },
       { new: true }

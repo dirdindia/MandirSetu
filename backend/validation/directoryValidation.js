@@ -146,7 +146,28 @@ export const mandirDhamValidationSchema = Joi.object({
   longitude: Joi.string().allow(''),
   status: Joi.string().valid('active', 'pending', 'inactive').optional(),
   affiliationType: Joi.string().valid('individual', 'dham').optional(),
-  dham: Joi.string().hex().length(24).optional().allow('')
+  dham: Joi.string().hex().length(24).optional().allow(''),
+  bestTimeToVisit: Joi.array().items(Joi.string().allow('').trim()).optional(),
+  placesToVisitNear: Joi.array().items(Joi.string().allow('').trim()).optional(),
+  majorFestivals: Joi.array().items(Joi.string().allow('').trim()).optional(),
+  aartiTimings: Joi.array().items(
+    Joi.object({
+      _id: Joi.any().optional(),
+      name: Joi.string().allow('').trim(),
+      time: Joi.string().allow('').trim()
+    })
+  ).optional(),
+  visitorInformation: Joi.array().items(Joi.string().allow('').trim()).optional(),
+  darshanTimings: Joi.array().items(
+    Joi.object({
+      _id: Joi.any().optional(),
+      name: Joi.string().allow('').trim(),
+      fromTime: Joi.string().allow('').trim(),
+      toTime: Joi.string().allow('').trim()
+    })
+  ).optional(),
+  mandirSetuTip: Joi.string().allow('').trim().optional(),
+  religiousImportance: Joi.string().allow('').trim().optional()
 });
 
 export const staffValidationSchema = Joi.object({

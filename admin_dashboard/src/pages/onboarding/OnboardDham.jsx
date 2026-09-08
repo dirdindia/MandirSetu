@@ -33,7 +33,30 @@ export default function OnboardDham() {
     category: '',
     schedule: { openTime: '', closeTime: '' },
     howToReach: { bus: '', train: '', air: '' },
+    bestTimeToVisit: [],
+    placesToVisitNear: [],
+    majorFestivals: [],
+    aartiTimings: [],
+    visitorInformation: [],
+    darshanTimings: [],
+    mandirSetuTip: '',
+    religiousImportance: ''
   });
+
+  const handleArrayChange = (field, index, value) => {
+    const newArray = [...formData[field]];
+    newArray[index] = value;
+    setFormData({ ...formData, [field]: newArray });
+  };
+
+  const handleAddArrayItem = (field) => {
+    setFormData({ ...formData, [field]: [...formData[field], ''] });
+  };
+
+  const handleRemoveArrayItem = (field, index) => {
+    const newArray = formData[field].filter((_, i) => i !== index);
+    setFormData({ ...formData, [field]: newArray });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -238,28 +261,53 @@ export default function OnboardDham() {
       }
     });
 
+    if (!validateStep()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Fields',
+        text: 'Please fill all required fields before proceeding.',
+        customClass: { confirmButton: 'bg-orange-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+      });
+      setLoading(false);
+      return;
+    }
+    
+    // Transform schedule and contact
+    const payload = {
+      ...formData,
+      location: {
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        pincode: formData.pincode
+      },
+      geolocation: {
+        latitude: formData.latitude,
+        longitude: formData.longitude
+      },
+      contact: {
+        phone: formData.phone,
+        email: formData.email,
+        website: formData.website
+      }
+    };
+
     try {
-      await api.post('/dhams', formData);
+      const response = await api.post('/dhams', payload);
       Swal.fire({
         icon: 'success',
-        title: 'Dham Onboarded!',
-        text: 'The Dham has been successfully added to the platform.',
-        customClass: { confirmButton: 'bg-orange-500 text-white px-6 py-2 rounded-lg font-bold cursor-pointer' }
+        title: 'Dham Registered!',
+        text: 'The Dham has been successfully onboarded.',
+        customClass: { confirmButton: 'bg-orange-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+      }).then(() => {
+        window.location.reload();
       });
-      
-      // Reset form
-      setFormData({
-        name: '', establishedYear: '', mainDeity: '', description: '',
-        address: '', city: '', state: '', pincode: '', latitude: '', longitude: '',
-        phone: '', email: '', website: '', profilePic: '', gallery: [],
-        category: '', schedule: { openTime: '', closeTime: '' }, howToReach: { bus: '', train: '', air: '' }
-      });
-      setStep(1);
     } catch (err) {
+      console.error(err);
       Swal.fire({
         icon: 'error',
         title: 'Submission Failed',
-        text: err.response?.data?.message || 'Failed to onboard Dham. Please try again.',
+        text: err.response?.data?.message || 'Failed to onboard dham. Please try again.',
         customClass: { confirmButton: 'bg-orange-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
       });
     } finally {
@@ -271,7 +319,7 @@ export default function OnboardDham() {
     <div className="max-w-4xl mx-auto py-6">
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Onboard New Dham</h2>
-        <p className="text-slate-500 mt-2">Fill out the details step-by-step to register a new temple.</p>
+        <p className="text-slate-500 mt-2">Fill out the details step-by-step to register a new Dham.</p>
       </div>
 
       {/* Progress Tracker */}
@@ -306,11 +354,11 @@ export default function OnboardDham() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Dham Name *</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. Kashi Vishwanath Temple" />
+                <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. Badrinath Dham" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Main Deity (Bhagwan) *</label>
-                <input type="text" name="mainDeity" value={formData.mainDeity} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. Lord Shiva" />
+                <input type="text" name="mainDeity" value={formData.mainDeity} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. Lord Vishnu" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Category *</label>
@@ -340,6 +388,96 @@ export default function OnboardDham() {
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Description</label>
                 <textarea name="description" rows="4" value={formData.description} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none resize-none" placeholder="Brief history or description of the temple..."></textarea>
               </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Religious Importance (Optional)</label>
+                <textarea name="religiousImportance" rows="3" value={formData.religiousImportance} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none resize-none" placeholder="Why is this Dham religiously significant?"></textarea>
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Mandir Setu Tip (Optional)</label>
+                <input type="text" name="mandirSetuTip" value={formData.mandirSetuTip} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. Best to start parikrama early morning." />
+              </div>
+
+              {/* String Arrays */}
+              {['bestTimeToVisit', 'placesToVisitNear', 'majorFestivals', 'visitorInformation'].map((field) => (
+                <div key={field} className="md:col-span-2 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 capitalize">
+                      {field.replace(/([A-Z])/g, ' $1').trim()} (Optional)
+                    </label>
+                    <button type="button" onClick={() => handleAddArrayItem(field)} className="text-xs bg-orange-100 text-orange-700 px-3 py-1 rounded-full font-bold hover:bg-orange-200">
+                      + Add Item
+                    </button>
+                  </div>
+                  {formData[field].map((val, idx) => (
+                    <div key={idx} className="flex gap-2 mb-2">
+                      <input 
+                        type="text" 
+                        value={val} 
+                        onChange={(e) => handleArrayChange(field, idx, e.target.value)} 
+                        className="flex-1 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" 
+                        placeholder={`Enter ${field}`} 
+                      />
+                      <button type="button" onClick={() => handleRemoveArrayItem(field, idx)} className="bg-red-50 text-red-500 px-3 rounded-lg hover:bg-red-100">
+                        <X size={16} />
+                      </button>
+                    </div>
+                  ))}
+                  {formData[field].length === 0 && (
+                    <p className="text-xs text-slate-500 italic">No items added yet.</p>
+                  )}
+                </div>
+              ))}
+              {/* Timing Arrays (Objects) */}
+              {['aartiTimings', 'darshanTimings'].map((field) => (
+                <div key={field} className="md:col-span-2 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 capitalize">
+                      {field.replace(/([A-Z])/g, ' $1').trim()} (Optional)
+                    </label>
+                    <button type="button" onClick={() => handleAddTimingArrayItem(field)} className="text-xs bg-orange-100 text-orange-700 px-3 py-1 rounded-full font-bold hover:bg-orange-200">
+                      + Add Item
+                    </button>
+                  </div>
+                  {formData[field].map((val, idx) => (
+                    <div key={idx} className="flex gap-2 mb-2">
+                      <input 
+                        type="text" 
+                        value={val.name} 
+                        onChange={(e) => handleTimingArrayChange(field, idx, 'name', e.target.value)} 
+                        className="flex-1 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" 
+                        placeholder="Name (e.g. Mangala Aarti)" 
+                      />
+                      <input 
+                        type="time" 
+                        value={val.time?.split(' ')[0] || ''} 
+                        onChange={(e) => {
+                          const timeVal = e.target.value;
+                          const period = val.time?.split(' ')[1] || 'AM';
+                          handleTimingArrayChange(field, idx, 'time', `${timeVal} ${period}`);
+                        }} 
+                        className="w-32 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" 
+                      />
+                      <select
+                        value={val.time?.split(' ')[1] || 'AM'}
+                        onChange={(e) => {
+                          const timeVal = val.time?.split(' ')[0] || '12:00';
+                          handleTimingArrayChange(field, idx, 'time', `${timeVal} ${e.target.value}`);
+                        }}
+                        className="w-24 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                      >
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                      </select>
+                      <button type="button" onClick={() => handleRemoveArrayItem(field, idx)} className="bg-red-50 text-red-500 px-3 rounded-lg hover:bg-red-100">
+                        <X size={16} />
+                      </button>
+                    </div>
+                  ))}
+                  {formData[field].length === 0 && (
+                    <p className="text-xs text-slate-500 italic">No timings added yet.</p>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         )}

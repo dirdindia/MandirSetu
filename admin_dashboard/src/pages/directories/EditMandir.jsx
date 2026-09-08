@@ -37,7 +37,43 @@ export default function EditMandir() {
     schedule: { openTime: '', closeTime: '' },
     schedule: { openTime: '', closeTime: '' },
     howToReach: { bus: '', train: '', air: '' },
+    bestTimeToVisit: [],
+    placesToVisitNear: [],
+    majorFestivals: [],
+    aartiTimings: [],
+    visitorInformation: [],
+    darshanTimings: [],
+    mandirSetuTip: '',
+    religiousImportance: ''
   });
+
+  const handleArrayChange = (field, index, value) => {
+    const newArray = [...formData[field]];
+    newArray[index] = value;
+    setFormData({ ...formData, [field]: newArray });
+  };
+
+  const handleAddArrayItem = (field) => {
+    setFormData({ ...formData, [field]: [...formData[field], ''] });
+  };
+
+  const handleRemoveArrayItem = (field, index) => {
+    const newArray = formData[field].filter((_, i) => i !== index);
+    setFormData({ ...formData, [field]: newArray });
+  };
+
+  const handleTimingArrayChange = (field, index, key, value) => {
+    const newArray = [...formData[field]];
+    newArray[index][key] = value;
+    setFormData({ ...formData, [field]: newArray });
+  };
+
+  const handleAddTimingArrayItem = (field) => {
+    const newItem = field === 'darshanTimings' 
+      ? { name: '', fromTime: '', toTime: '' } 
+      : { name: '', time: '' };
+    setFormData({ ...formData, [field]: [...formData[field], newItem] });
+  };
 
   useEffect(() => {
     const fetchMandir = async () => {
@@ -63,6 +99,14 @@ export default function EditMandir() {
           category: mandir.category || '',
           schedule: mandir.schedule || { openTime: '', closeTime: '' },
           howToReach: mandir.howToReach || { bus: '', train: '', air: '' },
+          bestTimeToVisit: mandir.bestTimeToVisit || [],
+          placesToVisitNear: mandir.placesToVisitNear || [],
+          majorFestivals: mandir.majorFestivals || [],
+          aartiTimings: mandir.aartiTimings || [],
+          visitorInformation: mandir.visitorInformation || [],
+          darshanTimings: mandir.darshanTimings || [],
+          mandirSetuTip: mandir.mandirSetuTip || '',
+          religiousImportance: mandir.religiousImportance || '',
         });
       } catch (err) {
         console.error('Failed to fetch mandir:', err);
@@ -374,6 +418,151 @@ export default function EditMandir() {
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Description</label>
                 <textarea name="description" rows="4" value={formData.description} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none resize-none" placeholder="Brief history or description of the temple..."></textarea>
               </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Religious Importance (Optional)</label>
+                <textarea name="religiousImportance" rows="3" value={formData.religiousImportance} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none resize-none" placeholder="Why is this temple religiously significant?"></textarea>
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Mandir Setu Tip (Optional)</label>
+                <input type="text" name="mandirSetuTip" value={formData.mandirSetuTip} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" placeholder="e.g. Visit early morning to avoid crowds." />
+              </div>
+
+              {/* String Arrays */}
+              {['bestTimeToVisit', 'placesToVisitNear', 'majorFestivals', 'visitorInformation'].map((field) => (
+                <div key={field} className="md:col-span-2 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 capitalize">
+                      {field.replace(/([A-Z])/g, ' $1').trim()} (Optional)
+                    </label>
+                    <button type="button" onClick={() => handleAddArrayItem(field)} className="text-xs bg-orange-100 text-orange-700 px-3 py-1 rounded-full font-bold hover:bg-orange-200">
+                      + Add Item
+                    </button>
+                  </div>
+                  {formData[field].map((val, idx) => (
+                    <div key={idx} className="flex gap-2 mb-2">
+                      <input 
+                        type="text" 
+                        value={val} 
+                        onChange={(e) => handleArrayChange(field, idx, e.target.value)} 
+                        className="flex-1 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" 
+                        placeholder={`Enter ${field}`} 
+                      />
+                      <button type="button" onClick={() => handleRemoveArrayItem(field, idx)} className="bg-red-50 text-red-500 px-3 rounded-lg hover:bg-red-100">
+                        <X size={16} />
+                      </button>
+                    </div>
+                  ))}
+                  {formData[field].length === 0 && (
+                    <p className="text-xs text-slate-500 italic">No items added yet.</p>
+                  )}
+                </div>
+              ))}
+
+              {/* Timing Arrays (Objects) */}
+              {['aartiTimings', 'darshanTimings'].map((field) => (
+                <div key={field} className="md:col-span-2 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 capitalize">
+                      {field.replace(/([A-Z])/g, ' $1').trim()} (Optional)
+                    </label>
+                    <button type="button" onClick={() => handleAddTimingArrayItem(field)} className="text-xs bg-orange-100 text-orange-700 px-3 py-1 rounded-full font-bold hover:bg-orange-200">
+                      + Add Item
+                    </button>
+                  </div>
+                  {formData[field].map((val, idx) => (
+                    <div key={idx} className="flex gap-2 mb-2 items-center flex-wrap">
+                      <input 
+                        type="text" 
+                        value={val.name || ''} 
+                        onChange={(e) => handleTimingArrayChange(field, idx, 'name', e.target.value)} 
+                        className="flex-1 min-w-[150px] px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" 
+                        placeholder={field === 'aartiTimings' ? "Name (e.g. Mangala Aarti)" : "Name (e.g. Morning Darshan)"} 
+                      />
+                      
+                      {field === 'aartiTimings' ? (
+                        <>
+                          <input 
+                            type="time" 
+                            value={val.time?.split(' ')[0] || ''} 
+                            onChange={(e) => {
+                              const timeVal = e.target.value;
+                              const period = val.time?.split(' ')[1] || 'AM';
+                              handleTimingArrayChange(field, idx, 'time', `${timeVal} ${period}`);
+                            }} 
+                            className="w-32 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" 
+                          />
+                          <select
+                            value={val.time?.split(' ')[1] || 'AM'}
+                            onChange={(e) => {
+                              const timeVal = val.time?.split(' ')[0] || '12:00';
+                              handleTimingArrayChange(field, idx, 'time', `${timeVal} ${e.target.value}`);
+                            }}
+                            className="w-24 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-sm font-bold text-slate-500 mx-2">From:</span>
+                          <input 
+                            type="time" 
+                            value={val.fromTime?.split(' ')[0] || ''} 
+                            onChange={(e) => {
+                              const timeVal = e.target.value;
+                              const period = val.fromTime?.split(' ')[1] || 'AM';
+                              handleTimingArrayChange(field, idx, 'fromTime', `${timeVal} ${period}`);
+                            }} 
+                            className="w-32 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" 
+                          />
+                          <select
+                            value={val.fromTime?.split(' ')[1] || 'AM'}
+                            onChange={(e) => {
+                              const timeVal = val.fromTime?.split(' ')[0] || '12:00';
+                              handleTimingArrayChange(field, idx, 'fromTime', `${timeVal} ${e.target.value}`);
+                            }}
+                            className="w-24 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                          
+                          <span className="text-sm font-bold text-slate-500 mx-2">To:</span>
+                          <input 
+                            type="time" 
+                            value={val.toTime?.split(' ')[0] || ''} 
+                            onChange={(e) => {
+                              const timeVal = e.target.value;
+                              const period = val.toTime?.split(' ')[1] || 'PM';
+                              handleTimingArrayChange(field, idx, 'toTime', `${timeVal} ${period}`);
+                            }} 
+                            className="w-32 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" 
+                          />
+                          <select
+                            value={val.toTime?.split(' ')[1] || 'PM'}
+                            onChange={(e) => {
+                              const timeVal = val.toTime?.split(' ')[0] || '12:00';
+                              handleTimingArrayChange(field, idx, 'toTime', `${timeVal} ${e.target.value}`);
+                            }}
+                            className="w-24 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </>
+                      )}
+
+                      <button type="button" onClick={() => handleRemoveArrayItem(field, idx)} className="bg-red-50 text-red-500 px-3 py-2 rounded-lg hover:bg-red-100 ml-auto">
+                        <X size={16} />
+                      </button>
+                    </div>
+                  ))}
+                  {formData[field].length === 0 && (
+                    <p className="text-xs text-slate-500 italic">No timings added yet.</p>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         )}

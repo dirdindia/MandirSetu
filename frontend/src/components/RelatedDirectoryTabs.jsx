@@ -71,31 +71,40 @@ export default function RelatedDirectoryTabs({ mandirId, dhamId }) {
 
   return (
     <div className="w-full">
-      {/* Tabs */}
-      <div className="flex overflow-x-auto space-x-2 border-b border-[#d4af37]/20 pb-4 mb-10 scrollbar-hide justify-center">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => {
-              if(!tab.disabled) {
-                setActiveTab(tab.id);
-                setPage(1);
-              }
-            }}
-            disabled={tab.disabled}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-full font-serif font-bold transition-all whitespace-nowrap cursor-pointer shadow-sm
-              ${activeTab === tab.id 
-                ? 'bg-[#791916] text-[#fdfbf7] shadow-md border border-[#791916]' 
-                : 'bg-white text-[#3a0d0a] hover:bg-[#d4af37]/10 border border-[#d4af37]/30'
-              }
-              ${tab.disabled ? 'opacity-50 cursor-not-allowed' : ''}
-            `}
-          >
-            {tab.icon}
-            <span>{tab.label}</span>
-            {tab.disabled && <span className="ml-2 text-[10px] bg-[#3a0d0a]/10 px-2 py-0.5 rounded-full uppercase tracking-wider">Soon</span>}
-          </button>
-        ))}
+      {/* Circular Tabs Row */}
+      <div className="flex flex-wrap justify-center gap-6 sm:gap-10 mb-12">
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab.id;
+          const colors = ['text-orange-600', 'text-yellow-600', 'text-red-600', 'text-blue-600', 'text-green-600', 'text-purple-600'];
+          const colorClass = colors[tabs.indexOf(tab) % colors.length];
+          
+          return (
+            <button
+              key={tab.id}
+              onClick={() => {
+                if(!tab.disabled) {
+                  setActiveTab(tab.id);
+                  setPage(1);
+                }
+              }}
+              disabled={tab.disabled}
+              className={`flex flex-col items-center gap-4 group cursor-pointer ${tab.disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {/* Ornate Circular Icon Container */}
+              <div className={`w-20 h-20 sm:w-28 sm:h-28 rounded-full p-1 shadow-xl transition-all duration-300 ${!tab.disabled ? 'group-hover:scale-110' : ''} ${isActive ? 'bg-gradient-to-br from-[#791916] to-[#5a1617] scale-105' : 'bg-gradient-to-br from-[#dfba6b] to-[#c09642]'}`}>
+                <div className="w-full h-full bg-[#fdfbf7] rounded-full border-2 border-white flex items-center justify-center">
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#fcf7ed] flex items-center justify-center ${isActive ? 'text-[#791916]' : colorClass} shadow-inner`}>
+                     {React.cloneElement(tab.icon, { size: 32 })}
+                  </div>
+                </div>
+              </div>
+              <span className={`font-serif font-bold text-sm sm:text-lg uppercase tracking-wider ${isActive ? 'text-[#791916]' : 'text-[#5a1617]'}`}>
+                {tab.label}
+                {tab.disabled && <span className="block text-[10px] text-[#791916]/50 uppercase tracking-widest mt-1">Soon</span>}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       <div className="flex justify-end mb-4">

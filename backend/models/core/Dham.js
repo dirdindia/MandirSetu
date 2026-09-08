@@ -57,7 +57,22 @@ const dhamSchema = new mongoose.Schema({
     type: String,
     enum: ['active', 'pending', 'inactive'],
     default: 'active',
-  }
+  },
+  bestTimeToVisit: [{ type: String }],
+  placesToVisitNear: [{ type: String }],
+  majorFestivals: [{ type: String }],
+  aartiTimings: [{
+    name: { type: String, trim: true },
+    time: { type: String, trim: true }
+  }],
+  visitorInformation: [{ type: String }],
+  darshanTimings: [{
+    name: { type: String, trim: true },
+    fromTime: { type: String, trim: true },
+    toTime: { type: String, trim: true }
+  }],
+  mandirSetuTip: { type: String, trim: true },
+  religiousImportance: { type: String, trim: true },
 }, { timestamps: true });
 
 dhamSchema.index({ status: 1 });
