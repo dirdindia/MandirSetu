@@ -143,7 +143,7 @@ export default function EditDham() {
         icon: 'error',
         title: 'Oops...',
         text: 'Geolocation is not supported by your browser',
-        customClass: { confirmButton: 'bg-orange-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
       });
       return;
     }
@@ -178,7 +178,7 @@ export default function EditDham() {
           icon: 'error',
           title: 'Location Error',
           text: 'Unable to retrieve your location. Please enter manually.',
-          customClass: { confirmButton: 'bg-orange-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+          customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
         });
       }
     );
@@ -252,7 +252,7 @@ export default function EditDham() {
         icon: 'error',
         title: 'Resolution Failed',
         text: error.message || 'Something went wrong fetching the location.',
-        customClass: { confirmButton: 'bg-orange-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
       });
     }
   };
@@ -292,7 +292,7 @@ export default function EditDham() {
         icon: 'error',
         title: 'Upload Failed',
         text: 'Could not upload the images. Please check your Cloudinary config.',
-        customClass: { confirmButton: 'bg-orange-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
       });
     } finally {
       setUploadingField("");
@@ -348,13 +348,13 @@ export default function EditDham() {
   return (
     <div className="max-w-4xl mx-auto py-6">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Edit Dham</h2>
-        <p className="text-slate-500 mt-2">Update the details of the Dham.</p>
+        <h2 className="text-2xl font-bold text-maroon">Edit Dham</h2>
+        <p className="text-maroon-darker/60 mt-2">Update the details of the Dham.</p>
       </div>
 
       {/* Progress Tracker */}
       <div className="flex items-center justify-between mb-8 relative">
-        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-200 dark:bg-slate-800 -z-10 rounded-full"></div>
+        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-200 -z-10 rounded-full"></div>
         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-indigo-500 -z-10 rounded-full transition-all duration-300" style={{ width: `${((step - 1) / 3) * 100}%` }}></div>
         
         {[
@@ -368,7 +368,7 @@ export default function EditDham() {
             onClick={() => setStep(s.num)}
             className="flex flex-col items-center gap-2 cursor-pointer group hover:scale-105 transition-transform"
           >
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-4 transition-colors ${step >= s.num ? 'bg-indigo-500 border-indigo-100 text-white' : 'bg-slate-100 border-white text-slate-400 dark:bg-slate-800 dark:border-slate-900 group-hover:border-indigo-200'}`}>
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-4 transition-colors ${step >= s.num ? 'bg-indigo-500 border-indigo-100 text-white' : 'bg-slate-100 border-white text-slate-400  dark:border-slate-900 group-hover:border-indigo-200'}`}>
               {s.icon}
             </div>
             <span className={`text-xs font-bold transition-colors ${step >= s.num ? 'text-indigo-600' : 'text-slate-400 group-hover:text-indigo-400'}`}>{s.label}</span>
@@ -376,23 +376,23 @@ export default function EditDham() {
         ))}
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden p-8">
+      <div className="bg-white rounded-3xl shadow-sm border border-gold/20 overflow-hidden p-8">
         {/* STEP 1: BASIC INFO */}
         {step === 1 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 border-b pb-2">Basic Details</h3>
+            <h3 className="text-xl font-bold text-maroon mb-6 border-b pb-2">Basic Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Dham Name *</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Kashi Vishwanath Temple" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Dham Name *</label>
+                <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Kashi Vishwanath Temple" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Main Deity (Bhagwan) *</label>
-                <input type="text" name="mainDeity" value={formData.mainDeity} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Lord Shiva" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Main Deity (Bhagwan) *</label>
+                <input type="text" name="mainDeity" value={formData.mainDeity} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Lord Shiva" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Category *</label>
-                <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Category *</label>
+                <select name="category" value={formData.category} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none">
                   <option value="">Select Category</option>
                   <option value="vaishnava">Vaishnava</option>
                   <option value="shiva">Shiva</option>
@@ -401,37 +401,37 @@ export default function EditDham() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Established Year</label>
-                <input type="text" name="establishedYear" value={formData.establishedYear} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 1780" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Established Year</label>
+                <input type="text" name="establishedYear" value={formData.establishedYear} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 1780" />
               </div>
               <div className="md:col-span-2 grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Opening Time</label>
-                  <input type="time" name="schedule.openTime" value={formData.schedule.openTime} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+                  <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Opening Time</label>
+                  <input type="time" name="schedule.openTime" value={formData.schedule.openTime} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Closing Time</label>
-                  <input type="time" name="schedule.closeTime" value={formData.schedule.closeTime} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+                  <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Closing Time</label>
+                  <input type="time" name="schedule.closeTime" value={formData.schedule.closeTime} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
                 </div>
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Description</label>
-                <textarea name="description" rows="4" value={formData.description} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Brief history or description of the temple..."></textarea>
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Description</label>
+                <textarea name="description" rows="4" value={formData.description} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Brief history or description of the temple..."></textarea>
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Religious Importance (Optional)</label>
-                <textarea name="religiousImportance" rows="3" value={formData.religiousImportance} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Why is this Dham religiously significant?"></textarea>
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Religious Importance (Optional)</label>
+                <textarea name="religiousImportance" rows="3" value={formData.religiousImportance} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Why is this Dham religiously significant?"></textarea>
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Mandir Setu Tip (Optional)</label>
-                <input type="text" name="mandirSetuTip" value={formData.mandirSetuTip} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Best to start parikrama early morning." />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Mandir Setu Tip (Optional)</label>
+                <input type="text" name="mandirSetuTip" value={formData.mandirSetuTip} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Best to start parikrama early morning." />
               </div>
 
               {/* String Arrays */}
               {['bestTimeToVisit', 'placesToVisitNear', 'majorFestivals', 'visitorInformation'].map((field) => (
-                <div key={field} className="md:col-span-2 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                <div key={field} className="md:col-span-2 bg-premium p-4 rounded-xl border border-gold/20">
                   <div className="flex justify-between items-center mb-2">
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 capitalize">
+                    <label className="block text-sm font-bold text-maroon-darker/80 capitalize">
                       {field.replace(/([A-Z])/g, ' $1').trim()} (Optional)
                     </label>
                     <button type="button" onClick={() => handleAddArrayItem(field)} className="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold hover:bg-indigo-200">
@@ -444,7 +444,7 @@ export default function EditDham() {
                         type="text" 
                         value={val} 
                         onChange={(e) => handleArrayChange(field, idx, e.target.value)} 
-                        className="flex-1 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                        className="flex-1 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
                         placeholder={`Enter ${field}`} 
                       />
                       <button type="button" onClick={() => handleRemoveArrayItem(field, idx)} className="bg-red-50 text-red-500 px-3 rounded-lg hover:bg-red-100">
@@ -453,16 +453,16 @@ export default function EditDham() {
                     </div>
                   ))}
                   {formData[field].length === 0 && (
-                    <p className="text-xs text-slate-500 italic">No items added yet.</p>
+                    <p className="text-xs text-maroon-darker/60 italic">No items added yet.</p>
                   )}
                 </div>
               ))}
 
               {/* Timing Arrays (Objects) */}
               {['aartiTimings', 'darshanTimings'].map((field) => (
-                <div key={field} className="md:col-span-2 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                <div key={field} className="md:col-span-2 bg-premium p-4 rounded-xl border border-gold/20">
                   <div className="flex justify-between items-center mb-2">
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 capitalize">
+                    <label className="block text-sm font-bold text-maroon-darker/80 capitalize">
                       {field.replace(/([A-Z])/g, ' $1').trim()} (Optional)
                     </label>
                     <button type="button" onClick={() => handleAddTimingArrayItem(field)} className="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold hover:bg-indigo-200">
@@ -475,7 +475,7 @@ export default function EditDham() {
                         type="text" 
                         value={val.name || ''} 
                         onChange={(e) => handleTimingArrayChange(field, idx, 'name', e.target.value)} 
-                        className="flex-1 min-w-[150px] px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                        className="flex-1 min-w-[150px] px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
                         placeholder={field === 'aartiTimings' ? "Name (e.g. Mangala Aarti)" : "Name (e.g. Morning Darshan)"} 
                       />
                       
@@ -489,7 +489,7 @@ export default function EditDham() {
                               const period = val.time?.split(' ')[1] || 'AM';
                               handleTimingArrayChange(field, idx, 'time', `${timeVal} ${period}`);
                             }} 
-                            className="w-32 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
                           />
                           <select
                             value={val.time?.split(' ')[1] || 'AM'}
@@ -497,7 +497,7 @@ export default function EditDham() {
                               const timeVal = val.time?.split(' ')[0] || '12:00';
                               handleTimingArrayChange(field, idx, 'time', `${timeVal} ${e.target.value}`);
                             }}
-                            className="w-24 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                           >
                             <option value="AM">AM</option>
                             <option value="PM">PM</option>
@@ -505,7 +505,7 @@ export default function EditDham() {
                         </>
                       ) : (
                         <>
-                          <span className="text-sm font-bold text-slate-500 mx-2">From:</span>
+                          <span className="text-sm font-bold text-maroon-darker/60 mx-2">From:</span>
                           <input 
                             type="time" 
                             value={val.fromTime?.split(' ')[0] || ''} 
@@ -514,7 +514,7 @@ export default function EditDham() {
                               const period = val.fromTime?.split(' ')[1] || 'AM';
                               handleTimingArrayChange(field, idx, 'fromTime', `${timeVal} ${period}`);
                             }} 
-                            className="w-32 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
                           />
                           <select
                             value={val.fromTime?.split(' ')[1] || 'AM'}
@@ -522,13 +522,13 @@ export default function EditDham() {
                               const timeVal = val.fromTime?.split(' ')[0] || '12:00';
                               handleTimingArrayChange(field, idx, 'fromTime', `${timeVal} ${e.target.value}`);
                             }}
-                            className="w-24 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                           >
                             <option value="AM">AM</option>
                             <option value="PM">PM</option>
                           </select>
                           
-                          <span className="text-sm font-bold text-slate-500 mx-2">To:</span>
+                          <span className="text-sm font-bold text-maroon-darker/60 mx-2">To:</span>
                           <input 
                             type="time" 
                             value={val.toTime?.split(' ')[0] || ''} 
@@ -537,7 +537,7 @@ export default function EditDham() {
                               const period = val.toTime?.split(' ')[1] || 'PM';
                               handleTimingArrayChange(field, idx, 'toTime', `${timeVal} ${period}`);
                             }} 
-                            className="w-32 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
                           />
                           <select
                             value={val.toTime?.split(' ')[1] || 'PM'}
@@ -545,7 +545,7 @@ export default function EditDham() {
                               const timeVal = val.toTime?.split(' ')[0] || '12:00';
                               handleTimingArrayChange(field, idx, 'toTime', `${timeVal} ${e.target.value}`);
                             }}
-                            className="w-24 px-3 py-2 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                           >
                             <option value="AM">AM</option>
                             <option value="PM">PM</option>
@@ -559,7 +559,7 @@ export default function EditDham() {
                     </div>
                   ))}
                   {formData[field].length === 0 && (
-                    <p className="text-xs text-slate-500 italic">No timings added yet.</p>
+                    <p className="text-xs text-maroon-darker/60 italic">No timings added yet.</p>
                   )}
                 </div>
               ))}
@@ -570,7 +570,7 @@ export default function EditDham() {
         {/* STEP 2: LOCATION & GEO */}
         {step === 2 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 border-b pb-2">Location & Geolocation</h3>
+            <h3 className="text-xl font-bold text-maroon mb-6 border-b pb-2">Location & Geolocation</h3>
             
             {/* Quick Location Fill Feature */}
             <div className="bg-indigo-50 dark:bg-indigo-900/10 p-5 rounded-2xl border border-indigo-200 dark:border-indigo-800/50 mb-6">
@@ -582,7 +582,7 @@ export default function EditDham() {
                   type="text" 
                   value={quickLocationInput} 
                   onChange={(e) => setQuickLocationInput(e.target.value)} 
-                  className="flex-1 px-4 py-3 bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                  className="flex-1 px-4 py-3 bg-white border border-indigo-200 dark:border-indigo-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
                   placeholder="e.g. 25.3109, 83.0107 OR 8JMP6M8X+28" 
                 />
                 <button 
@@ -595,10 +595,10 @@ export default function EditDham() {
               </div>
 
               {fetchedLocationDetails && (
-                <div className="mt-4 p-4 bg-white dark:bg-slate-800 rounded-xl border border-indigo-100 dark:border-slate-700 shadow-sm">
+                <div className="mt-4 p-4 bg-white rounded-xl border border-indigo-100 dark:border-slate-700 shadow-sm">
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Fetched Details</h4>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 mb-1"><strong>Address:</strong> {fetchedLocationDetails.fullAddress}</p>
-                  <div className="flex gap-4 text-sm text-slate-600 dark:text-slate-400">
+                  <p className="text-sm text-maroon-darker/80 mb-1"><strong>Address:</strong> {fetchedLocationDetails.fullAddress}</p>
+                  <div className="flex gap-4 text-sm text-maroon-darker/70">
                     <p><strong>City:</strong> {fetchedLocationDetails.city}</p>
                     <p><strong>State:</strong> {fetchedLocationDetails.state}</p>
                     <p><strong>PIN:</strong> {fetchedLocationDetails.pincode}</p>
@@ -609,20 +609,20 @@ export default function EditDham() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-3">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Full Address *</label>
-                <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Street address, locality..." />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Full Address *</label>
+                <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Street address, locality..." />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">City *</label>
-                <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Varanasi" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">City *</label>
+                <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Varanasi" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">State *</label>
-                <input type="text" name="state" value={formData.state} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Uttar Pradesh" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">State *</label>
+                <input type="text" name="state" value={formData.state} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Uttar Pradesh" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Pincode *</label>
-                <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 221001" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Pincode *</label>
+                <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 221001" />
               </div>
               
               <div className="md:col-span-3 mt-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-2xl">
@@ -638,29 +638,29 @@ export default function EditDham() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-indigo-800/70 mb-1">Latitude</label>
-                    <input type="text" name="latitude" value={formData.latitude} onChange={handleChange} className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-indigo-200 rounded-lg focus:outline-none" placeholder="25.3109" />
+                    <input type="text" name="latitude" value={formData.latitude} onChange={handleChange} className="w-full px-3 py-2 bg-white border border-indigo-200 rounded-lg focus:outline-none" placeholder="25.3109" />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-indigo-800/70 mb-1">Longitude</label>
-                    <input type="text" name="longitude" value={formData.longitude} onChange={handleChange} className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-indigo-200 rounded-lg focus:outline-none" placeholder="83.0107" />
+                    <input type="text" name="longitude" value={formData.longitude} onChange={handleChange} className="w-full px-3 py-2 bg-white border border-indigo-200 rounded-lg focus:outline-none" placeholder="83.0107" />
                   </div>
                 </div>
               </div>
 
-              <div className="md:col-span-3 mt-6 border-t border-slate-200 dark:border-slate-800 pt-6">
-                <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-4">How to Reach</h4>
+              <div className="md:col-span-3 mt-6 border-t border-gold/20 pt-6">
+                <h4 className="text-lg font-bold text-maroon mb-4">How to Reach</h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">By Bus</label>
-                    <textarea name="howToReach.bus" rows="2" value={formData.howToReach.bus} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Nearest bus stand and routes..."></textarea>
+                    <label className="block text-sm font-bold text-maroon-darker/80 mb-2">By Bus</label>
+                    <textarea name="howToReach.bus" rows="2" value={formData.howToReach.bus} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Nearest bus stand and routes..."></textarea>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">By Train</label>
-                    <textarea name="howToReach.train" rows="2" value={formData.howToReach.train} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Nearest railway station..."></textarea>
+                    <label className="block text-sm font-bold text-maroon-darker/80 mb-2">By Train</label>
+                    <textarea name="howToReach.train" rows="2" value={formData.howToReach.train} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Nearest railway station..."></textarea>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">By Air</label>
-                    <textarea name="howToReach.air" rows="2" value={formData.howToReach.air} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Nearest airport..."></textarea>
+                    <label className="block text-sm font-bold text-maroon-darker/80 mb-2">By Air</label>
+                    <textarea name="howToReach.air" rows="2" value={formData.howToReach.air} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Nearest airport..."></textarea>
                   </div>
                 </div>
               </div>
@@ -671,13 +671,13 @@ export default function EditDham() {
         {/* STEP 3: MEDIA UPLOADS */}
         {step === 3 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 border-b pb-2">Media Uploads</h3>
+            <h3 className="text-xl font-bold text-maroon mb-6 border-b pb-2">Media Uploads</h3>
             
             {/* Profile Pic Upload */}
-            <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-6 text-center hover:bg-slate-50 transition-colors">
+            <div className="border-2 border-dashed border-gold/30 rounded-2xl p-6 text-center hover:bg-premium transition-colors">
               <UploadCloud className="mx-auto text-indigo-400 mb-3" size={32} />
-              <label className="block text-sm font-bold text-slate-700 mb-1">Main Profile Picture</label>
-              <p className="text-xs text-slate-500 mb-4">Upload the main image for the Dham (JPEG, PNG)</p>
+              <label className="block text-sm font-bold text-maroon-darker mb-1">Main Profile Picture</label>
+              <p className="text-xs text-maroon-darker/60 mb-4">Upload the main image for the Dham (JPEG, PNG)</p>
               
               <input type="file" accept="image/*" id="profilePic" className="hidden" onChange={(e) => handleFileChange(e, 'profilePic')} />
               <label htmlFor="profilePic" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-sm font-bold hover:bg-indigo-200 transition-colors">
@@ -687,7 +687,7 @@ export default function EditDham() {
               {formData.profilePic && (
                 <div className="mt-4 flex justify-center">
                   <div className="relative group inline-block">
-                    <img src={formData.profilePic} alt="Profile" className="w-24 h-24 object-cover rounded-xl shadow-sm border border-slate-200" />
+                    <img src={formData.profilePic} alt="Profile" className="w-24 h-24 object-cover rounded-xl shadow-sm border border-gold/20" />
                     <button 
                       type="button" 
                       onClick={handleRemoveProfilePic}
@@ -701,10 +701,10 @@ export default function EditDham() {
             </div>
 
             {/* Gallery Upload */}
-            <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-6 text-center hover:bg-slate-50 transition-colors">
+            <div className="border-2 border-dashed border-gold/30 rounded-2xl p-6 text-center hover:bg-premium transition-colors">
               <UploadCloud className="mx-auto text-indigo-400 mb-3" size={32} />
-              <label className="block text-sm font-bold text-slate-700 mb-1">Gallery Images</label>
-              <p className="text-xs text-slate-500 mb-4">Upload multiple images showcasing the temple</p>
+              <label className="block text-sm font-bold text-maroon-darker mb-1">Gallery Images</label>
+              <p className="text-xs text-maroon-darker/60 mb-4">Upload multiple images showcasing the temple</p>
               
               <input type="file" multiple accept="image/*" id="gallery" className="hidden" onChange={(e) => handleFileChange(e, 'gallery')} />
               <label htmlFor="gallery" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-sm font-bold hover:bg-indigo-200 transition-colors">
@@ -715,7 +715,7 @@ export default function EditDham() {
                 <div className="mt-4 flex flex-wrap justify-center gap-3">
                   {formData.gallery.map((url, i) => (
                     <div key={i} className="relative group">
-                      <img src={url} alt={`Gallery ${i}`} className="w-16 h-16 object-cover rounded-lg shadow-sm border border-slate-200" />
+                      <img src={url} alt={`Gallery ${i}`} className="w-16 h-16 object-cover rounded-lg shadow-sm border border-gold/20" />
                       <button 
                         type="button" 
                         onClick={() => handleRemoveGalleryImage(i)}
@@ -734,19 +734,19 @@ export default function EditDham() {
         {/* STEP 4: CONTACT & REVIEW */}
         {step === 4 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 border-b pb-2">Contact Info & Review</h3>
+            <h3 className="text-xl font-bold text-maroon mb-6 border-b pb-2">Contact Info & Review</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Phone Number *</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="+91 9876543210" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Phone Number *</label>
+                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="+91 9876543210" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="contact@temple.com" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Email Address</label>
+                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="contact@temple.com" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Official Website</label>
-                <input type="url" name="website" value={formData.website} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="https://www.temple.org" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Official Website</label>
+                <input type="url" name="website" value={formData.website} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="https://www.temple.org" />
               </div>
             </div>
             
@@ -757,12 +757,12 @@ export default function EditDham() {
         )}
 
         {/* Buttons */}
-        <div className="flex justify-between mt-10 pt-6 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex justify-between mt-10 pt-6 border-t border-gold/10">
           <button 
             type="button" 
             onClick={handlePrev}
             disabled={step === 1 || loading}
-            className={`px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all ${step === 1 ? 'opacity-0 cursor-default' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 cursor-pointer'}`}
+            className={`px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all ${step === 1 ? 'opacity-0 cursor-default' : 'bg-slate-100 text-maroon-darker/70 hover:bg-slate-200 cursor-pointer'}`}
           >
             <ChevronLeft size={18} /> Back
           </button>

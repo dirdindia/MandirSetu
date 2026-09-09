@@ -39,8 +39,8 @@ export default function EventsList() {
     <div className="p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">Events List</h1>
-          <p className="text-slate-600 dark:text-slate-400">Manage all spiritual events across the platform.</p>
+          <h1 className="text-3xl font-bold text-maroon mb-2">Events List</h1>
+          <p className="text-maroon-darker/70">Manage all spiritual events across the platform.</p>
         </div>
         
         <div className="relative w-full md:w-72">
@@ -49,48 +49,48 @@ export default function EventsList() {
             placeholder="Search events..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full pl-10 pr-4 py-2 rounded-lg border border-gold/30 bg-white text-slate-900 outline-none focus:ring-2 focus:ring-maroon"
           />
           <Search className="absolute left-3 top-2.5 text-slate-400" size={18} />
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gold/20 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
-                <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Event</th>
-                <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Date & Time</th>
-                <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Category</th>
-                <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Actions</th>
+              <tr className="bg-premium border-b border-gold/20 dark:border-slate-700">
+                <th className="p-4 text-sm font-semibold text-maroon-darker/60">Event</th>
+                <th className="p-4 text-sm font-semibold text-maroon-darker/60">Date & Time</th>
+                <th className="p-4 text-sm font-semibold text-maroon-darker/60">Category</th>
+                <th className="p-4 text-sm font-semibold text-maroon-darker/60">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan="4" className="p-8 text-center text-slate-500">Loading events...</td></tr>
+                <tr><td colSpan="4" className="p-8 text-center text-maroon-darker/60">Loading events...</td></tr>
               ) : filteredEvents.length === 0 ? (
-                <tr><td colSpan="4" className="p-8 text-center text-slate-500">No events found.</td></tr>
+                <tr><td colSpan="4" className="p-8 text-center text-maroon-darker/60">No events found.</td></tr>
               ) : (
                 filteredEvents.map(event => (
-                  <tr key={event._id} className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                  <tr key={event._id} className="border-b border-gold/10 hover:bg-premium hover:bg-gold/10/50 transition-colors">
                     <td className="p-4">
                       <div className="flex items-center gap-4">
                         <img src={event.image} alt={event.title} className="w-16 h-16 rounded-lg object-cover bg-slate-200" />
                         <div>
-                          <p className="font-semibold text-slate-800 dark:text-white">{event.title}</p>
-                          <p className="text-xs text-slate-500 flex items-center gap-1 mt-1"><MapPin size={12}/> {event.location}</p>
+                          <p className="font-semibold text-maroon">{event.title}</p>
+                          <p className="text-xs text-maroon-darker/60 flex items-center gap-1 mt-1"><MapPin size={12}/> {event.location}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 text-sm text-slate-600 dark:text-slate-300">
+                    <td className="p-4 text-sm text-maroon-darker/60">
                       <div className="flex flex-col gap-1">
                         <span className="flex items-center gap-1"><Calendar size={14}/> {event.date}</span>
-                        <span className="text-xs text-slate-500">{event.time}</span>
+                        <span className="text-xs text-maroon-darker/60">{event.time}</span>
                       </div>
                     </td>
                     <td className="p-4">
-                      <span className="px-3 py-1 bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-400 rounded-full text-xs font-medium">
+                      <span className="px-3 py-1 bg-gold/20 text-maroon dark:bg-maroon/20 dark:text-gold rounded-full text-xs font-medium">
                         {event.category}
                       </span>
                     </td>

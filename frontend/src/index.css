@@ -4,6 +4,34 @@
 
 @theme {
   --animate-float: float 6s ease-in-out infinite;
+  
+  --color-maroon: var(--color-maroon);
+  --color-maroon-dark: var(--color-maroon-dark);
+  --color-maroon-darker: var(--color-maroon-darker);
+  --color-gold: var(--color-gold);
+  --color-premium: var(--color-premium);
+}
+
+@layer base {
+  :root {
+    --color-maroon: #791916;
+    --color-maroon-dark: #5a1210;
+    --color-maroon-darker: #3a0d0a;
+    --color-gold: #d4af37;
+    --color-premium: #fdfbf7;
+  }
+  
+  .dark {
+    --color-premium: #121212;
+    --color-maroon: #d4af37;
+    --color-maroon-dark: #fdfbf7;
+    --color-maroon-darker: #fdfbf7;
+    --color-gold: #791916;
+  }
+
+  body {
+    @apply bg-premium text-maroon-darker transition-colors duration-300;
+  }
 }
 
 @keyframes float {

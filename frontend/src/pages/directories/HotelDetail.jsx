@@ -24,69 +24,73 @@ export default function HotelDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+      <div className="min-h-screen pt-24 pb-12 bg-premium flex justify-center items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold"></div>
       </div>
     );
   }
 
   if (!hotel) {
     return (
-      <div className="min-h-screen pt-24 flex flex-col justify-center items-center">
-        <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-200 mb-4">Hotel Not Found</h2>
+      <div className="min-h-screen pt-24 pb-12 bg-premium flex flex-col justify-center items-center">
+        <h2 className="text-3xl font-serif font-bold text-maroon mb-4">Hotel Not Found</h2>
+        <button onClick={() => window.history.back()} className="mt-4 px-6 py-2 rounded-xl bg-white border border-gold/30 text-maroon font-bold hover:bg-gold/10 transition-all shadow-sm">
+          Go Back
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="pt-20 pb-20 bg-slate-50 dark:bg-slate-950 min-h-screen">
+    <div className="pt-24 pb-20 bg-premium min-h-screen font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <button onClick={() => window.history.back()} className="inline-flex items-center text-orange-500 hover:text-orange-600 font-semibold mb-6 transition-colors">
-          &larr; Back
+        <button onClick={() => window.history.back()} className="inline-flex items-center text-gold hover:text-maroon font-semibold mb-6 transition-colors">
+          &larr; Back to Services
         </button>
 
-        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-800">
-          <div className="h-64 sm:h-96 w-full relative">
-             <img 
-                src={hotel.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(hotel.name)}&background=f97316&color=fff&size=512`} 
+        <div className="bg-white rounded-3xl shadow-xl shadow-maroon/5 overflow-hidden border border-gold/20">
+          <div className="bg-gradient-to-br from-maroon/5 to-gold/10 p-8 sm:p-10 border-b border-gold/20 flex flex-col md:flex-row items-center md:items-start gap-8">
+            <div className="flex-shrink-0 w-40 h-40 sm:w-56 sm:h-56 rounded-3xl overflow-hidden shadow-xl shadow-maroon/10 border-4 border-white bg-white">
+              <img 
+                src={hotel.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(hotel.name)}&background=791916&color=fff&size=512`} 
                 alt={hotel.name} 
                 className="w-full h-full object-cover"
-                onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(hotel.name)}&background=f97316&color=fff&size=512` }}
+                onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(hotel.name)}&background=791916&color=fff&size=512` }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 p-8 w-full">
-                 <div className="flex items-center space-x-3 mb-2">
-                    <span className="bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                      Hotel
-                    </span>
-                    {hotel.starRating && (
-                      <span className="bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full">
-                        {hotel.starRating} Stars
-                      </span>
-                    )}
-                 </div>
-                 <h1 className="text-4xl sm:text-5xl font-black text-white mb-2">{hotel.name}</h1>
-                 <p className="text-slate-200 text-lg flex items-center">
-                   <span className="mr-2">📍</span> {hotel.location?.city}, {hotel.location?.state}
-                 </p>
+            </div>
+            <div className="flex-grow text-center md:text-left flex flex-col justify-center sm:pt-4">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-4">
+                <span className="bg-maroon text-premium text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider border border-gold/30 shadow-sm">
+                  Hotel
+                </span>
+                {hotel.starRating && (
+                  <span className="bg-white text-maroon text-xs font-bold px-3 py-1.5 rounded-full border border-gold/30 shadow-sm flex items-center gap-1">
+                    {hotel.starRating} Stars
+                  </span>
+                )}
               </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-maroon mb-3 leading-tight">{hotel.name}</h1>
+              <p className="text-maroon-darker/80 text-lg flex items-center justify-center md:justify-start font-medium">
+                <span className="mr-2 text-gold">📍</span> {hotel.location?.city}, {hotel.location?.state}
+              </p>
+            </div>
           </div>
 
           <div className="p-8 sm:p-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-10">
               <section>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">About the Hotel</h2>
-                <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
+                <h2 className="text-2xl font-serif font-bold text-maroon mb-4 pb-2 border-b border-gold/20 inline-block">About the Hotel</h2>
+                <p className="text-maroon-darker/80 leading-relaxed text-lg mt-2">
                   {hotel.description || 'No description available.'}
                 </p>
               </section>
 
               {hotel.amenities && hotel.amenities.length > 0 && (
                 <section>
-                  <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Amenities</h2>
-                  <div className="flex flex-wrap gap-2">
+                  <h2 className="text-xl font-serif font-bold text-maroon mb-4">Amenities</h2>
+                  <div className="flex flex-wrap gap-3">
                     {hotel.amenities.map((amenity, idx) => (
-                      <span key={idx} className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-xl text-sm font-semibold border border-blue-100 dark:border-blue-800">
+                      <span key={idx} className="bg-maroon/5 text-maroon px-4 py-2 rounded-xl text-sm font-semibold border border-gold/20">
                         {amenity}
                       </span>
                     ))}
@@ -96,10 +100,10 @@ export default function HotelDetail() {
 
               {hotel.roomTypes && hotel.roomTypes.length > 0 && (
                 <section>
-                  <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Room Types</h2>
-                  <div className="flex flex-wrap gap-2">
+                  <h2 className="text-xl font-serif font-bold text-maroon mb-4">Room Types</h2>
+                  <div className="flex flex-wrap gap-3">
                     {hotel.roomTypes.map((room, idx) => (
-                      <span key={idx} className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 dark:border-slate-700">
+                      <span key={idx} className="bg-premium text-maroon-darker/80 px-4 py-2 rounded-xl text-sm font-semibold border border-gold/20 shadow-sm">
                         {room}
                       </span>
                     ))}
@@ -107,47 +111,47 @@ export default function HotelDetail() {
                 </section>
               )}
               
-              <section className="grid grid-cols-2 gap-4">
-                 <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 text-center">
-                    <p className="text-sm font-bold text-slate-500 uppercase">Banquet / Hall</p>
-                    <p className="text-lg font-bold text-slate-800 dark:text-slate-200 mt-1">{hotel.hasHall ? 'Available' : 'Not Available'}</p>
+              <section className="grid grid-cols-2 gap-6">
+                 <div className="bg-premium p-6 rounded-2xl border border-gold/20 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <p className="text-sm font-bold text-gold uppercase tracking-wider">Banquet / Hall</p>
+                    <p className="text-lg font-bold text-maroon mt-2">{hotel.hasHall ? 'Available' : 'Not Available'}</p>
                  </div>
-                 <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 text-center">
-                    <p className="text-sm font-bold text-slate-500 uppercase">Restaurant</p>
-                    <p className="text-lg font-bold text-slate-800 dark:text-slate-200 mt-1">{hotel.foodAvailable ? 'Available' : 'Not Available'}</p>
+                 <div className="bg-premium p-6 rounded-2xl border border-gold/20 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <p className="text-sm font-bold text-gold uppercase tracking-wider">Restaurant</p>
+                    <p className="text-lg font-bold text-maroon mt-2">{hotel.foodAvailable ? 'Available' : 'Not Available'}</p>
                  </div>
               </section>
             </div>
 
             <div className="space-y-6">
               {hotel.startingPrice && (
-                <div className="bg-orange-50 dark:bg-orange-900/20 p-6 rounded-2xl border border-orange-100 dark:border-orange-800/50">
-                  <h3 className="font-bold text-slate-900 dark:text-white text-sm uppercase opacity-70 mb-1">Starting Price</h3>
-                  <p className="text-3xl font-black text-orange-600 dark:text-orange-400">₹{hotel.startingPrice}</p>
+                <div className="bg-gradient-to-br from-maroon to-[#4a0f0d] p-6 rounded-2xl border border-gold/30 shadow-lg text-center">
+                  <h3 className="font-bold text-gold text-sm uppercase mb-2 tracking-wider">Starting Price</h3>
+                  <p className="text-4xl font-serif font-bold text-premium">₹{hotel.startingPrice}</p>
                 </div>
               )}
 
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700">
-                <h3 className="font-bold text-slate-900 dark:text-white mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Location</h3>
-                <p className="text-slate-600 dark:text-slate-300 text-sm mb-4">{hotel.location?.address}, {hotel.location?.city}, {hotel.location?.state} {hotel.location?.pincode}</p>
+              <div className="bg-premium p-6 rounded-2xl border border-gold/20 shadow-sm">
+                <h3 className="font-serif font-bold text-maroon mb-4 border-b border-gold/20 pb-3">Location</h3>
+                <p className="text-maroon-darker/80 text-sm mb-5 leading-relaxed">{hotel.location?.address}, {hotel.location?.city}, {hotel.location?.state} {hotel.location?.pincode}</p>
                 {hotel.geolocation?.latitude && (
-                  <a href={`https://www.google.com/maps/search/?api=1&query=${hotel.geolocation.latitude},${hotel.geolocation.longitude}`} target="_blank" rel="noreferrer" className="block w-full text-center bg-slate-900 hover:bg-slate-800 dark:bg-orange-500 dark:hover:bg-orange-600 text-white py-2 rounded-xl font-bold transition-colors">
+                  <a href={`https://www.google.com/maps/search/?api=1&query=${hotel.geolocation.latitude},${hotel.geolocation.longitude}`} target="_blank" rel="noreferrer" className="block w-full text-center bg-white border border-gold/30 hover:bg-gold/10 text-maroon py-3 rounded-xl font-bold transition-all shadow-sm">
                     View on Maps
                   </a>
                 )}
               </div>
 
               {(hotel.contact?.phone || hotel.contact?.email) && (
-                <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-700">
-                  <h3 className="font-bold text-slate-900 dark:text-white mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Contact</h3>
-                  <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-300">
-                    {hotel.contact.managerName && <li><strong className="text-slate-800 dark:text-slate-200">Manager:</strong> {hotel.contact.managerName}</li>}
-                    {hotel.contact.phone && <li>📞 {hotel.contact.phone}</li>}
-                    {hotel.contact.email && <li>✉️ {hotel.contact.email}</li>}
-                    {hotel.contact.website && <li>🌐 <a href={hotel.contact.website} target="_blank" rel="noreferrer" className="text-orange-500 hover:underline">Website</a></li>}
+                <div className="bg-premium p-6 rounded-2xl border border-gold/20 shadow-sm">
+                  <h3 className="font-serif font-bold text-maroon mb-4 border-b border-gold/20 pb-3">Contact Information</h3>
+                  <ul className="space-y-4 text-sm text-maroon-darker/80">
+                    {hotel.contact.managerName && <li><strong className="text-maroon">Manager:</strong> <span className="ml-1">{hotel.contact.managerName}</span></li>}
+                    {hotel.contact.phone && <li className="flex items-center"><span className="text-gold mr-2">📞</span> {hotel.contact.phone}</li>}
+                    {hotel.contact.email && <li className="flex items-center"><span className="text-gold mr-2">✉️</span> {hotel.contact.email}</li>}
+                    {hotel.contact.website && <li className="flex items-center"><span className="text-gold mr-2">🌐</span> <a href={hotel.contact.website} target="_blank" rel="noreferrer" className="text-maroon hover:text-gold font-semibold transition-colors underline decoration-gold/40 underline-offset-4">Website</a></li>}
                   </ul>
                   {hotel.contact.phone && (
-                    <a href={`tel:${hotel.contact.phone}`} className="mt-4 block w-full text-center bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-bold transition-colors shadow-lg shadow-blue-500/30">
+                    <a href={`tel:${hotel.contact.phone}`} className="mt-6 block w-full text-center bg-gradient-to-r from-maroon to-maroon-dark hover:from-maroon-dark hover:to-maroon-darker text-premium py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-maroon/20">
                       Call Now
                     </a>
                   )}

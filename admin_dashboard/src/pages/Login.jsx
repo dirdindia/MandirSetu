@@ -54,82 +54,104 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-orange-500/5 to-transparent">
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-slate-900 p-8 border border-slate-200 dark:border-slate-900 rounded-3xl shadow-lg">
-        {/* Header Title */}
-        <div className="text-center flex flex-col items-center">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl   flex items-center justify-center text-white ">
-              <img src="/logo1.png" alt="dird" className="w-full h-full object-contain" />
-            </div>
-            <span className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent tracking-wide">
-              MANDIRSETU
-            </span>
-          </div>
-          <h2 className="mt-4 text-3xl font-extrabold text-slate-900 dark:text-white">
-            Admin Portal
-          </h2>
-          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-            Sign in to manage the MandirSetu platform.
-          </p>
+    <div className="min-h-screen flex font-sans bg-premium">
+      {/* Left side - Image */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-maroon-darker items-center justify-center overflow-hidden">
+        <img 
+          src="https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&q=80&w=2000" 
+          alt="Temple Background" 
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-maroon-darker via-maroon-darker/40 to-transparent"></div>
+        <div className="relative z-10 p-12 text-center max-w-lg">
+           <h2 className="text-4xl lg:text-5xl font-serif font-bold text-premium mb-6 tracking-wide leading-tight drop-shadow-lg">
+             Mandir Setu
+           </h2>
+           <p className="text-lg text-premium/90 font-light drop-shadow-md">
+             Overseeing the divine journey for millions of devotees. Ensuring authentic and secure experiences.
+           </p>
+           <div className="w-24 h-1 bg-gold/50 mx-auto mt-8"></div>
         </div>
-
-        {error && (
-          <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg text-sm text-center font-medium border border-red-200 dark:border-red-800">
-            {error}
-          </div>
-        )}
-
-        {/* Credentials Form */}
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          <div className="space-y-4">
-            {/* Identifier (Email or Phone) */}
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                Email or Mobile Number
-              </label>
-              <input
-                type="text"
-                required
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-                placeholder="admin@gmail.com or 9876543210"
-                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 text-sm transition-all"
-              />
-            </div>
-
-            {/* Password */}
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                Password
-              </label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 text-sm transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Submit */}
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 active:scale-[0.98] shadow-md shadow-orange-500/20 transition-all cursor-pointer"
-            >
-              Sign In as ADMIN
-            </button>
-          </div>
-        </form>
       </div>
 
-      {/* DIRD Branding */}
-      <div className="mt-8 flex flex-col items-center justify-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
-        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Developed by DIRD India Pvt Ltd</span>
-        
+      {/* Right side - Form */}
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-12 xl:px-24 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-maroon/5 via-premium to-gold/10">
+        <div className="w-full max-w-md space-y-8 bg-white p-10 border border-gold/20 rounded-[2rem] shadow-2xl shadow-maroon/5 relative overflow-hidden">
+          
+          {/* Top Decorative Border */}
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-gold via-[#fde08b] to-gold"></div>
+
+          {/* Header Title */}
+          <div className="text-center flex flex-col items-center pt-2">
+            <div className="flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white border border-gold/30 shadow-md p-2">
+                <img src="/logo1.png" alt="MandirSetu Logo" className="w-full h-full object-contain" />
+              </div>
+            </div>
+            <h2 className="mt-2 text-3xl font-serif font-bold text-maroon-darker">
+              Admin Portal
+            </h2>
+            <p className="mt-3 text-sm text-maroon-darker/70 font-medium">
+              Sign in to manage the MandirSetu platform.
+            </p>
+          </div>
+
+          {error && (
+            <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm text-center font-bold border border-red-200 shadow-sm">
+              {error}
+            </div>
+          )}
+
+          {/* Credentials Form */}
+          <form className="mt-10 space-y-7" onSubmit={handleLogin}>
+            <div className="space-y-5">
+              {/* Identifier (Email or Phone) */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-gold uppercase tracking-widest pl-1">
+                  Email or Mobile Number
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  placeholder="admin@gmail.com or 9876543210"
+                  className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl text-maroon-darker placeholder-maroon-darker/30 focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon/20 text-sm transition-all shadow-inner"
+                />
+              </div>
+
+              {/* Password */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-gold uppercase tracking-widest pl-1">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl text-maroon-darker placeholder-maroon-darker/30 focus:outline-none focus:border-maroon focus:ring-1 focus:ring-maroon/20 text-sm transition-all shadow-inner"
+                />
+              </div>
+            </div>
+
+            {/* Submit */}
+            <div className="pt-2">
+              <button
+                type="submit"
+                className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-premium bg-gradient-to-r from-maroon to-maroon-dark hover:from-maroon-dark hover:to-maroon-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-maroon active:scale-[0.98] shadow-xl shadow-maroon/20 transition-all cursor-pointer tracking-wider"
+              >
+                SIGN IN AS ADMIN
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* DIRD Branding */}
+        <div className="mt-10 flex flex-col items-center justify-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+          <span className="text-xs font-medium text-maroon-darker/70 tracking-wide uppercase">Developed by DIRD India Pvt Ltd</span>
+        </div>
       </div>
     </div>
   );

@@ -44,16 +44,16 @@ export default function Gallery() {
     },
   ];
 
-  const gradient = 'from-[#3a0d0a]/90 via-[#791916]/70 to-[#fdfbf7]';
+  const gradient = 'from-maroon-darker/90 via-maroon/70 to-premium';
 
   return (
-    <div className="bg-[#fdfbf7] min-h-screen text-[#3a0d0a] font-sans pb-20">
+    <div className="bg-premium min-h-screen text-maroon-darker font-sans pb-20">
       
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex flex-col justify-end items-center pt-16">
         <div className="absolute inset-0">
           <img
-            src="/hero/img4.jpg"
+            src="https://images.unsplash.com/photo-1627894483216-2138af692e32?auto=format&fit=crop&q=80&w=2070"
             alt="Gallery Hero Banner"
             className="w-full h-full object-cover"
           />
@@ -62,18 +62,18 @@ export default function Gallery() {
         
         {/* Hero Content */}
         <div className="relative z-20 flex flex-col items-center text-center px-4 w-full max-w-5xl pb-16">
-          <h2 className="text-[#d4af37] text-lg sm:text-xl font-serif tracking-widest mb-2">॥ दिव्य दर्शन ॥</h2>
+          <h2 className="text-gold text-lg sm:text-xl font-serif tracking-widest mb-2">॥ दिव्य दर्शन ॥</h2>
           <h1 className="text-5xl sm:text-7xl font-serif text-white mb-4 drop-shadow-xl uppercase tracking-wider">
             Photo Gallery
           </h1>
-          <p className="text-sm sm:text-lg text-[#fdfbf7] max-w-2xl mx-auto leading-relaxed drop-shadow-md font-light italic">
+          <p className="text-sm sm:text-lg text-premium max-w-2xl mx-auto leading-relaxed drop-shadow-md font-light italic">
             Glimpses of temples, ashrams, tourists, and holy rituals.
           </p>
         </div>
       </section>
 
       {/* Decorative Divider */}
-      <div className="mt-20 mb-10 flex justify-center text-[#d4af37]">
+      <div className="mt-20 mb-10 flex justify-center text-gold">
          <span className="text-2xl">▲</span>
       </div>
 
@@ -84,7 +84,7 @@ export default function Gallery() {
         {galleryItems.map((item) => (
           <div
             key={item.id}
-            className="group flex flex-col bg-white border border-[#d4af37]/20 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-[#791916]/10 transition-all duration-500"
+            className="group flex flex-col bg-white border border-gold/20 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-maroon/10 transition-all duration-500"
           >
             {/* Clickable Image via <a> tag */}
             <a 
@@ -98,8 +98,8 @@ export default function Gallery() {
                 alt={item.title} 
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#3a0d0a]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-6">
-                 <span className="text-[#d4af37] font-serif font-bold tracking-wider uppercase border border-[#d4af37] px-6 py-2 rounded-full backdrop-blur-sm transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
+              <div className="absolute inset-0 bg-gradient-to-t from-maroon-darker/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-6">
+                 <span className="text-gold font-serif font-bold tracking-wider uppercase border border-gold px-6 py-2 rounded-full backdrop-blur-sm transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
                    View Full Image
                  </span>
               </div>
@@ -107,8 +107,8 @@ export default function Gallery() {
 
             {/* Description */}
             <div className="p-8 flex-grow text-center">
-              <h3 className="font-serif font-bold text-2xl text-[#791916] mb-3">{item.title}</h3>
-              <p className="text-base text-[#3a0d0a]/70 font-light leading-relaxed">
+              <h3 className="font-serif font-bold text-2xl text-maroon mb-3">{item.title}</h3>
+              <p className="text-base text-maroon-darker/70 font-light leading-relaxed">
                 {item.description}
               </p>
             </div>

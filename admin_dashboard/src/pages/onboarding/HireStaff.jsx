@@ -69,7 +69,7 @@ export default function HireStaff() {
         icon: 'error',
         title: 'Oops...',
         text: 'Geolocation is not supported by your browser',
-        customClass: { confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
       });
       return;
     }
@@ -101,7 +101,7 @@ export default function HireStaff() {
           icon: 'error',
           title: 'Location Error',
           text: 'Unable to retrieve location.',
-          customClass: { confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+          customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
         });
       }
     );
@@ -164,7 +164,7 @@ export default function HireStaff() {
     } catch (error) {
       Swal.fire({
         icon: 'error', title: 'Resolution Failed', text: error.message,
-        customClass: { confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
       });
     }
   };
@@ -204,7 +204,7 @@ export default function HireStaff() {
         icon: 'error',
         title: 'Upload Failed',
         text: 'Could not upload the file. Please check your config.',
-        customClass: { confirmButton: 'bg-orange-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
       });
     } finally {
       setUploadingField("");
@@ -234,7 +234,7 @@ export default function HireStaff() {
         icon: 'success',
         title: 'Staff Hired!',
         text: 'The new staff member has been successfully registered.',
-        customClass: { confirmButton: 'bg-orange-500 text-white px-6 py-2 rounded-lg font-bold cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-6 py-2 rounded-lg font-bold cursor-pointer' }
       });
       
       // Reset form
@@ -249,7 +249,7 @@ export default function HireStaff() {
         icon: 'error',
         title: 'Submission Failed',
         text: err.response?.data?.message || 'Failed to hire staff. Please try again.',
-        customClass: { confirmButton: 'bg-orange-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
       });
     } finally {
       setLoading(false);
@@ -259,14 +259,14 @@ export default function HireStaff() {
   return (
     <div className="max-w-4xl mx-auto py-6">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Hire Staff / Sevadar</h2>
-        <p className="text-slate-500 mt-2">Register a new staff member to manage mandirs or platform operations.</p>
+        <h2 className="text-2xl font-bold text-maroon">Hire Staff / Sevadar</h2>
+        <p className="text-maroon-darker/60 mt-2">Register a new staff member to manage mandirs or platform operations.</p>
       </div>
 
       {/* Progress Tracker */}
       <div className="flex items-center justify-between mb-8 relative">
-        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-200 dark:bg-slate-800 -z-10 rounded-full"></div>
-        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-blue-500 -z-10 rounded-full transition-all duration-300" style={{ width: `${((step - 1) / 3) * 100}%` }}></div>
+        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-200 -z-10 rounded-full"></div>
+        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-maroon -z-10 rounded-full transition-all duration-300" style={{ width: `${((step - 1) / 3) * 100}%` }}></div>
         
         {[
           { num: 1, icon: <User size={18} />, label: 'Personal' },
@@ -279,57 +279,57 @@ export default function HireStaff() {
             onClick={() => setStep(s.num)}
             className="flex flex-col items-center gap-2 cursor-pointer group hover:scale-105 transition-transform"
           >
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-4 transition-colors ${step >= s.num ? 'bg-blue-500 border-blue-100 text-white' : 'bg-slate-100 border-white text-slate-400 dark:bg-slate-800 dark:border-slate-900 group-hover:border-blue-200'}`}>
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-4 transition-colors ${step >= s.num ? 'bg-maroon border-gold/20 text-white' : 'bg-slate-100 border-white text-slate-400  dark:border-slate-900 group-hover:border-gold/30'}`}>
               {s.icon}
             </div>
-            <span className={`text-xs font-bold transition-colors ${step >= s.num ? 'text-blue-600' : 'text-slate-400 group-hover:text-blue-400'}`}>{s.label}</span>
+            <span className={`text-xs font-bold transition-colors ${step >= s.num ? 'text-maroon' : 'text-slate-400 group-hover:text-gold'}`}>{s.label}</span>
           </div>
         ))}
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden p-8">
+      <div className="bg-white rounded-3xl shadow-sm border border-gold/20 overflow-hidden p-8">
         {/* STEP 1: PERSONAL DETAILS */}
         {step === 1 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 border-b pb-2">Personal Details</h3>
+            <h3 className="text-xl font-bold text-maroon mb-6 border-b pb-2">Personal Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Full Name *</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Ramesh Kumar" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Full Name *</label>
+                <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. Ramesh Kumar" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Gender *</label>
-                <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Gender *</label>
+                <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none">
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Date of Birth</label>
-                <input type="date" name="dob" value={formData.dob} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Date of Birth</label>
+                <input type="date" name="dob" value={formData.dob} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Full Address *</label>
-                <textarea name="address" rows="2" value={formData.address} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none" placeholder="Full residential address..."></textarea>
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Full Address *</label>
+                <textarea name="address" rows="2" value={formData.address} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none resize-none" placeholder="Full residential address..."></textarea>
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">City</label>
-                <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">City</label>
+                <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">State</label>
-                  <input type="text" name="state" value={formData.state} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                  <label className="block text-sm font-bold text-maroon-darker/80 mb-2">State</label>
+                  <input type="text" name="state" value={formData.state} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Pincode</label>
-                  <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                  <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Pincode</label>
+                  <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" />
                 </div>
               </div>
               
-              <div className="md:col-span-2 mt-2 p-5 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/50 rounded-2xl">
-                <label className="block text-sm font-bold text-blue-900 dark:text-blue-400 mb-2">
+              <div className="md:col-span-2 mt-2 p-5 bg-gold/10 border border-gold/30 rounded-2xl">
+                <label className="block text-sm font-bold text-maroon dark:text-gold mb-2">
                   Quick Fill Location (Enter Lat, Lng OR Plus Code)
                 </label>
                 <div className="flex gap-3 mb-6">
@@ -337,23 +337,23 @@ export default function HireStaff() {
                     type="text" 
                     value={quickLocationInput} 
                     onChange={(e) => setQuickLocationInput(e.target.value)} 
-                    className="flex-1 px-4 py-3 bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+                    className="flex-1 px-4 py-3 bg-white border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" 
                     placeholder="e.g. 25.3109, 83.0107 OR 8JMP6M8X+28" 
                   />
                   <button 
                     onClick={handleQuickLocationFill} 
                     type="button" 
-                    className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold rounded-xl shadow-md shadow-blue-500/20 transition-all flex items-center gap-2 cursor-pointer active:scale-[0.98]"
+                    className="px-6 py-3 bg-gradient-to-r from-maroon to-maroon-dark hover:from-maroon-dark hover:to-maroon-darker text-white font-bold rounded-xl shadow-md shadow-maroon/20 transition-all flex items-center gap-2 cursor-pointer active:scale-[0.98]"
                   >
                     <Search size={18} /> Find
                   </button>
                 </div>
 
                 {fetchedLocationDetails && (
-                  <div className="mb-6 p-4 bg-white dark:bg-slate-800 rounded-xl border border-blue-100 dark:border-slate-700 shadow-sm">
+                  <div className="mb-6 p-4 bg-white rounded-xl border border-gold/20 dark:border-slate-700 shadow-sm">
                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Fetched Details</h4>
-                    <p className="text-sm text-slate-700 dark:text-slate-300 mb-1"><strong>Address:</strong> {fetchedLocationDetails.fullAddress}</p>
-                    <div className="flex gap-4 text-sm text-slate-600 dark:text-slate-400">
+                    <p className="text-sm text-maroon-darker/80 mb-1"><strong>Address:</strong> {fetchedLocationDetails.fullAddress}</p>
+                    <div className="flex gap-4 text-sm text-maroon-darker/70">
                       <p><strong>City:</strong> {fetchedLocationDetails.city}</p>
                       <p><strong>State:</strong> {fetchedLocationDetails.state}</p>
                       <p><strong>PIN:</strong> {fetchedLocationDetails.pincode}</p>
@@ -363,21 +363,21 @@ export default function HireStaff() {
 
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h4 className="font-bold text-blue-800 dark:text-blue-400 flex items-center gap-2"><Map size={18}/> Geolocation</h4>
-                    <p className="text-xs text-blue-600 dark:text-blue-500 mt-1">Fetch coordinates to mark home location on map.</p>
+                    <h4 className="font-bold text-maroon dark:text-gold flex items-center gap-2"><Map size={18}/> Geolocation</h4>
+                    <p className="text-xs text-maroon dark:text-maroon mt-1">Fetch coordinates to mark home location on map.</p>
                   </div>
-                  <button onClick={handleGetLocation} type="button" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 shadow-md text-white text-sm font-bold rounded-lg transition-all cursor-pointer">
+                  <button onClick={handleGetLocation} type="button" className="px-4 py-2 bg-maroon hover:bg-maroon-dark shadow-md text-white text-sm font-bold rounded-lg transition-all cursor-pointer">
                     Detect Location
                   </button>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-blue-800/70 dark:text-blue-400/70 mb-1">Latitude</label>
-                    <input type="text" name="latitude" value={formData.latitude} onChange={handleChange} className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="25.3109" />
+                    <label className="block text-xs font-bold text-maroon/70 dark:text-gold/70 mb-1">Latitude</label>
+                    <input type="text" name="latitude" value={formData.latitude} onChange={handleChange} className="w-full px-3 py-2 bg-white border border-gold/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-maroon" placeholder="25.3109" />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-blue-800/70 dark:text-blue-400/70 mb-1">Longitude</label>
-                    <input type="text" name="longitude" value={formData.longitude} onChange={handleChange} className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="83.0107" />
+                    <label className="block text-xs font-bold text-maroon/70 dark:text-gold/70 mb-1">Longitude</label>
+                    <input type="text" name="longitude" value={formData.longitude} onChange={handleChange} className="w-full px-3 py-2 bg-white border border-gold/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-maroon" placeholder="83.0107" />
                   </div>
                 </div>
                 </div>
@@ -389,11 +389,11 @@ export default function HireStaff() {
         {/* STEP 2: EMPLOYMENT */}
         {step === 2 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 border-b pb-2">Employment Details</h3>
+            <h3 className="text-xl font-bold text-maroon mb-6 border-b pb-2">Employment Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Role / Designation *</label>
-                <select name="role" value={formData.role} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Role / Designation *</label>
+                <select name="role" value={formData.role} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none">
                   <option value="Temple Sevadar">Temple Sevadar (Agent)</option>
                   <option value="Dham Sevadar">Dham Sevadar (Agent)</option>
                   {/* <option value="Manager">Platform Manager</option>
@@ -402,8 +402,8 @@ export default function HireStaff() {
               </div>
               {formData.role === 'Temple Sevadar' ? (
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Assigned Mandir (Optional)</label>
-                  <select name="assignedMandir" value={formData.assignedMandir} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Assigned Mandir (Optional)</label>
+                  <select name="assignedMandir" value={formData.assignedMandir} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none">
                     <option value="">Global / Not Assigned to specific Mandir</option>
                     {[...mandirs,...dhams]?.map(m => (
                       <option key={m._id} value={m._id}>{m.name} - {m.location.city}</option>
@@ -413,8 +413,8 @@ export default function HireStaff() {
                 </div>
               ) : formData.role === 'Dham Sevadar' ? (
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Assigned Dham (Optional)</label>
-                  <select name="assignedDham" value={formData.assignedDham} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Assigned Dham (Optional)</label>
+                  <select name="assignedDham" value={formData.assignedDham} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none">
                     <option value="">Global / Not Assigned to specific Dham</option>
                     {dhams?.map(d => (
                       <option key={d._id} value={d._id}>{d.name} - {d.location.city}</option>
@@ -430,24 +430,24 @@ export default function HireStaff() {
         {/* STEP 3: DOCUMENTS */}
         {step === 3 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 border-b pb-2">Identity & Documents</h3>
+            <h3 className="text-xl font-bold text-maroon mb-6 border-b pb-2">Identity & Documents</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Profile Pic Upload */}
-              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-6 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <UploadCloud className="mx-auto text-blue-400 mb-3" size={32} />
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">Profile Picture</label>
-                <p className="text-xs text-slate-500 mb-4">Upload passport size photo</p>
+              <div className="border-2 border-dashed border-gold/30 rounded-2xl p-6 text-center hover:bg-premium hover:bg-gold/10/50 transition-colors">
+                <UploadCloud className="mx-auto text-gold mb-3" size={32} />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-1">Profile Picture</label>
+                <p className="text-xs text-maroon-darker/60 mb-4">Upload passport size photo</p>
                 
                 <input type="file" accept="image/*" id="profilePic" className="hidden" onChange={(e) => handleFileChange(e, 'profilePic')} />
-                <label htmlFor="profilePic" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-sm font-bold hover:bg-blue-200 transition-colors">
+                <label htmlFor="profilePic" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-gold/20 text-maroon border border-gold/30 rounded-lg text-sm font-bold hover:bg-gold/30 transition-colors">
                   {uploadingField === 'profilePic' ? <Loader2 size={16} className="animate-spin" /> : 'Select File'}
                 </label>
 
                 {formData.profilePic && (
                   <div className="mt-4 flex justify-center">
                     <div className="relative inline-block">
-                      <img src={formData.profilePic} alt="Profile" className="w-24 h-24 object-cover rounded-xl shadow-sm border border-slate-200" />
+                      <img src={formData.profilePic} alt="Profile" className="w-24 h-24 object-cover rounded-xl shadow-sm border border-gold/20" />
                       <button 
                         type="button" 
                         onClick={() => handleRemoveFile('profilePic')}
@@ -461,12 +461,12 @@ export default function HireStaff() {
               </div>
 
               {/* Identity Document Upload */}
-              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-6 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <UploadCloud className="mx-auto text-blue-400 mb-3" size={32} />
+              <div className="border-2 border-dashed border-gold/30 rounded-2xl p-6 text-center hover:bg-premium hover:bg-gold/10/50 transition-colors">
+                <UploadCloud className="mx-auto text-gold mb-3" size={32} />
                 
                 <div className="mb-4">
-                  <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">Document Type</label>
-                  <select name="documentType" value={formData.documentType} onChange={handleChange} className="w-full text-center px-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none text-sm font-medium">
+                  <label className="block text-sm font-bold text-maroon-darker/80 mb-1">Document Type</label>
+                  <select name="documentType" value={formData.documentType} onChange={handleChange} className="w-full text-center px-4 py-2 bg-premium border border-gold/30 rounded-lg focus:outline-none text-sm font-medium">
                     <option value="Aadhar Card">Aadhar Card</option>
                     <option value="PAN Card">PAN Card</option>
                     <option value="Voter ID">Voter ID</option>
@@ -475,15 +475,15 @@ export default function HireStaff() {
                 </div>
                 
                 <input type="file" accept="image/*,application/pdf" id="documentUrl" className="hidden" onChange={(e) => handleFileChange(e, 'documentUrl')} />
-                <label htmlFor="documentUrl" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-sm font-bold hover:bg-blue-200 transition-colors">
+                <label htmlFor="documentUrl" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-gold/20 text-maroon border border-gold/30 rounded-lg text-sm font-bold hover:bg-gold/30 transition-colors">
                    {uploadingField === 'documentUrl' ? <Loader2 size={16} className="animate-spin" /> : 'Select Document'}
                 </label>
 
                 {formData.documentUrl && (
                   <div className="mt-4 flex justify-center">
-                    <div className="relative inline-block bg-slate-100 dark:bg-slate-800 p-2 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div className="relative inline-block bg-gold/10 p-2 rounded-xl border border-gold/20 dark:border-slate-700">
                       {formData.documentUrl.includes('/raw/') || formData.documentUrl.toLowerCase().endsWith('.pdf') ? (
-                        <span className="text-xs font-bold text-blue-600 dark:text-blue-400 line-clamp-1 max-w-[120px]">Document Uploaded</span>
+                        <span className="text-xs font-bold text-maroon dark:text-gold line-clamp-1 max-w-[120px]">Document Uploaded</span>
                       ) : (
                         <img 
                           src={formData.documentUrl} 
@@ -510,39 +510,39 @@ export default function HireStaff() {
         {/* STEP 4: CONTACT & REVIEW */}
         {step === 4 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 border-b pb-2">Contact Info & Review</h3>
+            <h3 className="text-xl font-bold text-maroon mb-6 border-b pb-2">Contact Info & Review</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Phone Number *</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="+91 9876543210" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Phone Number *</label>
+                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="+91 9876543210" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="staff@mandirsetu.com" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Email Address</label>
+                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="staff@mandirsetu.com" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Emergency Contact</label>
-                <input type="tel" name="emergencyContact" value={formData.emergencyContact} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="+91 9123456789" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Emergency Contact</label>
+                <input type="tel" name="emergencyContact" value={formData.emergencyContact} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="+91 9123456789" />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Login Password *</label>
-                <input type="text" name="password" value={formData.password} onChange={handleChange} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter password for staff portal" />
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Login Password *</label>
+                <input type="text" name="password" value={formData.password} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="Enter password for staff portal" />
               </div>
             </div>
             
-            <div className="mt-8 p-4 bg-blue-50 text-blue-800 rounded-xl text-sm font-medium border border-blue-200">
+            <div className="mt-8 p-4 bg-gold/10 text-maroon rounded-xl text-sm font-medium border border-gold/30">
               Please verify the document and profile details before finalizing the hire.
             </div>
           </div>
         )}
 
         {/* Buttons */}
-        <div className="flex justify-between mt-10 pt-6 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex justify-between mt-10 pt-6 border-t border-gold/10">
           <button 
             type="button" 
             onClick={handlePrev}
             disabled={step === 1 || loading}
-            className={`px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all ${step === 1 ? 'opacity-0 cursor-default' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 cursor-pointer'}`}
+            className={`px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all ${step === 1 ? 'opacity-0 cursor-default' : 'bg-slate-100 text-maroon-darker/70 hover:bg-slate-200 cursor-pointer'}`}
           >
             <ChevronLeft size={18} /> Back
           </button>
@@ -551,7 +551,7 @@ export default function HireStaff() {
             <button 
               type="button" 
               onClick={handleNext}
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 shadow-md shadow-blue-500/20 text-white rounded-xl font-bold flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
+              className="px-6 py-2.5 bg-gradient-to-r from-maroon to-maroon-dark hover:from-maroon-dark hover:to-maroon-darker shadow-md shadow-maroon/20 text-white rounded-xl font-bold flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
             >
               Next <ChevronRight size={18} />
             </button>
@@ -560,7 +560,7 @@ export default function HireStaff() {
               type="button" 
               onClick={handleSubmit}
               disabled={loading || uploadingField !== ""}
-              className={`px-8 py-2.5 rounded-xl font-bold text-white flex items-center gap-2 shadow-lg shadow-blue-500/30 transition-all ${loading || uploadingField !== "" ? 'bg-blue-400 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 cursor-pointer active:scale-[0.98]'}`}
+              className={`px-8 py-2.5 rounded-xl font-bold text-white flex items-center gap-2 shadow-lg shadow-maroon/30 transition-all ${loading || uploadingField !== "" ? 'bg-maroon/80 cursor-not-allowed' : 'bg-gradient-to-r from-maroon to-maroon-dark hover:from-maroon-dark hover:to-maroon-darker cursor-pointer active:scale-[0.98]'}`}
             >
               {loading ? <><Loader2 size={18} className="animate-spin" /> Saving...</> : <><Save size={18} /> Hire Staff</>}
             </button>

@@ -80,16 +80,16 @@ export default function MandirList() {
     <div className="max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Mandir Directory</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">Manage and view all registered temples on the platform.</p>
+          <h1 className="text-3xl font-bold text-maroon">Mandir Directory</h1>
+          <p className="text-maroon-darker/70 mt-1">Manage and view all registered temples on the platform.</p>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-sm border border-gold/20 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-premium /50 border-b border-gold/20 text-gold text-xs uppercase tracking-wider font-bold">
                 <th className="p-4">Mandir Name</th>
                 <th className="p-4">City / State</th>
                 <th className="p-4">Main Deity</th>
@@ -100,40 +100,40 @@ export default function MandirList() {
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               {loading ? (
                 <tr>
-                  <td colSpan="5" className="p-8 text-center text-slate-500 dark:text-slate-400">Loading mandirs...</td>
+                  <td colSpan="5" className="p-8 text-center text-gold">Loading mandirs...</td>
                 </tr>
               ) : mandirs.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="p-8 text-center text-slate-500 dark:text-slate-400">No mandirs found.</td>
+                  <td colSpan="5" className="p-8 text-center text-gold">No mandirs found.</td>
                 </tr>
               ) : (
                 mandirs.map((mandir) => (
-                  <tr key={mandir._id} className="hover:bg-orange-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer" onClick={() => navigate(`/mandirs/${mandir._id}/details`)}>
-                    <td className="p-4 font-medium text-slate-800 dark:text-slate-200">{mandir.name}</td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                  <tr key={mandir._id} className="hover:bg-gold/5 transition-colors cursor-pointer" onClick={() => navigate(`/mandirs/${mandir._id}/details`)}>
+                    <td className="p-4 font-medium text-maroon-darker">{mandir.name}</td>
+                    <td className="p-4 text-maroon-darker/70">
                       {mandir.location?.city}, {mandir.location?.state}
                     </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">{mandir.mainDeity}</td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">{mandir.contact?.phone}</td>
+                    <td className="p-4 text-maroon-darker/70">{mandir.mainDeity}</td>
+                    <td className="p-4 text-maroon-darker/70">{mandir.contact?.phone}</td>
                     <td className="p-4 text-center">
                       <div className="flex justify-center items-center gap-2">
                         <button 
                           onClick={(e) => { e.stopPropagation(); navigate(`/mandirs/${mandir._id}/details`); }}
-                          className="p-2 text-slate-500 hover:text-orange-600 hover:bg-orange-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          className="p-2 text-maroon-darker/60 hover:text-maroon hover:bg-gold/20 hover:bg-gold/10 rounded-lg transition-colors"
                           title="View Full Details"
                         >
                           <Eye size={18} />
                         </button>
                         <button 
                           onClick={(e) => { e.stopPropagation(); navigate(`/edit-mandir/${mandir._id}`); }}
-                          className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          className="p-2 text-maroon-darker/60 hover:text-blue-600 hover:bg-blue-100 hover:bg-gold/10 rounded-lg transition-colors"
                           title="Edit Mandir"
                         >
                           <Edit size={18} />
                         </button>
                         <button 
                           onClick={(e) => { e.stopPropagation(); handleDelete(mandir._id); }}
-                          className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          className="p-2 text-maroon-darker/60 hover:text-red-600 hover:bg-red-100 hover:bg-gold/10 rounded-lg transition-colors"
                           title="Delete Mandir"
                         >
                           <Trash2 size={18} />
@@ -149,22 +149,22 @@ export default function MandirList() {
 
         {/* Pagination Controls */}
         {!loading && totalPages > 1 && (
-          <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50">
-            <span className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="p-4 border-t border-gold/20 flex items-center justify-between bg-premium">
+            <span className="text-sm text-maroon-darker/70">
               Showing page <span className="font-bold">{page}</span> of <span className="font-bold">{totalPages}</span> ({totalItems} total items)
             </span>
             <div className="flex gap-2">
               <button 
                 onClick={handlePrevPage}
                 disabled={page === 1}
-                className="px-3 py-1 border border-slate-300 dark:border-slate-700 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-3 py-1 border border-gold/30 rounded-lg flex items-center justify-center text-maroon-darker/60 hover:bg-slate-100 hover:bg-gold/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft size={18} /> Prev
               </button>
               <button 
                 onClick={handleNextPage}
                 disabled={page === totalPages}
-                className="px-3 py-1 border border-slate-300 dark:border-slate-700 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-3 py-1 border border-gold/30 rounded-lg flex items-center justify-center text-maroon-darker/60 hover:bg-slate-100 hover:bg-gold/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Next <ChevronRight size={18} />
               </button>

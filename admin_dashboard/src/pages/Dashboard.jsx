@@ -50,68 +50,68 @@ export default function Dashboard() {
   }, [navigate]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* Page Header */}
       <div>
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Dashboard Overview</h2>
-        <p className="text-slate-500 text-sm mt-1">Welcome back! Here's what's happening across MandirSetu today.</p>
+        <h2 className="text-3xl font-serif font-bold text-maroon">Dashboard Overview</h2>
+        <p className="text-maroon-darker/70 text-sm mt-1 font-medium">Welcome back! Here's what's happening across MandirSetu today.</p>
       </div>
 
       {/* Top Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Card 1 */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-[1.5rem] p-6 border border-gold/20 shadow-sm flex items-center justify-between hover:shadow-xl hover:shadow-maroon/5 transition-all group">
           <div>
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Mandirs Onboarded</p>
-            <h3 className="text-3xl font-black text-slate-800 dark:text-white mt-1">1,204</h3>
-            <p className="text-xs text-green-500 font-medium mt-2 flex items-center gap-1">
+            <p className="text-xs font-bold text-gold uppercase tracking-widest">Mandirs Onboarded</p>
+            <h3 className="text-3xl font-serif font-black text-maroon mt-1 group-hover:scale-105 transition-transform origin-left">1,204</h3>
+            <p className="text-xs text-emerald-600 font-bold mt-2 flex items-center gap-1">
               <TrendingUp size={14} /> +12% this month
             </p>
           </div>
-          <div className="w-14 h-14 rounded-xl bg-orange-100 dark:bg-orange-900/30 text-orange-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-maroon/10 to-gold/10 text-maroon flex items-center justify-center border border-gold/20">
             <Building2 size={28} />
           </div>
         </div>
 
         {/* Card 2 */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-[1.5rem] p-6 border border-gold/20 shadow-sm flex items-center justify-between hover:shadow-xl hover:shadow-maroon/5 transition-all group">
           <div>
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Temple Sevadars</p>
-            <h3 className="text-3xl font-black text-slate-800 dark:text-white mt-1">342</h3>
-            <p className="text-xs text-green-500 font-medium mt-2 flex items-center gap-1">
+            <p className="text-xs font-bold text-gold uppercase tracking-widest">Temple Sevadars</p>
+            <h3 className="text-3xl font-serif font-black text-maroon mt-1 group-hover:scale-105 transition-transform origin-left">342</h3>
+            <p className="text-xs text-emerald-600 font-bold mt-2 flex items-center gap-1">
               <TrendingUp size={14} /> +5 new this week
             </p>
           </div>
-          <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-maroon/10 to-gold/10 text-maroon flex items-center justify-center border border-gold/20">
             <UserSquare2 size={28} />
           </div>
         </div>
 
         {/* Card 3 */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-[1.5rem] p-6 border border-gold/20 shadow-sm flex items-center justify-between hover:shadow-xl hover:shadow-maroon/5 transition-all group">
           <div>
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Total Devotees</p>
-            <h3 className="text-3xl font-black text-slate-800 dark:text-white mt-1">45.2k</h3>
-            <p className="text-xs text-green-500 font-medium mt-2 flex items-center gap-1">
+            <p className="text-xs font-bold text-gold uppercase tracking-widest">Total Devotees</p>
+            <h3 className="text-3xl font-serif font-black text-maroon mt-1 group-hover:scale-105 transition-transform origin-left">45.2k</h3>
+            <p className="text-xs text-emerald-600 font-bold mt-2 flex items-center gap-1">
               <TrendingUp size={14} /> +8% this month
             </p>
           </div>
-          <div className="w-14 h-14 rounded-xl bg-purple-100 dark:bg-purple-900/30 text-purple-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-maroon/10 to-gold/10 text-maroon flex items-center justify-center border border-gold/20">
             <Users size={28} />
           </div>
         </div>
 
         {/* Card 4 */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-[1.5rem] p-6 border border-gold/20 shadow-sm flex items-center justify-between hover:shadow-xl hover:shadow-maroon/5 transition-all group">
           <div>
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Total Bookings</p>
-            <h3 className="text-3xl font-black text-slate-800 dark:text-white mt-1">8,920</h3>
-            <p className="text-xs text-green-500 font-medium mt-2 flex items-center gap-1">
+            <p className="text-xs font-bold text-gold uppercase tracking-widest">Total Bookings</p>
+            <h3 className="text-3xl font-serif font-black text-maroon mt-1 group-hover:scale-105 transition-transform origin-left">8,920</h3>
+            <p className="text-xs text-emerald-600 font-bold mt-2 flex items-center gap-1">
               <TrendingUp size={14} /> +15% this month
             </p>
           </div>
-          <div className="w-14 h-14 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-maroon/10 to-gold/10 text-maroon flex items-center justify-center border border-gold/20">
             <CalendarCheck size={28} />
           </div>
         </div>
@@ -122,10 +122,10 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Graph Section */}
-        <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <div className="lg:col-span-2 bg-white rounded-[1.5rem] border border-gold/20 shadow-sm p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white">Platform Growth</h3>
-            <select className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-lg px-3 py-1.5 outline-none">
+            <h3 className="text-xl font-serif font-bold text-maroon">Platform Growth</h3>
+            <select className="bg-premium border border-gold/30 text-maroon-darker text-sm rounded-xl px-4 py-2 outline-none font-medium focus:ring-1 focus:ring-maroon/20 focus:border-maroon">
               <option>Last 7 Months</option>
               <option>This Year</option>
             </select>
@@ -135,54 +135,54 @@ export default function Dashboard() {
               <AreaChart data={graphData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorDevotees" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#f97316" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#f97316" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#791916" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#791916" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorBookings" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#d4af37" stopOpacity={0.6}/>
+                    <stop offset="95%" stopColor="#d4af37" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#3a0d0a', opacity: 0.5, fontSize: 12, fontWeight: 600}} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: '#3a0d0a', opacity: 0.5, fontSize: 12, fontWeight: 600}} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#d4af37" strokeOpacity={0.15} />
                 <Tooltip 
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ fontWeight: 'bold' }}
+                  contentStyle={{ borderRadius: '12px', border: '1px solid rgba(212,175,55,0.3)', boxShadow: '0 10px 15px -3px rgba(121, 25, 22, 0.1)' }}
+                  itemStyle={{ fontWeight: 'bold', color: '#3a0d0a' }}
                 />
-                <Area type="monotone" dataKey="devotees" stroke="#f97316" strokeWidth={3} fillOpacity={1} fill="url(#colorDevotees)" />
-                <Area type="monotone" dataKey="bookings" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorBookings)" />
+                <Area type="monotone" dataKey="devotees" stroke="#791916" strokeWidth={3} fillOpacity={1} fill="url(#colorDevotees)" />
+                <Area type="monotone" dataKey="bookings" stroke="#d4af37" strokeWidth={3} fillOpacity={1} fill="url(#colorBookings)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Recent Activity Section */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <div className="bg-white rounded-[1.5rem] border border-gold/20 shadow-sm p-6 flex flex-col">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white">Recent Activity</h3>
-            <button className="text-slate-400 hover:text-slate-600"><MoreVertical size={20} /></button>
+            <h3 className="text-xl font-serif font-bold text-maroon">Recent Activity</h3>
+            <button className="text-maroon-darker/40 hover:text-maroon transition-colors"><MoreVertical size={20} /></button>
           </div>
           
-          <div className="space-y-6">
+          <div className="space-y-6 flex-1">
             {recentActivities.map((activity) => (
               <div key={activity.id} className="flex gap-4">
                 {/* Avatar / Initial */}
-                <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-maroon/10 to-gold/10 border border-gold/20 flex items-center justify-center text-maroon font-bold shrink-0 shadow-sm">
                   {activity.user.charAt(0)}
                 </div>
                 {/* Details */}
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-800 dark:text-white">{activity.user}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{activity.action}</p>
-                  <p className="text-[10px] font-medium text-slate-400 mt-1 uppercase tracking-wider">{activity.time}</p>
+                  <p className="text-sm font-bold text-maroon-darker">{activity.user}</p>
+                  <p className="text-xs text-maroon-darker/60 mt-0.5 line-clamp-1">{activity.action}</p>
+                  <p className="text-[10px] font-bold text-gold mt-1 uppercase tracking-widest">{activity.time}</p>
                 </div>
                 {/* Status Badge */}
                 <div>
-                  <span className={`text-[10px] px-2 py-1 rounded-md font-bold uppercase tracking-wider
-                    ${activity.status === 'Completed' ? 'bg-green-100 text-green-600' : 
-                      activity.status === 'Pending' ? 'bg-amber-100 text-amber-600' : 
-                      'bg-red-100 text-red-600'}`}
+                  <span className={`text-[10px] px-2.5 py-1 rounded-lg font-bold uppercase tracking-wider
+                    ${activity.status === 'Completed' ? 'bg-maroon/10 text-maroon border border-maroon/20' : 
+                      activity.status === 'Pending' ? 'bg-gold/10 text-[#9c7b16] border border-gold/30' : 
+                      'bg-red-50 text-red-600 border border-red-200'}`}
                   >
                     {activity.status}
                   </span>
@@ -191,8 +191,8 @@ export default function Dashboard() {
             ))}
           </div>
 
-          <button className="w-full mt-6 py-2.5 text-sm font-bold text-orange-600 bg-orange-50 hover:bg-orange-100 rounded-xl transition-colors">
-            View All Activity
+          <button className="w-full mt-6 py-3 text-sm font-bold text-maroon bg-gradient-to-r from-maroon/5 to-gold/10 hover:from-maroon/10 hover:to-gold/20 border border-gold/20 rounded-xl transition-all tracking-wide">
+            VIEW ALL ACTIVITY
           </button>
         </div>
 

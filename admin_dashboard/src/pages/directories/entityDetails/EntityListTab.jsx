@@ -38,14 +38,14 @@ export default function EntityListTab({ listType }) {
     if (listType === 'hotels' || listType === 'ashrams') {
       extraDetails = `
         <div class="mt-3">
-          <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Amenities</p>
+          <p class="text-xs text-maroon-darker/60 uppercase font-bold tracking-wider">Amenities</p>
           <div class="flex flex-wrap gap-2 mt-1">
-            ${item.amenities?.map(a => `<span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-medium">${a}</span>`).join('') || '<span class="text-sm text-slate-500">None</span>'}
+            ${item.amenities?.map(a => `<span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-medium">${a}</span>`).join('') || '<span class="text-sm text-maroon-darker/60">None</span>'}
           </div>
         </div>
         <div class="mt-3">
-          <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Starting Price</p>
-          <p class="text-sm text-slate-800 font-semibold mt-1">₹${item.startingPrice || 'N/A'}</p>
+          <p class="text-xs text-maroon-darker/60 uppercase font-bold tracking-wider">Starting Price</p>
+          <p class="text-sm text-maroon font-semibold mt-1">₹${item.startingPrice || 'N/A'}</p>
         </div>
       `;
     }
@@ -55,13 +55,13 @@ export default function EntityListTab({ listType }) {
         ${item.profilePic || item.image ? `<img src="${item.profilePic || item.image}" alt="Profile" class="w-full h-48 object-cover rounded-xl shadow-md mb-4"/>` : ''}
         
         <div>
-          <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Name</p>
-          <p class="text-slate-800 font-semibold text-lg">${item.name}</p>
+          <p class="text-xs text-maroon-darker/60 uppercase font-bold tracking-wider">Name</p>
+          <p class="text-maroon font-semibold text-lg">${item.name}</p>
         </div>
 
         <div>
-          <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Location</p>
-          <p class="text-slate-800 text-sm flex items-start gap-2 mt-1">
+          <p class="text-xs text-maroon-darker/60 uppercase font-bold tracking-wider">Location</p>
+          <p class="text-maroon text-sm flex items-start gap-2 mt-1">
             <span class="mt-0.5"><MapPin size={16} class="text-blue-500"/></span>
             <span>${item.location?.address}, ${item.location?.city}, ${item.location?.state} - ${item.location?.pincode}</span>
           </p>
@@ -69,12 +69,12 @@ export default function EntityListTab({ listType }) {
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Contact Phone</p>
-            <p class="text-slate-800 text-sm flex items-center gap-1 mt-1"><Phone size={14}/> ${item.contact?.phone || 'N/A'}</p>
+            <p class="text-xs text-maroon-darker/60 uppercase font-bold tracking-wider">Contact Phone</p>
+            <p class="text-maroon text-sm flex items-center gap-1 mt-1"><Phone size={14}/> ${item.contact?.phone || 'N/A'}</p>
           </div>
           <div>
-            <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Email</p>
-            <p class="text-slate-800 text-sm flex items-center gap-1 mt-1"><Mail size={14}/> ${item.contact?.email || 'N/A'}</p>
+            <p class="text-xs text-maroon-darker/60 uppercase font-bold tracking-wider">Email</p>
+            <p class="text-maroon text-sm flex items-center gap-1 mt-1"><Mail size={14}/> ${item.contact?.email || 'N/A'}</p>
           </div>
         </div>
 
@@ -82,14 +82,14 @@ export default function EntityListTab({ listType }) {
 
         ${item.description ? `
         <div>
-          <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Description</p>
-          <p class="text-slate-700 text-sm bg-slate-50 p-3 rounded-lg border border-slate-100 mt-1">${item.description}</p>
+          <p class="text-xs text-maroon-darker/60 uppercase font-bold tracking-wider">Description</p>
+          <p class="text-maroon-darker text-sm bg-premium p-3 rounded-lg border border-slate-100 mt-1">${item.description}</p>
         </div>` : ''}
         
         ${item.onboardedBy ? `
         <div class="mt-4 pt-4 border-t border-slate-100 flex items-center gap-2">
-          <span class="text-xs text-slate-500 uppercase font-bold tracking-wider">Added By:</span>
-          <span class="text-sm font-semibold text-slate-700">${item.onboardedBy.name || item.onboardedBy.email || 'Staff'}</span>
+          <span class="text-xs text-maroon-darker/60 uppercase font-bold tracking-wider">Added By:</span>
+          <span class="text-sm font-semibold text-maroon-darker">${item.onboardedBy.name || item.onboardedBy.email || 'Staff'}</span>
         </div>` : ''}
       </div>
     `;
@@ -108,17 +108,17 @@ export default function EntityListTab({ listType }) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col h-full animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200 capitalize">{listType}</h2>
-        <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full text-xs font-medium">
+    <div className="bg-white rounded-2xl shadow-sm border border-gold/20 overflow-hidden flex flex-col h-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="p-4 sm:p-6 border-b border-gold/20 flex justify-between items-center">
+        <h2 className="text-xl font-bold text-maroon-darker capitalize">{listType}</h2>
+        <span className="px-3 py-1 bg-gold/10 text-maroon-darker/60 rounded-full text-xs font-medium">
             Total: {totalItems}
         </span>
       </div>
 
       <div className="p-0 flex-1">
         {isLoading ? (
-          <div className="p-12 flex items-center justify-center text-slate-500">
+          <div className="p-12 flex items-center justify-center text-maroon-darker/60">
             <Loader2 size={24} className="animate-spin text-blue-500" />
           </div>
         ) : listData.length > 0 ? (
@@ -126,17 +126,17 @@ export default function EntityListTab({ listType }) {
             {listData.map((item) => (
               <li 
                 key={item._id} 
-                className="p-4 sm:p-5 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer"
+                className="p-4 sm:p-5 hover:bg-premium hover:bg-gold/10/30 transition-colors cursor-pointer"
                 onClick={() => showItemDetails(item)}
               >
                 <div className="flex justify-between items-start gap-4">
                   <div>
-                    <h4 className="font-medium text-slate-800 dark:text-slate-200">{item.name}</h4>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">{item.description || 'No description'}</p>
+                    <h4 className="font-medium text-maroon-darker">{item.name}</h4>
+                    <p className="text-sm text-gold mt-1 line-clamp-1">{item.description || 'No description'}</p>
                     
                     <div className="flex flex-wrap gap-2 mt-3">
                       {item.onboardedBy && (
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-400">
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gold/10 text-xs font-medium text-maroon-darker/70">
                           <Users size={12} />
                           Added by: {item.onboardedBy.name || item.onboardedBy.email || 'Staff'}
                         </div>
@@ -145,11 +145,11 @@ export default function EntityListTab({ listType }) {
                   </div>
                   
                   <div className="flex items-center gap-4 shrink-0">
-                    <button className="text-slate-400 hover:text-blue-500 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-2 rounded-full shadow-sm">
+                    <button className="text-slate-400 hover:text-blue-500 bg-white border border-gold/20 dark:border-slate-700 p-2 rounded-full shadow-sm">
                       <Eye size={16} />
                     </button>
                     {item.profilePic || item.image ? (
-                      <img src={item.profilePic || item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover border border-slate-200 dark:border-slate-700" />
+                      <img src={item.profilePic || item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover border border-gold/20 dark:border-slate-700" />
                     ) : null}
                   </div>
                 </div>
@@ -157,32 +157,32 @@ export default function EntityListTab({ listType }) {
             ))}
           </ul>
         ) : (
-          <div className="p-12 text-center text-slate-500">
+          <div className="p-12 text-center text-maroon-darker/60">
             <p>No {listType} found for this {type}.</p>
           </div>
         )}
       </div>
 
       {totalPages > 1 && (
-        <div className="border-t border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50">
-          <span className="text-sm text-slate-500">
+        <div className="border-t border-gold/20 p-4 flex items-center justify-between bg-premium">
+          <span className="text-sm text-maroon-darker/60">
             Showing page {page} of {totalPages}
           </span>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1 || isLoading}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg border border-gold/20 dark:border-slate-700 text-maroon-darker/60 hover:bg-slate-100 hover:bg-gold/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft size={18} />
             </button>
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 min-w-[3rem] text-center">
+            <span className="text-sm font-medium text-maroon-darker/80 min-w-[3rem] text-center">
               {page} / {totalPages}
             </span>
             <button
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages || isLoading}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg border border-gold/20 dark:border-slate-700 text-maroon-darker/60 hover:bg-slate-100 hover:bg-gold/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronRight size={18} />
             </button>

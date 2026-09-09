@@ -31,7 +31,7 @@ export default function Home() {
 
   const heroImages = ['/hero/img2.jpg', '/hero/img4.jpg', '/hero/img5.jpg', '/hero/img6.jpg'];
   // Dark overlay transitioning into cream background
-  const gradient = 'from-[#3a0d0a]/90 via-[#791916]/70 to-[#fdfbf7]';
+  const gradient = 'from-maroon-darker/90 via-maroon/70 to-premium';
   const introIcon = (
     <div className="relative z-10 animate-pulse flex flex-col items-center justify-center">
       <img src="/vaishnav-tilak.svg" alt="Vaishnav Tilak" className="w-24 h-24 sm:w-32 sm:h-32 drop-shadow-xl" />
@@ -106,9 +106,14 @@ export default function Home() {
       try {
         setLoadingEvents(true);
         const res = await api.get('/events');
-        setEvents(res.data);
+        const data = res.data;
+        if (Array.isArray(data)) setEvents(data);
+        else if (data.data) setEvents(data.data);
+        else if (data.events) setEvents(data.events);
+        else setEvents([]);
       } catch (err) {
         console.error('Failed to fetch events', err);
+        setEvents([]);
       } finally {
         setLoadingEvents(false);
       }
@@ -154,19 +159,19 @@ export default function Home() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="fixed inset-0 z-[9999] bg-[#fdfbf7] flex flex-col items-center justify-center"
+            className="fixed inset-0 z-[9999] bg-premium flex flex-col items-center justify-center"
           >
             <div className="relative flex items-center justify-center mb-8">
               {/* Spinning Mandala Rings */}
               {/* <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                className="w-32 h-32 absolute inset-0 rounded-full border-[3px] border-dashed border-[#d4af37]/60"
+                className="w-32 h-32 absolute inset-0 rounded-full border-[3px] border-dashed border-gold/60"
               /> */}
               <motion.div
                 animate={{ rotate: -360 }}
                 transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-                className="w-24 h-24 absolute rounded-full border-2 border-dotted border-[#791916]/50"
+                className="w-24 h-24 absolute rounded-full border-2 border-dotted border-maroon/50"
               />
               
             
@@ -179,7 +184,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-3xl font-serif text-[#791916] uppercase tracking-[0.3em] font-bold"
+              className="text-3xl font-serif text-maroon uppercase tracking-[0.3em] font-bold"
             >
               Mandir Setu
             </motion.h2>
@@ -188,7 +193,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.8 }}
-              className="text-[#d4af37] text-sm uppercase tracking-widest mt-2 font-medium"
+              className="text-gold text-sm uppercase tracking-widest mt-2 font-medium"
             >
               Awakening The Divine
             </motion.p>
@@ -197,12 +202,12 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <div className="bg-[#fdfbf7] min-h-screen overflow-x-hidden text-[#3a0d0a] font-sans pb-20 pt-24">
+      <div className="bg-premium min-h-screen overflow-x-hidden text-maroon-darker font-sans pb-20 pt-24">
       
       {/* Top Header Section - Full Width */}
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center flex flex-col items-center">
         <motion.h1 
-          className="text-4xl md:text-6xl font-serif text-[#791916] mb-6 leading-tight uppercase tracking-wider"
+          className="text-4xl md:text-6xl font-serif text-maroon mb-6 leading-tight uppercase tracking-wider"
           initial="hidden"
           animate={isInitialLoading ? "hidden" : "visible"}
           variants={{
@@ -229,7 +234,7 @@ export default function Home() {
         </motion.h1>
         
         <motion.p 
-          className="text-[#3a0d0a]/80 text-base md:text-lg max-w-3xl font-medium leading-relaxed mb-8"
+          className="text-maroon-darker/80 text-base md:text-lg max-w-3xl font-medium leading-relaxed mb-8"
           initial="hidden"
           animate={isInitialLoading ? "hidden" : "visible"}
           variants={{
@@ -253,14 +258,14 @@ export default function Home() {
 
         {/* Integrated Search Bar */}
         <motion.div 
-          className="w-full max-w-3xl bg-white/95 backdrop-blur rounded-full p-2 flex items-center shadow-xl shadow-[#791916]/10 border border-[#d4af37]/30 mx-auto"
+          className="w-full max-w-3xl bg-white/95 backdrop-blur rounded-full p-2 flex items-center shadow-xl shadow-maroon/10 border border-gold/30 mx-auto"
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={isInitialLoading ? { opacity: 0, scale: 0.9, y: 20 } : { opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.2, type: 'spring', stiffness: 100 }}
         >
-          <span className="pl-5 text-[#791916] text-xl">🔍</span>
-          <input type="text" placeholder="Search temples, dhams (e.g. Kedarnath, Kashi)..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-none text-[#3a0d0a] placeholder-[#791916]/50 py-3 px-4 focus:outline-none text-base md:text-lg" />
-          <Link to="/gallery" className="px-8 py-3 bg-[#d4af37] hover:bg-[#c29b26] text-[#3a0d0a] font-bold rounded-full text-base transition-colors cursor-pointer shrink-0 shadow-sm">
+          <span className="pl-5 text-maroon text-xl">🔍</span>
+          <input type="text" placeholder="Search temples, dhams (e.g. Kedarnath, Kashi)..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-none text-maroon-darker placeholder-maroon/50 py-3 px-4 focus:outline-none text-base md:text-lg" />
+          <Link to="/gallery" className="px-8 py-3 bg-gold hover:bg-[#c29b26] text-maroon-darker font-bold rounded-full text-base transition-colors cursor-pointer shrink-0 shadow-sm">
             Search
           </Link>
         </motion.div>
@@ -272,17 +277,17 @@ export default function Home() {
         {/* LEFT COLUMN: Sidebar Filter, Quick Info & Events */}
         <aside className="w-full lg:w-72 xl:w-80 flex flex-col gap-6 shrink-0 z-40 sticky top-28 max-h-[calc(100vh-120px)] overflow-y-auto overflow-x-hidden pr-1 pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d4af37 transparent' }}>
           
-          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20">
-            <h3 className="text-xl font-serif text-[#791916] mb-6 border-b border-[#d4af37]/20 pb-4">View By</h3>
+          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20">
+            <h3 className="text-xl font-serif text-maroon mb-6 border-b border-gold/20 pb-4">View By</h3>
             
             <div className="mb-6">
-              <h4 className="text-sm font-bold text-[#3a0d0a]/50 uppercase tracking-widest mb-3">Category</h4>
+              <h4 className="text-sm font-bold text-maroon-darker/50 uppercase tracking-widest mb-3">Category</h4>
               <div className="flex flex-col gap-2">
                 {sects.map(sect => (
                   <button 
                     key={sect.id} 
                     onClick={() => setSelectedSect(sect.id)}
-                    className={`flex items-center gap-3 w-full text-left px-4 py-2.5 rounded-xl transition-all border ${selectedSect === sect.id ? 'bg-[#791916] border-[#791916] text-[#fdfbf7] shadow-md shadow-[#791916]/20' : 'bg-[#fdfbf7] border-transparent text-[#3a0d0a] hover:bg-[#d4af37]/10 hover:border-[#d4af37]/30'}`}
+                    className={`flex items-center gap-3 w-full text-left px-4 py-2.5 rounded-xl transition-all border ${selectedSect === sect.id ? 'bg-maroon border-maroon text-premium shadow-md shadow-maroon/20' : 'bg-premium border-transparent text-maroon-darker hover:bg-gold/10 hover:border-gold/30'}`}
                   >
                     <span className="text-xl">{sect.icon}</span>
                     <span className="font-serif font-medium text-base">{sect.label}</span>
@@ -292,22 +297,22 @@ export default function Home() {
             </div>
 
             <div className="mb-6">
-              <h4 className="text-sm font-bold text-[#3a0d0a]/50 uppercase tracking-widest mb-3">State</h4>
+              <h4 className="text-sm font-bold text-maroon-darker/50 uppercase tracking-widest mb-3">State</h4>
               <select 
                 value={selectedState} 
                 onChange={(e) => setSelectedState(e.target.value)}
-                className="w-full bg-[#fdfbf7] border border-[#d4af37]/30 text-[#3a0d0a] rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#791916] transition-colors"
+                className="w-full bg-premium border border-gold/30 text-maroon-darker rounded-xl px-4 py-2.5 focus:outline-none focus:border-maroon transition-colors"
               >
                 {statesList.map(state => <option key={state} value={state === 'All' ? '' : state}>{state}</option>)}
               </select>
             </div>
 
             <div>
-              <h4 className="text-sm font-bold text-[#3a0d0a]/50 uppercase tracking-widest mb-3">City</h4>
+              <h4 className="text-sm font-bold text-maroon-darker/50 uppercase tracking-widest mb-3">City</h4>
               <select 
                 value={selectedCity} 
                 onChange={(e) => setSelectedCity(e.target.value)}
-                className="w-full bg-[#fdfbf7] border border-[#d4af37]/30 text-[#3a0d0a] rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#791916] transition-colors"
+                className="w-full bg-premium border border-gold/30 text-maroon-darker rounded-xl px-4 py-2.5 focus:outline-none focus:border-maroon transition-colors"
               >
                 {citiesList.map(city => <option key={city} value={city === 'All' ? '' : city}>{city}</option>)}
               </select>
@@ -315,15 +320,15 @@ export default function Home() {
           </div>
 
           {/* Quick Info Cards Moved to Left Sidebar */}
-          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20">
-            <h4 className="text-sm font-serif text-[#791916] mb-4 border-b border-[#d4af37]/20 pb-3">Quick Info</h4>
+          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20">
+            <h4 className="text-sm font-serif text-maroon mb-4 border-b border-gold/20 pb-3">Quick Info</h4>
             <div className="flex flex-col gap-3">
               {infoCards.map((card, idx) => (
-                <div key={idx} className="flex items-center gap-3 bg-[#791916]/5 p-3 rounded-xl border border-[#791916]/10 hover:bg-[#791916]/10 transition-colors">
+                <div key={idx} className="flex items-center gap-3 bg-maroon/5 p-3 rounded-xl border border-maroon/10 hover:bg-maroon/10 transition-colors">
                   <span className="text-xl">{card.icon}</span>
                   <div>
-                    <div className="text-sm font-bold text-[#791916]">{card.title}</div>
-                    <div className="text-[10px] text-[#3a0d0a]/70">{card.desc}</div>
+                    <div className="text-sm font-bold text-maroon">{card.title}</div>
+                    <div className="text-[10px] text-maroon-darker/70">{card.desc}</div>
                   </div>
                 </div>
               ))}
@@ -331,32 +336,32 @@ export default function Home() {
           </div>
 
           {/* Upcoming Events in Left Sidebar */}
-          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20">
-            <div className="flex items-center justify-between mb-4 border-b border-[#d4af37]/20 pb-3">
-              <h3 className="text-lg font-serif text-[#791916]">Upcoming Events</h3>
-              <Link to="/events" className="text-[#d4af37] text-xs font-semibold hover:text-[#791916]">All &rarr;</Link>
+          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20">
+            <div className="flex items-center justify-between mb-4 border-b border-gold/20 pb-3">
+              <h3 className="text-lg font-serif text-maroon">Upcoming Events</h3>
+              <Link to="/events" className="text-gold text-xs font-semibold hover:text-maroon">All &rarr;</Link>
             </div>
             <div className="flex flex-col gap-4">
               {loadingEvents ? (
                 <div className="flex justify-center py-5">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#d4af37]"></div>
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold"></div>
                 </div>
               ) : events.length === 0 ? (
-                <div className="text-center text-[#791916]/70 text-sm font-serif py-5">No events found.</div>
+                <div className="text-center text-maroon/70 text-sm font-serif py-5">No events found.</div>
               ) : (
-                events.slice(0, 3).map((event) => (
-                  <div key={event._id} className="group p-4 rounded-xl border border-[#d4af37]/20 cursor-pointer bg-[#fdfbf7] hover:bg-white shadow-sm hover:shadow-md transition-all flex flex-col gap-1.5">
-                     <div className="text-[#d4af37] text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                events?.slice(0, 3).map((event) => (
+                  <div key={event._id} className="group p-4 rounded-xl border border-gold/20 cursor-pointer bg-premium hover:bg-white shadow-sm hover:shadow-md transition-all flex flex-col gap-1.5">
+                     <div className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-wider">
                        {event.date || 'Upcoming'} {event.time && `• ${event.time}`}
                      </div>
-                     <h4 className="text-sm sm:text-base font-serif text-[#791916] font-semibold line-clamp-1">{event.title}</h4>
+                     <h4 className="text-sm sm:text-base font-serif text-maroon font-semibold line-clamp-1">{event.title}</h4>
                      {event.location && (
-                       <div className="text-xs text-[#3a0d0a]/70 line-clamp-1 flex items-center gap-1">
+                       <div className="text-xs text-maroon-darker/70 line-clamp-1 flex items-center gap-1">
                          <span>📍</span> {event.location}
                        </div>
                      )}
                      {event.description && (
-                       <p className="text-xs text-[#3a0d0a]/60 line-clamp-2 mt-1 leading-snug">
+                       <p className="text-xs text-maroon-darker/60 line-clamp-2 mt-1 leading-snug">
                          {event.description}
                        </p>
                      )}
@@ -373,30 +378,30 @@ export default function Home() {
           
           {/* Sacred Dhams Section */}
           <section>
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 border-b border-[#d4af37]/20 pb-3">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 border-b border-gold/20 pb-3">
               <div>
-                <h2 className="text-2xl font-serif text-[#791916] mb-1">Sacred Dhams</h2>
-                <p className="text-[#3a0d0a]/70 font-serif italic text-sm">Explore the abodes of the divine</p>
+                <h2 className="text-2xl font-serif text-maroon mb-1">Sacred Dhams</h2>
+                <p className="text-maroon-darker/70 font-serif italic text-sm">Explore the abodes of the divine</p>
               </div>
-              <Link to="/dhams" className="hidden md:inline-block text-[#d4af37] text-sm font-semibold hover:text-[#791916] transition-colors">View All &rarr;</Link>
+              <Link to="/dhams" className="hidden md:inline-block text-gold text-sm font-semibold hover:text-maroon transition-colors">View All &rarr;</Link>
             </div>
             {loadingDhams ? (
-              <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4af37]"></div></div>
+              <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold"></div></div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {dhams.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()) || (d.location?.city || '').toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 6).map((dham) => (
-                  <div key={dham._id} className={`bg-white rounded-2xl overflow-hidden shadow-lg shadow-[#791916]/5 border group flex flex-col hover:-translate-y-1 transition-transform ${previewItem?._id === dham._id ? 'border-[#791916] ring-2 ring-[#791916]/20' : 'border-[#d4af37]/20'}`}>
+                  <div key={dham._id} className={`bg-white rounded-2xl overflow-hidden shadow-lg shadow-maroon/5 border group flex flex-col hover:-translate-y-1 transition-transform ${previewItem?._id === dham._id ? 'border-maroon ring-2 ring-maroon/20' : 'border-gold/20'}`}>
                     <div className="h-32 overflow-hidden relative shrink-0">
                       <img src={dham.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(dham.name)}&background=791916&color=d4af37`} alt={dham.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dham.name)}&background=791916&color=d4af37` }} />
-                      <div className="absolute top-2 right-2 bg-white/95 text-[#791916] text-[9px] font-bold px-2 py-0.5 rounded-full shadow-md uppercase tracking-wider">{dham.status === 'active' ? 'Verified' : dham.status}</div>
+                      <div className="absolute top-2 right-2 bg-white/95 text-maroon text-[9px] font-bold px-2 py-0.5 rounded-full shadow-md uppercase tracking-wider">{dham.status === 'active' ? 'Verified' : dham.status}</div>
                     </div>
-                    <div className="p-3 flex flex-col flex-1 bg-gradient-to-b from-white to-[#fdfbf7]">
-                      <h3 className="text-lg font-serif text-[#791916] mb-1 truncate" title={dham.name}>{dham.name}</h3>
-                      <div className="flex items-center text-[#3a0d0a]/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{dham.location?.city || 'Unknown'}, {dham.location?.state || 'India'}</span></div>
-                      <div className="flex items-center justify-between mt-auto pt-2 border-t border-[#d4af37]/20">
+                    <div className="p-3 flex flex-col flex-1 bg-gradient-to-b from-white to-premium">
+                      <h3 className="text-lg font-serif text-maroon mb-1 truncate" title={dham.name}>{dham.name}</h3>
+                      <div className="flex items-center text-maroon-darker/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{dham.location?.city || 'Unknown'}, {dham.location?.state || 'India'}</span></div>
+                      <div className="flex items-center justify-between mt-auto pt-2 border-t border-gold/20">
                         <button 
                           onClick={() => handlePreview(dham, 'dham')} 
-                          className={`w-full py-1.5 text-xs font-semibold rounded-full transition-colors ${previewItem?._id === dham._id ? 'bg-[#791916] text-white' : 'bg-[#d4af37]/10 text-[#791916] hover:bg-[#d4af37] hover:text-[#3a0d0a]'}`}
+                          className={`w-full py-1.5 text-xs font-semibold rounded-full transition-colors ${previewItem?._id === dham._id ? 'bg-maroon text-white' : 'bg-gold/10 text-maroon hover:bg-gold hover:text-maroon-darker'}`}
                         >
                           {previewItem?._id === dham._id ? (previewItem.isLoading ? 'Loading...' : 'Previewing') : 'View Preview'}
                         </button>
@@ -410,30 +415,30 @@ export default function Home() {
 
           {/* Sacred Temples Section */}
           <section className="mb-10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 border-b border-[#d4af37]/20 pb-3">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 border-b border-gold/20 pb-3">
               <div>
-                <h2 className="text-2xl font-serif text-[#791916] mb-1">Sacred Temples</h2>
-                <p className="text-[#3a0d0a]/70 font-serif italic text-sm">Discover the heritage of our temples</p>
+                <h2 className="text-2xl font-serif text-maroon mb-1">Sacred Temples</h2>
+                <p className="text-maroon-darker/70 font-serif italic text-sm">Discover the heritage of our temples</p>
               </div>
-              <Link to="/mandirs" className="hidden md:inline-block text-[#d4af37] text-sm font-semibold hover:text-[#791916] transition-colors">View All &rarr;</Link>
+              <Link to="/mandirs" className="hidden md:inline-block text-gold text-sm font-semibold hover:text-maroon transition-colors">View All &rarr;</Link>
             </div>
             {loadingTemples ? (
-              <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4af37]"></div></div>
+              <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold"></div></div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {temples.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()) || (t.location?.city || '').toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 6).map((temple) => (
-                  <div key={temple._id} className={`bg-white rounded-2xl overflow-hidden shadow-lg shadow-[#791916]/5 border group flex flex-col hover:-translate-y-1 transition-transform ${previewItem?._id === temple._id ? 'border-[#791916] ring-2 ring-[#791916]/20' : 'border-[#d4af37]/20'}`}>
+                  <div key={temple._id} className={`bg-white rounded-2xl overflow-hidden shadow-lg shadow-maroon/5 border group flex flex-col hover:-translate-y-1 transition-transform ${previewItem?._id === temple._id ? 'border-maroon ring-2 ring-maroon/20' : 'border-gold/20'}`}>
                     <div className="h-32 overflow-hidden relative shrink-0">
                       <img src={temple.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(temple.name)}&background=791916&color=d4af37`} alt={temple.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(temple.name)}&background=791916&color=d4af37` }} />
-                      <div className="absolute top-2 right-2 bg-white/95 text-[#791916] text-[9px] font-bold px-2 py-0.5 rounded-full shadow-md uppercase tracking-wider">{temple.status === 'active' ? 'Verified' : temple.status}</div>
+                      <div className="absolute top-2 right-2 bg-white/95 text-maroon text-[9px] font-bold px-2 py-0.5 rounded-full shadow-md uppercase tracking-wider">{temple.status === 'active' ? 'Verified' : temple.status}</div>
                     </div>
-                    <div className="p-3 flex flex-col flex-1 bg-gradient-to-b from-white to-[#fdfbf7]">
-                      <h3 className="text-lg font-serif text-[#791916] mb-1 truncate" title={temple.name}>{temple.name}</h3>
-                      <div className="flex items-center text-[#3a0d0a]/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{temple.location?.city || 'Unknown'}, {temple.location?.state || 'India'}</span></div>
-                      <div className="flex items-center justify-between mt-auto pt-2 border-t border-[#d4af37]/20">
+                    <div className="p-3 flex flex-col flex-1 bg-gradient-to-b from-white to-premium">
+                      <h3 className="text-lg font-serif text-maroon mb-1 truncate" title={temple.name}>{temple.name}</h3>
+                      <div className="flex items-center text-maroon-darker/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{temple.location?.city || 'Unknown'}, {temple.location?.state || 'India'}</span></div>
+                      <div className="flex items-center justify-between mt-auto pt-2 border-t border-gold/20">
                         <button 
                           onClick={() => handlePreview(temple, 'mandir')} 
-                          className={`w-full py-1.5 text-xs font-semibold rounded-full transition-colors ${previewItem?._id === temple._id ? 'bg-[#791916] text-white' : 'bg-[#d4af37]/10 text-[#791916] hover:bg-[#d4af37] hover:text-[#3a0d0a]'}`}
+                          className={`w-full py-1.5 text-xs font-semibold rounded-full transition-colors ${previewItem?._id === temple._id ? 'bg-maroon text-white' : 'bg-gold/10 text-maroon hover:bg-gold hover:text-maroon-darker'}`}
                         >
                           {previewItem?._id === temple._id ? (previewItem.isLoading ? 'Loading...' : 'Previewing') : 'View Preview'}
                         </button>
@@ -451,13 +456,13 @@ export default function Home() {
         <aside className="w-full lg:w-80 xl:w-96 sticky top-28 shrink-0 z-40 flex flex-col gap-6 max-h-[calc(100vh-120px)] overflow-y-auto overflow-x-hidden pr-1 pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d4af37 transparent' }}>
           
           {/* Dynamic Preview Section - Full Details */}
-          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-[#791916]/5 border border-[#d4af37]/20 flex flex-col relative overflow-x-hidden">
-            <h3 className="text-lg font-serif text-[#791916] mb-4 border-b border-[#d4af37]/20 pb-3 relative z-10">Quick Preview</h3>
+          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20 flex flex-col relative overflow-x-hidden">
+            <h3 className="text-lg font-serif text-maroon mb-4 border-b border-gold/20 pb-3 relative z-10">Quick Preview</h3>
             
             {previewItem ? (
               previewItem.isLoading ? (
                 <div className="flex-1 flex justify-center items-center h-48 relative z-10">
-                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4af37]"></div>
+                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold"></div>
                 </div>
               ) : (
               <AnimatePresence mode="wait">
@@ -470,17 +475,17 @@ export default function Home() {
                 >
                   <div className="w-full h-48 rounded-2xl overflow-hidden mb-4 relative shadow-inner">
                     <img src={previewItem.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(previewItem.name)}&background=791916&color=d4af37`} alt={previewItem.name} className="w-full h-full object-cover" />
-                    <div className="absolute top-2 left-2 bg-black/60 text-[#d4af37] text-[10px] uppercase font-bold px-2 py-1 rounded">
+                    <div className="absolute top-2 left-2 bg-black/60 text-gold text-[10px] uppercase font-bold px-2 py-1 rounded">
                        {previewItem.itemType === 'dham' ? 'Dham' : 'Temple'}
                     </div>
                   </div>
                   
-                  <h4 className="text-2xl font-serif text-[#791916] mb-2 leading-tight break-words">{previewItem.name}</h4>
+                  <h4 className="text-2xl font-serif text-maroon mb-2 leading-tight break-words">{previewItem.name}</h4>
                   
                   <div className="space-y-4 mb-6">
                     <div className="flex items-start text-sm">
                       <span className="w-6 text-center mr-2">📍</span>
-                      <span className="text-[#3a0d0a]/80 font-medium text-sm pt-0.5">
+                      <span className="text-maroon-darker/80 font-medium text-sm pt-0.5">
                         {previewItem.location?.city ? `${previewItem.location.city}, ` : ''}{previewItem.location?.state || 'India'}
                       </span>
                     </div>
@@ -488,56 +493,56 @@ export default function Home() {
                     {previewItem.mainDeity && (
                       <div className="flex items-start text-sm">
                         <span className="w-6 text-center mr-2">🕉️</span>
-                        <span className="text-[#3a0d0a]/80 text-sm pt-0.5">Deity: <span className="font-serif italic font-semibold">{previewItem.mainDeity}</span></span>
+                        <span className="text-maroon-darker/80 text-sm pt-0.5">Deity: <span className="font-serif italic font-semibold">{previewItem.mainDeity}</span></span>
                       </div>
                     )}
 
                     {/* Quick Timings */}
                     <div className="flex items-start text-sm">
                       <span className="w-6 text-center mr-2">🕒</span>
-                      <span className="text-[#3a0d0a]/80 text-xs pt-0.5 font-medium">Timings: {previewItem.schedule?.openTime ? `${previewItem.schedule.openTime} - ${previewItem.schedule.closeTime}` : 'Check timings online'}</span>
+                      <span className="text-maroon-darker/80 text-xs pt-0.5 font-medium">Timings: {previewItem.schedule?.openTime ? `${previewItem.schedule.openTime} - ${previewItem.schedule.closeTime}` : 'Check timings online'}</span>
                     </div>
 
                     {/* Meta info */}
                     <div className="flex items-start text-sm">
                       <span className="w-6 text-center mr-2">🏛️</span>
-                      <span className="text-[#3a0d0a]/80 text-xs pt-0.5 font-medium">Established: {previewItem.establishedYear || 'Ancient'}</span>
+                      <span className="text-maroon-darker/80 text-xs pt-0.5 font-medium">Established: {previewItem.establishedYear || 'Ancient'}</span>
                     </div>
 
                     {/* Quick Contact */}
                     {(previewItem.contact?.phone || previewItem.contact?.website) && (
                       <div className="flex items-start text-sm">
                         <span className="w-6 text-center mr-2">📞</span>
-                        <span className="text-[#3a0d0a]/80 text-xs pt-0.5 font-medium truncate">
-                          {previewItem.contact?.phone || 'No phone'} | {previewItem.contact?.website ? <a href={previewItem.contact.website} target="_blank" rel="noreferrer" className="text-[#d4af37] hover:underline">Website</a> : 'No website'}
+                        <span className="text-maroon-darker/80 text-xs pt-0.5 font-medium truncate">
+                          {previewItem.contact?.phone || 'No phone'} | {previewItem.contact?.website ? <a href={previewItem.contact.website} target="_blank" rel="noreferrer" className="text-gold hover:underline">Website</a> : 'No website'}
                         </span>
                       </div>
                     )}
 
                     {/* Quick Services */}
                     {previewItem.services && previewItem.services.length > 0 && (
-                      <div className="pt-4 border-t border-[#d4af37]/20 mt-4">
-                        <h5 className="text-sm font-bold text-[#791916] mb-3">Available Services</h5>
+                      <div className="pt-4 border-t border-gold/20 mt-4">
+                        <h5 className="text-sm font-bold text-maroon mb-3">Available Services</h5>
                         <div className="flex flex-wrap gap-2">
                           {previewItem.services.map((svc, i) => (
-                             <span key={i} className="bg-[#791916]/5 border border-[#791916]/20 text-[#791916] text-[10px] px-2.5 py-1 rounded-full font-semibold">{svc}</span>
+                             <span key={i} className="bg-maroon/5 border border-maroon/20 text-maroon text-[10px] px-2.5 py-1 rounded-full font-semibold">{svc}</span>
                           ))}
                         </div>
                       </div>
                     )}
                     
                     {/* More details section */}
-                    <div className="pt-4 border-t border-[#d4af37]/20 mt-4">
-                      <h5 className="text-sm font-bold text-[#791916] mb-2">About</h5>
-                      <p className="text-xs text-[#3a0d0a]/80 leading-relaxed font-medium break-words">
+                    <div className="pt-4 border-t border-gold/20 mt-4">
+                      <h5 className="text-sm font-bold text-maroon mb-2">About</h5>
+                      <p className="text-xs text-maroon-darker/80 leading-relaxed font-medium break-words">
                         {previewItem.description || 'No description available for this sacred place.'}
                       </p>
                     </div>
 
                     {/* Location Map */}
-                    <div className="pt-4 border-t border-[#d4af37]/20 mt-4">
-                      <h5 className="text-sm font-bold text-[#791916] mb-3">Location Map</h5>
-                      <div className="w-full h-32 md:h-40 bg-gray-100 rounded-xl overflow-hidden shadow-inner border border-[#d4af37]/20">
+                    <div className="pt-4 border-t border-gold/20 mt-4">
+                      <h5 className="text-sm font-bold text-maroon mb-3">Location Map</h5>
+                      <div className="w-full h-32 md:h-40 bg-gray-100 rounded-xl overflow-hidden shadow-inner border border-gold/20">
                         <iframe 
                           src={`https://maps.google.com/maps?q=${previewItem.geolocation?.latitude ? `${previewItem.geolocation.latitude},${previewItem.geolocation.longitude}` : encodeURIComponent(previewItem.name + ' ' + (previewItem.location?.city || ''))}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
                           width="100%" 
@@ -552,10 +557,10 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-[#d4af37]/20">
+                  <div className="mt-4 pt-4 border-t border-gold/20">
                     <Link 
                       to={`/${previewItem.itemType}/${previewItem._id}`} 
-                      className="flex items-center justify-center w-full py-3.5 bg-[#791916] hover:bg-[#5a1210] text-white text-sm font-bold rounded-xl transition-colors shadow-md group"
+                      className="flex items-center justify-center w-full py-3.5 bg-maroon hover:bg-maroon-dark text-white text-sm font-bold rounded-xl transition-colors shadow-md group"
                     >
                       Explore Full Details
                       <span className="ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
@@ -565,10 +570,10 @@ export default function Home() {
               </AnimatePresence>
               )
             ) : (
-              <div className="flex-1 flex flex-col items-center justify-center text-center p-6 bg-[#fdfbf7]/50 rounded-2xl border border-dashed border-[#d4af37]/40 relative z-10 mt-2">
+              <div className="flex-1 flex flex-col items-center justify-center text-center p-6 bg-premium/50 rounded-2xl border border-dashed border-gold/40 relative z-10 mt-2">
                 <span className="text-4xl mb-4 opacity-50 grayscale filter drop-shadow-sm">🛕</span>
-                <p className="text-sm font-serif text-[#791916]/70 leading-relaxed">
-                  Select <span className="font-bold text-[#791916]">"View Preview"</span> on any Dham or Temple to see full details here.
+                <p className="text-sm font-serif text-maroon/70 leading-relaxed">
+                  Select <span className="font-bold text-maroon">"View Preview"</span> on any Dham or Temple to see full details here.
                 </p>
               </div>
             )}
@@ -584,9 +589,9 @@ export default function Home() {
 
       {/* Services Section Moved to Full Width Below 3-Column Layout */}
       <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-         <div className="text-center mb-10 border-b border-[#d4af37]/20 pb-4">
+         <div className="text-center mb-10 border-b border-gold/20 pb-4">
            <motion.h2 
-             className="text-3xl font-serif text-[#791916] mb-2"
+             className="text-3xl font-serif text-maroon mb-2"
              initial="hidden"
              whileInView="visible"
              viewport={{ once: true, margin: "-100px" }}
@@ -610,7 +615,7 @@ export default function Home() {
            </motion.h2>
            
            <motion.p 
-             className="text-[#3a0d0a]/70 font-serif italic text-base"
+             className="text-maroon-darker/70 font-serif italic text-base"
              initial="hidden"
              whileInView="visible"
              viewport={{ once: true, margin: "-100px" }}
@@ -643,11 +648,11 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: idx * 0.1, ease: "easeOut" }}
                 className="h-full"
               >
-                <div className="h-full bg-white border border-[#d4af37]/20 rounded-3xl p-6 shadow-md shadow-[#791916]/5 hover:shadow-xl hover:shadow-[#791916]/10 hover:-translate-y-2 transition-all duration-300 group flex flex-col items-center text-center">
-                  <div className="w-16 h-16 bg-[#fdfbf7] rounded-full border border-[#d4af37]/30 flex items-center justify-center text-2xl mb-5 text-[#791916] group-hover:scale-110 transition-transform">{srv.icon}</div>
-                  <h3 className="text-lg font-serif text-[#791916] mb-3 leading-tight">{srv.title}</h3>
-                  <p className="text-xs text-[#3a0d0a]/70 leading-relaxed mb-6 font-light flex-1">{srv.desc}</p>
-                  <Link to="/gallery" className="text-xs font-bold text-[#d4af37] uppercase tracking-wider group-hover:text-[#791916] inline-block transition-colors border border-[#d4af37]/30 rounded-full px-5 py-2 hover:bg-[#d4af37]/10">{srv.buttonText || 'Book Now →'}</Link>
+                <div className="h-full bg-white border border-gold/20 rounded-3xl p-6 shadow-md shadow-maroon/5 hover:shadow-xl hover:shadow-maroon/10 hover:-translate-y-2 transition-all duration-300 group flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-premium rounded-full border border-gold/30 flex items-center justify-center text-2xl mb-5 text-maroon group-hover:scale-110 transition-transform">{srv.icon}</div>
+                  <h3 className="text-lg font-serif text-maroon mb-3 leading-tight">{srv.title}</h3>
+                  <p className="text-xs text-maroon-darker/70 leading-relaxed mb-6 font-light flex-1">{srv.desc}</p>
+                  <Link to="/gallery" className="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-maroon inline-block transition-colors border border-gold/30 rounded-full px-5 py-2 hover:bg-gold/10">{srv.buttonText || 'Book Now →'}</Link>
                 </div>
               </motion.div>
            ))}
@@ -656,18 +661,18 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-10">
-        <div className="bg-[#791916] rounded-[3rem] p-12 text-center text-white relative overflow-hidden shadow-2xl">
+        <div className="bg-maroon rounded-[3rem] p-12 text-center text-white relative overflow-hidden shadow-2xl">
           <div className="relative z-10 max-w-3xl mx-auto space-y-6">
-            <h3 className="text-[#d4af37] text-lg font-serif tracking-widest mb-2">॥ ॐ शिवाय नमः ॥</h3>
+            <h3 className="text-gold text-lg font-serif tracking-widest mb-2">॥ ॐ शिवाय नमः ॥</h3>
             <h2 className="text-3xl sm:text-5xl font-serif mb-6 leading-tight">Plan Your Journey</h2>
-            <p className="text-[#fdfbf7]/80 leading-relaxed font-light mb-8">
+            <p className="text-premium/80 leading-relaxed font-light mb-8">
               Darshan timings, online puja booking, and complete pilgrimage information are available here.
             </p>
             <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <Link to="/gallery" className="px-8 py-3.5 bg-[#d4af37] hover:bg-[#c29b26] text-[#3a0d0a] font-bold rounded-full transition-all shadow-md active:scale-95 text-sm sm:text-base cursor-pointer">Get Journey Details</Link>
+              <Link to="/gallery" className="px-8 py-3.5 bg-gold hover:bg-[#c29b26] text-maroon-darker font-bold rounded-full transition-all shadow-md active:scale-95 text-sm sm:text-base cursor-pointer">Get Journey Details</Link>
             </div>
           </div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#d4af37]/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/20 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
         </div>
       </section>

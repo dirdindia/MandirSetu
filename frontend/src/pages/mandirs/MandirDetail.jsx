@@ -27,7 +27,7 @@ export default function MandirDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 flex justify-center items-center bg-[#fdfbf7]">
+      <div className="min-h-screen pt-24 flex justify-center items-center bg-premium">
         <motion.div 
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
@@ -39,7 +39,7 @@ export default function MandirDetail() {
 
   if (!temple) {
     return (
-      <div className="min-h-screen pt-24 flex flex-col justify-center items-center bg-[#fdfbf7]">
+      <div className="min-h-screen pt-24 flex flex-col justify-center items-center bg-premium">
         <h2 className="text-3xl font-serif text-[#5a1617] mb-4">Temple Not Found</h2>
         <Link to="/mandirs" className="text-[#dfba6b] font-semibold hover:underline transition-colors">Go back to all Temples</Link>
       </div>
@@ -47,7 +47,7 @@ export default function MandirDetail() {
   }
 
   return (
-    <div className="bg-[#fdfbf7] min-h-screen font-sans pb-0 text-[#3a0d0a] selection:bg-[#dfba6b]/30 overflow-x-hidden">
+    <div className="bg-premium min-h-screen font-sans pb-0 text-maroon-darker selection:bg-[#dfba6b]/30 overflow-x-hidden">
       
       {/* 1. HERO SECTION (Dark Maroon with Side Image) */}
       <section className="relative w-full bg-[#5a1617] pt-28 pb-32 overflow-hidden border-b-[10px] border-[#dfba6b]">
@@ -74,7 +74,7 @@ export default function MandirDetail() {
                  <span className="text-[#dfba6b] uppercase tracking-[0.2em] font-bold text-sm sm:text-base opacity-90">॥ जय श्री {temple.mainDeity || 'राम'} ॥</span>
               </div>
               
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#fdfbf7] mb-6 tracking-wide drop-shadow-lg leading-tight uppercase" style={{ fontFamily: "'Tiro Devanagari Hindi', serif" }}>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-premium mb-6 tracking-wide drop-shadow-lg leading-tight uppercase" style={{ fontFamily: "'Tiro Devanagari Hindi', serif" }}>
                 {temple.name}
               </h1>
               
@@ -529,7 +529,7 @@ export default function MandirDetail() {
 
              {/* Tip Card */}
              {temple.mandirSetuTip && (
-               <div className="bg-gradient-to-r from-[#fdfbf7] to-[#fcf7ed] p-6 rounded-3xl border border-[#dfba6b]/40 shadow-sm relative overflow-hidden">
+               <div className="bg-gradient-to-r from-premium to-[#fcf7ed] p-6 rounded-3xl border border-[#dfba6b]/40 shadow-sm relative overflow-hidden">
                  <div className="absolute -right-4 -top-4 text-6xl opacity-[0.05]">💡</div>
                  <h4 className="text-[#c09642] font-bold uppercase text-xs mb-2">Mandir Setu Tip</h4>
                  <p className="text-[#5a1617] font-medium text-sm sm:text-base leading-relaxed italic">
@@ -546,10 +546,10 @@ export default function MandirDetail() {
       <section className="w-full bg-gradient-to-b from-[#5a1617] to-[#3d0b0d] py-16 text-center border-t-8 border-[#dfba6b]">
         <div className="max-w-3xl mx-auto px-4">
           <p className="text-[#dfba6b] text-sm uppercase tracking-widest font-bold mb-3">॥ जय श्री {temple.mainDeity || 'राम'} ॥</p>
-          <h2 className="text-3xl sm:text-4xl font-serif text-[#fdfbf7] uppercase tracking-wider mb-8 drop-shadow-md">
+          <h2 className="text-3xl sm:text-4xl font-serif text-premium uppercase tracking-wider mb-8 drop-shadow-md">
             START YOUR SPIRITUAL JOURNEY
           </h2>
-          <p className="text-[#fdfbf7]/80 text-sm sm:text-base font-light mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-premium/80 text-sm sm:text-base font-light mb-10 max-w-xl mx-auto leading-relaxed">
             Plan your spiritual journey with complete information on darshan, aarti, and pooja bookings.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
