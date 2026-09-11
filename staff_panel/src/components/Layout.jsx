@@ -11,7 +11,7 @@ export default function Layout() {
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 overflow-hidden font-sans transition-colors">
+    <div className="flex h-screen bg-premium dark:bg-slate-950 overflow-hidden font-sans transition-colors">
       <Sidebar 
         isOpen={isSidebarOpen} 
         toggleSidebar={toggleSidebar} 
@@ -22,8 +22,8 @@ export default function Layout() {
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header toggleSidebar={toggleSidebar} />
         
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50 dark:bg-slate-950 p-4 sm:p-6 lg:p-8 transition-colors">
-          <div className="max-w-7xl mx-auto h-full">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-premium dark:bg-slate-950 p-4 sm:p-6 lg:p-8 transition-colors">
+          <div className="max-w-7xl mx-auto h-full text-maroon-darker">
             <Outlet />
           </div>
         </main>

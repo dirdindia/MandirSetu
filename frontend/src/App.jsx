@@ -19,6 +19,8 @@ import Cart from './pages/ecommerce/Cart';
 import Checkout from './pages/ecommerce/Checkout';
 import ServiceList from './pages/directories/ServiceList';
 import Profile from './pages/user/Profile';
+import GroupBooking from './pages/ecommerce/GroupBooking';
+import Orders from './pages/user/Orders';
 
 function App() {
   return (
@@ -44,6 +46,8 @@ function App() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="services" element={<ServiceList />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="group-booking" element={<GroupBooking />} />
+          <Route path="orders" element={<Orders />} />
         </Route>
       </Routes>
     </BrowserRouter>

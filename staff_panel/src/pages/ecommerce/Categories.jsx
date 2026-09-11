@@ -239,8 +239,8 @@ export default function Categories() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Categories</h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Manage product categories for your Mandir.</p>
+          <h1 className="text-2xl font-bold text-maroon-darker ">Categories</h1>
+          <p className="text-maroon-darker/60  text-sm mt-1">Manage product categories for your Mandir.</p>
         </div>
         <button 
           onClick={() => {
@@ -248,7 +248,7 @@ export default function Categories() {
             setNewCategory({ name: '', description: '', image: '', isVisible: true });
             setIsModalOpen(true);
           }}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium shadow-sm shadow-blue-500/30 transition-all flex items-center cursor-pointer"
+          className="bg-gradient-to-r from-maroon-darker to-maroon-darker hover:from-blue-700 hover:to-indigo-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium shadow-sm shadow-blue-500/30 transition-all flex items-center cursor-pointer"
         >
           <Plus size={18} className="mr-2" />
           Add Category
@@ -256,26 +256,26 @@ export default function Categories() {
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+      <div className="bg-white  p-4 rounded-2xl shadow-sm border border-gold/20  flex items-center justify-between">
         <div className="relative w-full max-w-md">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search size={18} className="text-slate-400" />
+            <Search size={18} className="text-maroon-darker/40" />
           </div>
           <input
             type="text"
             placeholder="Search categories..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+            className="w-full pl-10 pr-4 py-2 border border-gold/20  rounded-xl bg-premium  text-maroon-darker  focus:outline-none focus:ring-2 focus:ring-maroon transition-colors"
           />
         </div>
       </div>
 
       {/* Categories Table */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white  rounded-2xl shadow-sm border border-gold/20  overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 uppercase border-b border-slate-200 dark:border-slate-800">
+            <thead className="text-xs text-maroon-darker/60  bg-premium  uppercase border-b border-gold/20 ">
               <tr>
                 <th className="px-6 py-4 font-medium">Image</th>
                 <th className="px-6 py-4 font-medium">Category Name</th>
@@ -284,32 +284,32 @@ export default function Categories() {
                 <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+            <tbody className="divide-y divide-slate-200 ">
               {isLoading ? (
                 <tr>
-                  <td colSpan="5" className="px-6 py-12 text-center text-slate-500">
-                    <Loader2 size={24} className="animate-spin mx-auto text-blue-500 mb-2" />
+                  <td colSpan="5" className="px-6 py-12 text-center text-maroon-darker/60">
+                    <Loader2 size={24} className="animate-spin mx-auto text-maroon mb-2" />
                     Loading categories...
                   </td>
                 </tr>
               ) : filteredCategories.length > 0 ? (
                 filteredCategories.map((category) => (
-                  <tr key={category._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                  <tr key={category._id} className="hover:bg-premium  transition-colors">
                     <td className="px-6 py-4">
                       {category.image ? (
-                        <img src={category.image} alt={category.name} className="w-12 h-12 rounded-lg object-cover border border-slate-200 dark:border-slate-700" />
+                        <img src={category.image} alt={category.name} className="w-12 h-12 rounded-lg object-cover border border-gold/20 " />
                       ) : (
-                        <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 border border-slate-200 dark:border-slate-700">
+                        <div className="w-12 h-12 rounded-lg bg-gold/10  flex items-center justify-center text-maroon-darker/40 border border-gold/20 ">
                           <ImageIcon size={20} />
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 font-medium text-slate-800 dark:text-slate-200">{category.name}</td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400 truncate max-w-xs">{category.description || '-'}</td>
+                    <td className="px-6 py-4 font-medium text-maroon-darker ">{category.name}</td>
+                    <td className="px-6 py-4 text-maroon-darker/70  truncate max-w-xs">{category.description || '-'}</td>
                     <td className="px-6 py-4 text-center">
                       <button
                         onClick={() => handleToggleVisibility(category)}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${category.isVisible ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-600'}`}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${category.isVisible ? 'bg-maroon-darker' : 'bg-slate-300 '}`}
                         title={category.isVisible ? "Visible to customers" : "Hidden from customers"}
                       >
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${category.isVisible ? 'translate-x-6' : 'translate-x-1'}`} />
@@ -319,13 +319,13 @@ export default function Categories() {
                       <div className="flex items-center justify-end gap-3">
                         <button 
                           onClick={() => openEditModal(category)}
-                          className="text-slate-400 hover:text-blue-600 dark:hover:text-blue-500 transition-colors cursor-pointer" title="Edit"
+                          className="text-maroon-darker/40 hover:text-maroon  transition-colors cursor-pointer" title="Edit"
                         >
                           <Edit size={18} />
                         </button>
                         <button 
                           onClick={() => handleDelete(category._id)}
-                          className="text-slate-400 hover:text-rose-600 dark:hover:text-rose-500 transition-colors cursor-pointer" title="Delete"
+                          className="text-maroon-darker/40 hover:text-rose-600  transition-colors cursor-pointer" title="Delete"
                         >
                           <Trash2 size={18} />
                         </button>
@@ -335,7 +335,7 @@ export default function Categories() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
+                  <td colSpan="5" className="px-6 py-12 text-center text-maroon-darker/60 ">
                     No categories found. Click "Add Category" to create one.
                   </td>
                 </tr>
@@ -348,14 +348,14 @@ export default function Categories() {
       {/* Add Category Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl w-full max-w-lg border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-800">
-              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
+          <div className="bg-white  rounded-2xl shadow-xl w-full max-w-lg border border-gold/20  animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between p-6 border-b border-gold/20 ">
+              <h2 className="text-xl font-bold text-maroon-darker ">
                 {editingCategoryId ? 'Edit Category' : 'Add New Category'}
               </h2>
               <button 
                 onClick={handleCloseModal}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer"
+                className="text-maroon-darker/40 hover:text-maroon-darker/70  transition-colors cursor-pointer"
               >
                 <X size={24} />
               </button>
@@ -363,43 +363,43 @@ export default function Categories() {
             
             <form onSubmit={handleAddCategory} className="p-6 space-y-5">
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Category Name</label>
+                <label className="block text-sm font-medium text-maroon-darker/80  mb-1">Category Name</label>
                 <input 
                   type="text" 
                   required
                   placeholder="e.g. Prasad"
                   value={newCategory.name}
                   onChange={(e) => setNewCategory({...newCategory, name: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gold/20  rounded-xl bg-premium  text-maroon-darker  focus:outline-none focus:ring-2 focus:ring-maroon"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description</label>
+                <label className="block text-sm font-medium text-maroon-darker/80  mb-1">Description</label>
                 <textarea 
                   rows="3"
                   placeholder="Short description about this category"
                   value={newCategory.description}
                   onChange={(e) => setNewCategory({...newCategory, description: e.target.value})}
-                  className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full px-4 py-2 border border-gold/20  rounded-xl bg-premium  text-maroon-darker  focus:outline-none focus:ring-2 focus:ring-maroon resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Category Image</label>
+                <label className="block text-sm font-medium text-maroon-darker/80  mb-1">Category Image</label>
                 <div className="flex items-center gap-4">
-                  <div className="w-20 h-20 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden shrink-0 relative group">
+                  <div className="w-20 h-20 rounded-xl bg-gold/10  border border-gold/20  flex items-center justify-center overflow-hidden shrink-0 relative group">
                     {isUploading ? (
-                      <Loader2 size={24} className="text-blue-500 animate-spin" />
+                      <Loader2 size={24} className="text-maroon animate-spin" />
                     ) : newCategory.image ? (
                       <img src={newCategory.image} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
-                      <ImageIcon size={24} className="text-slate-400" />
+                      <ImageIcon size={24} className="text-maroon-darker/40" />
                     )}
                   </div>
                   
                   <div className="flex-1">
-                    <label className="cursor-pointer bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl text-sm font-medium flex items-center justify-center w-max">
+                    <label className="cursor-pointer bg-white  border border-gold/20  hover:bg-premium  transition-colors text-maroon-darker/80  px-4 py-2 rounded-xl text-sm font-medium flex items-center justify-center w-max">
                       <Upload size={16} className="mr-2" />
                       {isUploading ? 'Uploading...' : 'Upload Image'}
                       <input 
@@ -410,7 +410,7 @@ export default function Categories() {
                         disabled={isUploading}
                       />
                     </label>
-                    <p className="text-xs text-slate-500 mt-2">Recommended: 400x400px. Max 2MB.</p>
+                    <p className="text-xs text-maroon-darker/60 mt-2">Recommended: 400x400px. Max 2MB.</p>
                   </div>
                 </div>
               </div>
@@ -419,21 +419,21 @@ export default function Categories() {
                 <button
                   type="button"
                   onClick={() => setNewCategory({...newCategory, isVisible: !newCategory.isVisible})}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${newCategory.isVisible ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-600'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${newCategory.isVisible ? 'bg-maroon-darker' : 'bg-slate-300 '}`}
                 >
                   <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${newCategory.isVisible ? 'translate-x-6' : 'translate-x-1'}`} />
                 </button>
                 <div>
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Visible to Customers</p>
-                  <p className="text-xs text-slate-500">Allow this category to be shown on the storefront</p>
+                  <p className="text-sm font-medium text-maroon-darker/80 ">Visible to Customers</p>
+                  <p className="text-xs text-maroon-darker/60">Allow this category to be shown on the storefront</p>
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end gap-3 border-t border-slate-200 dark:border-slate-800 mt-6">
+              <div className="pt-4 flex justify-end gap-3 border-t border-gold/20  mt-6">
                 <button 
                   type="button"
                   onClick={handleCloseModal}
-                  className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-sm font-medium text-maroon-darker/70  hover:bg-gold/10  transition-colors cursor-pointer"
                   disabled={isSaving}
                 >
                   Cancel
@@ -441,7 +441,7 @@ export default function Categories() {
                 <button 
                   type="submit"
                   disabled={isSaving || isUploading}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl text-sm font-medium transition-colors flex items-center disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                  className="bg-maroon-darker hover:bg-blue-700 text-white px-6 py-2 rounded-xl text-sm font-medium transition-colors flex items-center disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {isSaving ? <Loader2 size={16} className="animate-spin mr-2" /> : null}
                   {isSaving ? 'Saving...' : (editingCategoryId ? 'Update Category' : 'Save Category')}

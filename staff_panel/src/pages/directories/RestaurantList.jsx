@@ -93,54 +93,54 @@ export default function RestaurantList() {
 
         <div class="space-y-6 px-2">
           <!-- Timing & Contact row -->
-          <div class="grid grid-cols-2 gap-4 bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700">
+          <div class="grid grid-cols-2 gap-4 bg-premium  p-4 rounded-2xl border border-gold/20 ">
             <div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Timing</p>
-              <p class="text-slate-800 dark:text-slate-200 font-bold text-sm">${rest.timing?.open || 'N/A'} - ${rest.timing?.close || 'N/A'}</p>
+              <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-1">Timing</p>
+              <p class="text-maroon-darker  font-bold text-sm">${rest.timing?.open || 'N/A'} - ${rest.timing?.close || 'N/A'}</p>
             </div>
             <div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Contact</p>
-              <p class="text-slate-800 dark:text-slate-200 font-bold text-sm">${rest.contact?.phone || 'N/A'}</p>
+              <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-1">Contact</p>
+              <p class="text-maroon-darker  font-bold text-sm">${rest.contact?.phone || 'N/A'}</p>
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Manager</p>
-              <p class="text-slate-800 dark:text-slate-200 font-semibold text-sm">${rest.contact?.managerName || 'N/A'}</p>
+              <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-1">Manager</p>
+              <p class="text-maroon-darker  font-semibold text-sm">${rest.contact?.managerName || 'N/A'}</p>
             </div>
             <div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Seating Capacity</p>
-              <p class="text-slate-800 dark:text-slate-200 font-semibold text-sm">${rest.seatingCapacity ? rest.seatingCapacity + ' pax' : 'N/A'}</p>
+              <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-1">Seating Capacity</p>
+              <p class="text-maroon-darker  font-semibold text-sm">${rest.seatingCapacity ? rest.seatingCapacity + ' pax' : 'N/A'}</p>
             </div>
           </div>
 
           ${rest.description ? `
           <div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-2">About Restaurant</p>
-            <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">${rest.description}</p>
+            <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-2">About Restaurant</p>
+            <p class="text-maroon-darker/80  text-sm leading-relaxed">${rest.description}</p>
           </div>` : ''}
 
           ${rest.cuisineTypes && rest.cuisineTypes.length > 0 ? `
           <div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Cuisines Offered</p>
+            <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-2">Cuisines Offered</p>
             <div class="flex flex-wrap gap-2">
-              ${rest.cuisineTypes.map(c => `<span class="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg font-semibold text-xs border border-slate-200 dark:border-slate-700 shadow-sm">${c}</span>`).join('')}
+              ${rest.cuisineTypes.map(c => `<span class="bg-white  text-maroon-darker/80  px-3 py-1.5 rounded-lg font-semibold text-xs border border-gold/20  shadow-sm">${c}</span>`).join('')}
             </div>
           </div>` : ''}
 
           ${rest.specialities && rest.specialities.length > 0 ? `
           <div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Specialities</p>
+            <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-2">Specialities</p>
             <div class="flex flex-wrap gap-2">
-              ${rest.specialities.map(s => `<span class="bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 px-3 py-1.5 rounded-lg font-semibold text-xs border border-teal-100 dark:border-teal-800">${s}</span>`).join('')}
+              ${rest.specialities.map(s => `<span class="bg-teal-50  text-teal-700  px-3 py-1.5 rounded-lg font-semibold text-xs border border-teal-100 ">${s}</span>`).join('')}
             </div>
           </div>` : ''}
 
           ${rest.associatedMandir ? `
-          <div class="bg-amber-50 dark:bg-amber-900/10 p-4 rounded-2xl border border-amber-100 dark:border-amber-800/50">
-            <p class="text-xs text-amber-600 dark:text-amber-400 uppercase font-bold tracking-wider mb-1">Associated Mandir</p>
-            <p class="text-slate-800 dark:text-slate-200 text-sm font-medium">${rest.associatedMandir}</p>
+          <div class="bg-amber-50  p-4 rounded-2xl border border-amber-100 ">
+            <p class="text-xs text-amber-600  uppercase font-bold tracking-wider mb-1">Associated Mandir</p>
+            <p class="text-maroon-darker  text-sm font-medium">${rest.associatedMandir}</p>
           </div>` : ''}
 
           ${rest.geolocation && rest.geolocation.latitude ? `
@@ -161,7 +161,7 @@ export default function RestaurantList() {
       width: '550px',
       padding: '0',
       customClass: {
-        popup: 'rounded-3xl overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800 dark:bg-slate-900',
+        popup: 'rounded-3xl overflow-hidden shadow-2xl border border-gold/20  ',
         htmlContainer: 'p-0 m-0',
         closeButton: 'bg-black/20 hover:bg-black/40 text-white rounded-full m-3 backdrop-blur-sm transition-colors',
       }
@@ -172,20 +172,20 @@ export default function RestaurantList() {
     <div className="max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Restaurants Directory</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">Manage and view all registered restaurants.</p>
+          <h1 className="text-3xl font-bold text-maroon-darker ">Restaurants Directory</h1>
+          <p className="text-maroon-darker/70  mt-1">Manage and view all registered restaurants.</p>
         </div>
         <div className="relative w-full sm:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <input type="text" placeholder="Search restaurants..." className="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-xl w-full focus:ring-2 focus:ring-green-500 focus:outline-none transition-all shadow-sm" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-maroon-darker/40" size={18} />
+          <input type="text" placeholder="Search restaurants..." className="pl-10 pr-4 py-2 bg-white  border border-gold/20  text-maroon-darker  rounded-xl w-full focus:ring-2 focus:ring-green-500 focus:outline-none transition-all shadow-sm" />
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white  rounded-2xl shadow-sm border border-gold/20  overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-premium  border-b border-gold/20  text-maroon-darker/60  text-xs uppercase tracking-wider font-bold">
                 <th className="p-4">Restaurant Name</th>
                 <th className="p-4">City / State</th>
                 <th className="p-4">Type</th>
@@ -193,23 +193,23 @@ export default function RestaurantList() {
                 <th className="p-4 text-center">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+            <tbody className="divide-y divide-slate-200 ">
               {loading ? (
                 <tr>
-                  <td colSpan="5" className="p-8 text-center text-slate-500 dark:text-slate-400">Loading restaurants...</td>
+                  <td colSpan="5" className="p-8 text-center text-maroon-darker/60 ">Loading restaurants...</td>
                 </tr>
               ) : restaurants.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="p-8 text-center text-slate-500 dark:text-slate-400">No data available</td>
+                  <td colSpan="5" className="p-8 text-center text-maroon-darker/60 ">No data available</td>
                 </tr>
               ) : (
                 restaurants.map((rest) => (
-                  <tr key={rest._id} className="hover:bg-green-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer" onClick={() => showDetails(rest)}>
-                    <td className="p-4 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-3">
+                  <tr key={rest._id} className="hover:bg-green-50/50  transition-colors cursor-pointer" onClick={() => showDetails(rest)}>
+                    <td className="p-4 font-medium text-maroon-darker  flex items-center gap-3">
                       {rest.profilePic ? (
-                        <img src={rest.profilePic} alt="" className="w-10 h-10 rounded-xl object-cover shadow-sm border border-slate-200 dark:border-slate-700" />
+                        <img src={rest.profilePic} alt="" className="w-10 h-10 rounded-xl object-cover shadow-sm border border-gold/20 " />
                       ) : (
-                        <div className="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-500 border border-green-200 dark:border-green-800">
+                        <div className="w-10 h-10 rounded-xl bg-green-100  flex items-center justify-center text-green-500 border border-green-200 ">
                           <Coffee size={18} />
                         </div>
                       )}
@@ -217,34 +217,34 @@ export default function RestaurantList() {
                         <p className="font-bold">{rest.name}</p>
                       </div>
                     </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                    <td className="p-4 text-maroon-darker/70 ">
                       {rest.location?.city}, {rest.location?.state}
                     </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                    <td className="p-4 text-maroon-darker/70 ">
                       <span className={`px-2 py-1 rounded font-bold text-xs ${rest.isVegetarianOnly ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'}`}>
                         {rest.isVegetarianOnly ? 'Pure Veg' : 'Mixed'}
                       </span>
                     </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">{rest.contact?.phone || 'N/A'}</td>
+                    <td className="p-4 text-maroon-darker/70 ">{rest.contact?.phone || 'N/A'}</td>
                     <td className="p-4 text-center">
                       <div className="flex items-center justify-center gap-2">
                         <button 
                           onClick={(e) => { e.stopPropagation(); showDetails(rest); }}
-                          className="p-2 text-slate-500 hover:text-green-600 hover:bg-green-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
+                          className="p-2 text-maroon-darker/60 hover:text-green-600 hover:bg-green-100  rounded-lg transition-colors inline-flex justify-center items-center"
                           title="View Details"
                         >
                           <Eye size={18} />
                         </button>
                         <button 
                           onClick={(e) => handleEdit(rest, e)}
-                          className="p-2 text-slate-500 hover:text-teal-600 hover:bg-teal-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
+                          className="p-2 text-maroon-darker/60 hover:text-teal-600 hover:bg-teal-100  rounded-lg transition-colors inline-flex justify-center items-center"
                           title="Edit"
                         >
                           <Pencil size={18} />
                         </button>
                         <button 
                           onClick={(e) => handleDelete(rest._id, e)}
-                          className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
+                          className="p-2 text-maroon-darker/60 hover:text-red-600 hover:bg-red-100  rounded-lg transition-colors inline-flex justify-center items-center"
                           title="Delete"
                         >
                           <Trash2 size={18} />

@@ -9,6 +9,7 @@ import HotelList from './pages/directories/HotelList';
 import RestaurantList from './pages/directories/RestaurantList';
 import AshramList from './pages/directories/AshramList';
 import Layout from './components/Layout';
+import GroupBookings from './pages/GroupBookings';
 
 import Products from './pages/ecommerce/Products';
 import Categories from './pages/ecommerce/Categories';
@@ -35,6 +36,7 @@ function App() {
           <Route path="/directories/hotels" element={<HotelList />} />
           <Route path="/directories/restaurants" element={<RestaurantList />} />
           <Route path="/directories/ashrams" element={<AshramList />} />
+          <Route path="/group-bookings" element={<GroupBookings />} />
           
           <Route path="/ecommerce/overview" element={<Overview />} />
           <Route path="/ecommerce/products" element={<Products />} />

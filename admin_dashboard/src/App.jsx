@@ -10,6 +10,7 @@ import EditDham from './pages/directories/EditDham';
 import MandirList from './pages/directories/MandirList';
 import DhamList from './pages/directories/DhamList';
 import StaffList from './pages/directories/StaffList';
+import GroupBookings from './pages/GroupBookings';
 import EntityDetailsLayout from './pages/directories/entityDetails/EntityDetailsLayout';
 import EntityOverview from './pages/directories/entityDetails/EntityOverview';
 import EntityHotels from './pages/directories/entityDetails/EntityHotels';
@@ -30,9 +31,13 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/onboard-mandir" element={<OnboardMandir />} />
-          <Route path="/onboard-dham" element={<OnboardDham />} />
-          <Route path="/hire-staff" element={<HireStaff />} />
+          <Route path="onboard-dham" element={<OnboardDham />} />
+          <Route path="hire-staff" element={<HireStaff />} />
           <Route path="/edit-staff/:id" element={<EditStaff />} />
+          
+          {/* Booking & Management */}
+          <Route path="group-bookings" element={<GroupBookings />} />
+          <Route path="settings" element={<div className="p-8">Settings Page Coming Soon</div>} />
           <Route path="/edit-mandir/:id" element={<EditMandir />} />
           <Route path="/edit-dham/:id" element={<EditDham />} />
           <Route path="/mandirs" element={<MandirList />} />

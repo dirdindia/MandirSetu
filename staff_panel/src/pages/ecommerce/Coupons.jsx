@@ -295,8 +295,8 @@ export default function Coupons() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Coupons</h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Manage discount coupons and promotional banners.</p>
+          <h1 className="text-2xl font-bold text-maroon-darker ">Coupons</h1>
+          <p className="text-maroon-darker/60  text-sm mt-1">Manage discount coupons and promotional banners.</p>
         </div>
         <button 
           onClick={() => {
@@ -304,7 +304,7 @@ export default function Coupons() {
             setNewCoupon({ code: '', discountType: 'percentage', discountValue: '', banner: '', isActive: true });
             setIsModalOpen(true);
           }}
-          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium shadow-sm shadow-orange-500/30 transition-all flex items-center cursor-pointer"
+          className="bg-gradient-to-r from-maroon to-maroon-darker hover:from-maroon-darker hover:to-maroon-darker text-white px-4 py-2.5 rounded-xl text-sm font-medium shadow-sm shadow-maroon/20 transition-all flex items-center cursor-pointer"
         >
           <Plus size={18} className="mr-2" />
           Add Coupon
@@ -312,27 +312,27 @@ export default function Coupons() {
       </div>
 
       {/* Filters and Search */}
-      <form onSubmit={handleSearch} className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+      <form onSubmit={handleSearch} className="bg-white  p-4 rounded-2xl shadow-sm border border-gold/20  flex items-center justify-between">
         <div className="relative w-full max-w-md">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search size={18} className="text-slate-400" />
+            <Search size={18} className="text-maroon-darker/40" />
           </div>
           <input
             type="text"
             placeholder="Search coupon code..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors"
+            className="w-full pl-10 pr-4 py-2 border border-gold/20  rounded-xl bg-premium  text-maroon-darker  focus:outline-none focus:ring-2 focus:ring-maroon transition-colors"
           />
         </div>
         <button type="submit" className="hidden">Search</button>
       </form>
 
       {/* Coupons Table */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white  rounded-2xl shadow-sm border border-gold/20  overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 uppercase border-b border-slate-200 dark:border-slate-800">
+            <thead className="text-xs text-maroon-darker/60  bg-premium  uppercase border-b border-gold/20 ">
               <tr>
                 <th className="px-6 py-4 font-medium">Banner</th>
                 <th className="px-6 py-4 font-medium">Code</th>
@@ -342,39 +342,39 @@ export default function Coupons() {
                 <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+            <tbody className="divide-y divide-gold/20 ">
               {isLoading ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-12 text-center text-slate-500">
-                    <Loader2 size={24} className="animate-spin mx-auto text-orange-500 mb-2" />
+                  <td colSpan="6" className="px-6 py-12 text-center text-maroon-darker/60">
+                    <Loader2 size={24} className="animate-spin mx-auto text-maroon mb-2" />
                     Loading coupons...
                   </td>
                 </tr>
               ) : coupons.length > 0 ? (
                 coupons.map((coupon) => (
-                  <tr key={coupon._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                  <tr key={coupon._id} className="hover:bg-premium  transition-colors">
                     <td className="px-6 py-4">
                       {coupon.banner ? (
-                        <img src={coupon.banner} alt={coupon.code} className="w-20 h-10 rounded object-cover border border-slate-200 dark:border-slate-700" />
+                        <img src={coupon.banner} alt={coupon.code} className="w-20 h-10 rounded object-cover border border-gold/20 " />
                       ) : (
-                        <div className="w-20 h-10 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 border border-slate-200 dark:border-slate-700">
+                        <div className="w-20 h-10 rounded bg-gold/10  flex items-center justify-center text-maroon-darker/40 border border-gold/20 ">
                           <ImageIcon size={16} />
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{coupon.code}</td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400 font-medium">
+                    <td className="px-6 py-4 font-bold text-maroon-darker ">{coupon.code}</td>
+                    <td className="px-6 py-4 text-maroon-darker/70  font-medium">
                       {coupon.discountType === 'percentage' ? `${coupon.discountValue}% OFF` : `₹${coupon.discountValue} OFF`}
                     </td>
-                    <td className="px-6 py-4 text-slate-600 dark:text-slate-400 text-xs">
-                      {coupon.applicabilityType === 'all' && <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">All Products</span>}
+                    <td className="px-6 py-4 text-maroon-darker/70  text-xs">
+                      {coupon.applicabilityType === 'all' && <span className="bg-maroon/10 text-blue-800 px-2 py-1 rounded-full">All Products</span>}
                       {coupon.applicabilityType === 'specific_categories' && <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full">{coupon.applicableCategories?.length || 0} Categories</span>}
                       {coupon.applicabilityType === 'specific_products' && <span className="bg-emerald-100 text-emerald-800 px-2 py-1 rounded-full">{coupon.applicableProducts?.length || 0} Products</span>}
                     </td>
                     <td className="px-6 py-4 text-center">
                       <button
                         onClick={() => handleToggleStatus(coupon)}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${coupon.isActive ? 'bg-green-500' : 'bg-slate-300 dark:bg-slate-600'}`}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${coupon.isActive ? 'bg-green-500' : 'bg-maroon-darker/20 '}`}
                         title={coupon.isActive ? "Active" : "Inactive"}
                       >
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${coupon.isActive ? 'translate-x-6' : 'translate-x-1'}`} />
@@ -384,13 +384,13 @@ export default function Coupons() {
                       <div className="flex items-center justify-end gap-3">
                         <button 
                           onClick={() => openEditModal(coupon)}
-                          className="text-slate-400 hover:text-orange-500 transition-colors cursor-pointer" title="Edit"
+                          className="text-maroon-darker/40 hover:text-maroon transition-colors cursor-pointer" title="Edit"
                         >
                           <Edit size={18} />
                         </button>
                         <button 
                           onClick={() => handleDelete(coupon._id)}
-                          className="text-slate-400 hover:text-rose-500 transition-colors cursor-pointer" title="Delete"
+                          className="text-maroon-darker/40 hover:text-rose-500 transition-colors cursor-pointer" title="Delete"
                         >
                           <Trash2 size={18} />
                         </button>
@@ -400,7 +400,7 @@ export default function Coupons() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
+                  <td colSpan="6" className="px-6 py-12 text-center text-maroon-darker/60 ">
                     No coupons found. Click "Add Coupon" to create one.
                   </td>
                 </tr>
@@ -411,23 +411,23 @@ export default function Coupons() {
 
         {/* Server Side Pagination */}
         {totalPages > 1 && (
-          <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-            <p className="text-sm text-slate-500">
-              Showing page <span className="font-medium text-slate-800 dark:text-slate-200">{currentPage}</span> of <span className="font-medium text-slate-800 dark:text-slate-200">{totalPages}</span> 
+          <div className="p-4 border-t border-gold/20  flex items-center justify-between">
+            <p className="text-sm text-maroon-darker/60">
+              Showing page <span className="font-medium text-maroon-darker ">{currentPage}</span> of <span className="font-medium text-maroon-darker ">{totalPages}</span> 
               {' '}({totalItems} total items)
             </p>
             <div className="flex gap-2">
               <button 
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 transition-colors"
+                className="p-2 rounded-lg border border-gold/20  hover:bg-premium  disabled:opacity-50 transition-colors"
               >
                 <ChevronLeft size={18} />
               </button>
               <button 
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 transition-colors"
+                className="p-2 rounded-lg border border-gold/20  hover:bg-premium  disabled:opacity-50 transition-colors"
               >
                 <ChevronRight size={18} />
               </button>
@@ -438,15 +438,15 @@ export default function Coupons() {
 
       {/* Add/Edit Coupon Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900 z-10">
-              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
+        <div className="fixed inset-0 bg-maroon-darker/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+          <div className="bg-white  rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto border border-gold/20  animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between p-6 border-b border-gold/20  sticky top-0 bg-white  z-10">
+              <h2 className="text-xl font-bold text-maroon-darker ">
                 {editingCouponId ? 'Edit Coupon' : 'Add New Coupon'}
               </h2>
               <button 
                 onClick={handleCloseModal}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer"
+                className="text-maroon-darker/40 hover:text-maroon-darker/70  transition-colors cursor-pointer"
               >
                 <X size={24} />
               </button>
@@ -454,31 +454,31 @@ export default function Coupons() {
             
             <form onSubmit={handleSaveCoupon} className="p-6 space-y-5">
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Coupon Code</label>
+                <label className="block text-sm font-medium text-maroon-darker/80  mb-1">Coupon Code</label>
                 <input 
                   type="text" 
                   required
                   placeholder="e.g. DIWALI50"
                   value={newCoupon.code}
                   onChange={(e) => setNewCoupon({...newCoupon, code: e.target.value.toUpperCase()})}
-                  className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 uppercase font-mono"
+                  className="w-full px-4 py-2 border border-gold/20  rounded-xl bg-premium  text-maroon-darker  focus:outline-none focus:ring-2 focus:ring-maroon uppercase font-mono"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Discount Type</label>
+                  <label className="block text-sm font-medium text-maroon-darker/80  mb-1">Discount Type</label>
                   <select 
                     value={newCoupon.discountType}
                     onChange={(e) => setNewCoupon({...newCoupon, discountType: e.target.value})}
-                    className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-2 border border-gold/20  rounded-xl bg-premium  text-maroon-darker  focus:outline-none focus:ring-2 focus:ring-maroon"
                   >
                     <option value="percentage">Percentage (%)</option>
                     <option value="fixed">Fixed Amount (₹)</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Discount Value</label>
+                  <label className="block text-sm font-medium text-maroon-darker/80  mb-1">Discount Value</label>
                   <input 
                     type="number" 
                     required
@@ -486,46 +486,46 @@ export default function Coupons() {
                     placeholder="e.g. 50"
                     value={newCoupon.discountValue}
                     onChange={(e) => setNewCoupon({...newCoupon, discountValue: e.target.value})}
-                    className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-2 border border-gold/20  rounded-xl bg-premium  text-maroon-darker  focus:outline-none focus:ring-2 focus:ring-maroon"
                   />
                 </div>
               </div>
 
               {/* Applicability Section */}
-              <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                <label className="block text-sm font-semibold text-slate-800 dark:text-slate-200 mb-3">Coupon Applicability</label>
+              <div className="bg-premium  p-4 rounded-xl border border-gold/20 ">
+                <label className="block text-sm font-semibold text-maroon-darker  mb-3">Coupon Applicability</label>
                 
                 <div className="flex gap-4 mb-4">
-                  <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
+                  <label className="flex items-center gap-2 text-sm text-maroon-darker/80  cursor-pointer">
                     <input 
                       type="radio" 
                       name="applicability" 
                       value="all" 
                       checked={newCoupon.applicabilityType === 'all'} 
                       onChange={(e) => setNewCoupon({...newCoupon, applicabilityType: e.target.value})}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-maroon focus:ring-maroon"
                     />
                     All Products
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
+                  <label className="flex items-center gap-2 text-sm text-maroon-darker/80  cursor-pointer">
                     <input 
                       type="radio" 
                       name="applicability" 
                       value="specific_categories" 
                       checked={newCoupon.applicabilityType === 'specific_categories'} 
                       onChange={(e) => setNewCoupon({...newCoupon, applicabilityType: e.target.value})}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-maroon focus:ring-maroon"
                     />
                     Specific Categories
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
+                  <label className="flex items-center gap-2 text-sm text-maroon-darker/80  cursor-pointer">
                     <input 
                       type="radio" 
                       name="applicability" 
                       value="specific_products" 
                       checked={newCoupon.applicabilityType === 'specific_products'} 
                       onChange={(e) => setNewCoupon({...newCoupon, applicabilityType: e.target.value})}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-maroon focus:ring-maroon"
                     />
                     Specific Products
                   </label>
@@ -567,20 +567,20 @@ export default function Coupons() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Coupon Banner (Visible to User)</label>
+                <label className="block text-sm font-medium text-maroon-darker/80  mb-1">Coupon Banner (Visible to User)</label>
                 <div className="flex items-center gap-4">
-                  <div className="w-24 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden shrink-0 relative group">
+                  <div className="w-24 h-12 rounded-lg bg-gold/10  border border-gold/20  flex items-center justify-center overflow-hidden shrink-0 relative group">
                     {isUploading ? (
-                      <Loader2 size={20} className="text-orange-500 animate-spin" />
+                      <Loader2 size={20} className="text-maroon animate-spin" />
                     ) : newCoupon.banner ? (
                       <img src={newCoupon.banner} alt="Preview" className="w-full h-full object-cover" />
                     ) : (
-                      <ImageIcon size={20} className="text-slate-400" />
+                      <ImageIcon size={20} className="text-maroon-darker/40" />
                     )}
                   </div>
                   
                   <div className="flex-1">
-                    <label className="cursor-pointer bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-300 px-4 py-2 rounded-xl text-sm font-medium flex items-center justify-center w-max">
+                    <label className="cursor-pointer bg-white  border border-gold/20  hover:bg-premium  transition-colors text-maroon-darker/80  px-4 py-2 rounded-xl text-sm font-medium flex items-center justify-center w-max">
                       <Upload size={16} className="mr-2" />
                       {isUploading ? 'Uploading...' : 'Upload Banner'}
                       <input 
@@ -591,7 +591,7 @@ export default function Coupons() {
                         disabled={isUploading}
                       />
                     </label>
-                    <p className="text-xs text-slate-500 mt-2">Recommended: 800x400px. Max 2MB.</p>
+                    <p className="text-xs text-maroon-darker/60 mt-2">Recommended: 800x400px. Max 2MB.</p>
                   </div>
                 </div>
               </div>
@@ -600,21 +600,21 @@ export default function Coupons() {
                 <button
                   type="button"
                   onClick={() => setNewCoupon({...newCoupon, isActive: !newCoupon.isActive})}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${newCoupon.isActive ? 'bg-green-500' : 'bg-slate-300 dark:bg-slate-600'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${newCoupon.isActive ? 'bg-green-500' : 'bg-maroon-darker/20 '}`}
                 >
                   <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${newCoupon.isActive ? 'translate-x-6' : 'translate-x-1'}`} />
                 </button>
                 <div>
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Active Status</p>
-                  <p className="text-xs text-slate-500">Allow users to apply this coupon</p>
+                  <p className="text-sm font-medium text-maroon-darker/80 ">Active Status</p>
+                  <p className="text-xs text-maroon-darker/60">Allow users to apply this coupon</p>
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end gap-3 border-t border-slate-200 dark:border-slate-800 mt-6">
+              <div className="pt-4 flex justify-end gap-3 border-t border-gold/20  mt-6">
                 <button 
                   type="button"
                   onClick={handleCloseModal}
-                  className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-sm font-medium text-maroon-darker/70  hover:bg-gold/10  transition-colors cursor-pointer"
                   disabled={isSaving}
                 >
                   Cancel

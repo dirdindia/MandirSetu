@@ -27,6 +27,7 @@ import couponRoutes from './routes/ecommerce/couponRoutes.js';
 import paymentRoutes from './routes/ecommerce/paymentRoutes.js';
 import orderRoutes from './routes/ecommerce/orderRoutes.js';
 import eventRoutes from './routes/core/eventRoutes.js';
+import bulkBookingRoutes from './routes/ecommerce/bulkBooking.routes.js';
 import User from './models/users/User.js';
 
 // Handle Uncaught Exceptions
@@ -125,6 +126,7 @@ app.use('/api/ecommerce/products', productRoutes);
 app.use('/api/ecommerce/coupons', couponRoutes);
 app.use('/api/ecommerce/payment', paymentRoutes);
 app.use('/api/ecommerce/orders', orderRoutes);
+app.use('/api/bulk-bookings', bulkBookingRoutes);
 app.use('/api/events', eventRoutes);
 
 // Basic Health Check Route

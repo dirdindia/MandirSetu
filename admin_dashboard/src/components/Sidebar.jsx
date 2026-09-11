@@ -43,6 +43,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
       ]
     },
     { name: 'Bookings', icon: <CalendarDays size={20} />, path: '/bookings' },
+    { name: 'Group Bookings', icon: <Users size={20} />, path: '/group-bookings' },
     { name: 'Settings', icon: <Settings size={20} />, path: '/settings' },
   ];
 

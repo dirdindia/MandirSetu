@@ -95,67 +95,67 @@ export default function HotelList() {
 
         <div class="space-y-6 px-2">
           <!-- Price & Contact row -->
-          <div class="grid grid-cols-2 gap-4 bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700">
+          <div class="grid grid-cols-2 gap-4 bg-premium  p-4 rounded-2xl border border-gold/20 ">
             <div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Starting Price</p>
-              <p class="text-slate-800 dark:text-slate-200 font-bold text-lg">₹${hotel.startingPrice || 'N/A'}</p>
+              <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-1">Starting Price</p>
+              <p class="text-maroon-darker  font-bold text-lg">₹${hotel.startingPrice || 'N/A'}</p>
             </div>
             <div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Contact</p>
-              <p class="text-slate-800 dark:text-slate-200 font-bold text-sm">${hotel.contact?.phone || 'N/A'}</p>
+              <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-1">Contact</p>
+              <p class="text-maroon-darker  font-bold text-sm">${hotel.contact?.phone || 'N/A'}</p>
             </div>
           </div>
 
           ${hotel.description ? `
           <div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-2">About Hotel</p>
-            <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">${hotel.description}</p>
+            <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-2">About Hotel</p>
+            <p class="text-maroon-darker/80  text-sm leading-relaxed">${hotel.description}</p>
           </div>` : ''}
 
           <div class="grid grid-cols-2 gap-6">
-            <div class="bg-blue-50/50 dark:bg-blue-900/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-800/50">
-              <p class="text-xs text-blue-600 dark:text-blue-400 uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
+            <div class="bg-maroon/5/50  p-4 rounded-2xl border border-blue-100 ">
+              <p class="text-xs text-maroon  uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
                 Banquet / Hall
               </p>
-              <p class="text-slate-800 dark:text-slate-200 font-semibold text-sm">
-                ${hotel.hasHall ? '<span class="text-green-600 dark:text-green-400 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Available</span>' : '<span class="text-slate-500">Not Available</span>'}
+              <p class="text-maroon-darker  font-semibold text-sm">
+                ${hotel.hasHall ? '<span class="text-green-600  flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Available</span>' : '<span class="text-maroon-darker/60">Not Available</span>'}
               </p>
             </div>
-            <div class="bg-indigo-50/50 dark:bg-indigo-900/10 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-800/50">
-              <p class="text-xs text-indigo-600 dark:text-indigo-400 uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
+            <div class="bg-indigo-50/50  p-4 rounded-2xl border border-indigo-100 ">
+              <p class="text-xs text-maroon-darker  uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
                 Restaurant
               </p>
-              <p class="text-slate-800 dark:text-slate-200 font-semibold text-sm">
-                ${hotel.foodAvailable ? '<span class="text-green-600 dark:text-green-400 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Available</span>' : '<span class="text-slate-500">Not Available</span>'}
+              <p class="text-maroon-darker  font-semibold text-sm">
+                ${hotel.foodAvailable ? '<span class="text-green-600  flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Available</span>' : '<span class="text-maroon-darker/60">Not Available</span>'}
               </p>
             </div>
           </div>
 
           ${hotel.roomTypes && hotel.roomTypes.length > 0 ? `
           <div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Room Types</p>
+            <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-2">Room Types</p>
             <div class="flex flex-wrap gap-2">
-              ${hotel.roomTypes.map(r => `<span class="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg font-semibold text-xs border border-slate-200 dark:border-slate-700 shadow-sm">${r}</span>`).join('')}
+              ${hotel.roomTypes.map(r => `<span class="bg-white  text-maroon-darker/80  px-3 py-1.5 rounded-lg font-semibold text-xs border border-gold/20  shadow-sm">${r}</span>`).join('')}
             </div>
           </div>` : ''}
 
           ${hotel.amenities && hotel.amenities.length > 0 ? `
           <div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Amenities</p>
+            <p class="text-xs text-maroon-darker/60  uppercase font-bold tracking-wider mb-2">Amenities</p>
             <div class="flex flex-wrap gap-2">
-              ${hotel.amenities.map(a => `<span class="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 px-3 py-1.5 rounded-lg font-semibold text-xs border border-blue-100 dark:border-blue-800">${a}</span>`).join('')}
+              ${hotel.amenities.map(a => `<span class="bg-maroon/5  text-blue-700  px-3 py-1.5 rounded-lg font-semibold text-xs border border-blue-100 ">${a}</span>`).join('')}
             </div>
           </div>` : ''}
 
           ${hotel.distanceFromNearestMandir ? `
-          <div class="bg-amber-50 dark:bg-amber-900/10 p-4 rounded-2xl border border-amber-100 dark:border-amber-800/50">
-            <p class="text-xs text-amber-600 dark:text-amber-400 uppercase font-bold tracking-wider mb-1">Distance from Mandir</p>
-            <p class="text-slate-800 dark:text-slate-200 text-sm font-medium">${hotel.distanceFromNearestMandir}</p>
+          <div class="bg-amber-50  p-4 rounded-2xl border border-amber-100 ">
+            <p class="text-xs text-amber-600  uppercase font-bold tracking-wider mb-1">Distance from Mandir</p>
+            <p class="text-maroon-darker  text-sm font-medium">${hotel.distanceFromNearestMandir}</p>
           </div>` : ''}
 
           ${hotel.geolocation && hotel.geolocation.latitude ? `
           <div class="mt-2 pt-2">
-            <a href="https://www.google.com/maps/search/?api=1&query=${hotel.geolocation.latitude},${hotel.geolocation.longitude}" target="_blank" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white py-3 px-4 rounded-xl font-bold shadow-md shadow-blue-500/20 transition-all hover:-translate-y-0.5">
+            <a href="https://www.google.com/maps/search/?api=1&query=${hotel.geolocation.latitude},${hotel.geolocation.longitude}" target="_blank" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-maroon to-maroon-darker hover:from-blue-600 hover:to-indigo-600 text-white py-3 px-4 rounded-xl font-bold shadow-md shadow-blue-500/20 transition-all hover:-translate-y-0.5">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
               View on Google Maps
             </a>
@@ -171,7 +171,7 @@ export default function HotelList() {
       width: '550px',
       padding: '0',
       customClass: {
-        popup: 'rounded-3xl overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800 dark:bg-slate-900',
+        popup: 'rounded-3xl overflow-hidden shadow-2xl border border-gold/20  ',
         htmlContainer: 'p-0 m-0',
         closeButton: 'bg-black/20 hover:bg-black/40 text-white rounded-full m-3 backdrop-blur-sm transition-colors',
       }
@@ -182,20 +182,20 @@ export default function HotelList() {
     <div className="max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Hotels Directory</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">Manage and view all registered hotels.</p>
+          <h1 className="text-3xl font-bold text-maroon-darker ">Hotels Directory</h1>
+          <p className="text-maroon-darker/70  mt-1">Manage and view all registered hotels.</p>
         </div>
         <div className="relative w-full sm:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <input type="text" placeholder="Search hotels..." className="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-xl w-full focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all shadow-sm" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-maroon-darker/40" size={18} />
+          <input type="text" placeholder="Search hotels..." className="pl-10 pr-4 py-2 bg-white  border border-gold/20  text-maroon-darker  rounded-xl w-full focus:ring-2 focus:ring-maroon focus:outline-none transition-all shadow-sm" />
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white  rounded-2xl shadow-sm border border-gold/20  overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-bold">
+              <tr className="bg-premium  border-b border-gold/20  text-maroon-darker/60  text-xs uppercase tracking-wider font-bold">
                 <th className="p-4">Hotel Name</th>
                 <th className="p-4">City / State</th>
                 <th className="p-4">Star Rating</th>
@@ -203,61 +203,61 @@ export default function HotelList() {
                 <th className="p-4 text-center">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+            <tbody className="divide-y divide-slate-200 ">
               {loading ? (
                 <tr>
-                  <td colSpan="5" className="p-8 text-center text-slate-500 dark:text-slate-400">Loading hotels...</td>
+                  <td colSpan="5" className="p-8 text-center text-maroon-darker/60 ">Loading hotels...</td>
                 </tr>
               ) : hotels.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="p-8 text-center text-slate-500 dark:text-slate-400">No data available</td>
+                  <td colSpan="5" className="p-8 text-center text-maroon-darker/60 ">No data available</td>
                 </tr>
               ) : (
                 hotels.map((hotel) => (
-                  <tr key={hotel._id} className="hover:bg-blue-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer" onClick={() => showDetails(hotel)}>
-                    <td className="p-4 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-3">
+                  <tr key={hotel._id} className="hover:bg-maroon/5/50  transition-colors cursor-pointer" onClick={() => showDetails(hotel)}>
+                    <td className="p-4 font-medium text-maroon-darker  flex items-center gap-3">
                       {hotel.profilePic ? (
-                        <img src={hotel.profilePic} alt="" className="w-10 h-10 rounded-xl object-cover shadow-sm border border-slate-200 dark:border-slate-700" />
+                        <img src={hotel.profilePic} alt="" className="w-10 h-10 rounded-xl object-cover shadow-sm border border-gold/20 " />
                       ) : (
-                        <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 border border-blue-200 dark:border-blue-800">
+                        <div className="w-10 h-10 rounded-xl bg-maroon/10  flex items-center justify-center text-maroon border border-blue-200 ">
                           <Building size={18} />
                         </div>
                       )}
                       <div>
                         <p className="font-bold">{hotel.name}</p>
-                        {hotel.starRating && <p className="text-xs text-blue-600 dark:text-blue-400 flex items-center gap-1"><Star size={10} fill="currentColor"/> {hotel.starRating} Star</p>}
+                        {hotel.starRating && <p className="text-xs text-maroon  flex items-center gap-1"><Star size={10} fill="currentColor"/> {hotel.starRating} Star</p>}
                       </div>
                     </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                    <td className="p-4 text-maroon-darker/70 ">
                       {hotel.location?.city}, {hotel.location?.state}
                     </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                    <td className="p-4 text-maroon-darker/70 ">
                       {hotel.starRating ? (
                         <span className="flex items-center gap-1 text-yellow-500 font-bold bg-yellow-50 px-2 py-1 rounded text-xs w-max">
                           {hotel.starRating} <Star size={12} fill="currentColor" />
                         </span>
                       ) : 'N/A'}
                     </td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">{hotel.contact?.phone || 'N/A'}</td>
+                    <td className="p-4 text-maroon-darker/70 ">{hotel.contact?.phone || 'N/A'}</td>
                     <td className="p-4 text-center">
                       <div className="flex items-center justify-center gap-2">
                         <button 
                           onClick={(e) => { e.stopPropagation(); showDetails(hotel); }}
-                          className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
+                          className="p-2 text-maroon-darker/60 hover:text-maroon hover:bg-maroon/10  rounded-lg transition-colors inline-flex justify-center items-center"
                           title="View Details"
                         >
                           <Eye size={18} />
                         </button>
                         <button 
                           onClick={(e) => handleEdit(hotel, e)}
-                          className="p-2 text-slate-500 hover:text-emerald-600 hover:bg-emerald-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
+                          className="p-2 text-maroon-darker/60 hover:text-emerald-600 hover:bg-emerald-100  rounded-lg transition-colors inline-flex justify-center items-center"
                           title="Edit"
                         >
                           <Pencil size={18} />
                         </button>
                         <button 
                           onClick={(e) => handleDelete(hotel._id, e)}
-                          className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-100 dark:hover:bg-slate-800 rounded-lg transition-colors inline-flex justify-center items-center"
+                          className="p-2 text-maroon-darker/60 hover:text-red-600 hover:bg-red-100  rounded-lg transition-colors inline-flex justify-center items-center"
                           title="Delete"
                         >
                           <Trash2 size={18} />

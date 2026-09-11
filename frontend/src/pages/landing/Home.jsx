@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsInitialLoading(false);
-    }, 2000); // 2 seconds
+    }, 3000); // 2 seconds
     return () => clearTimeout(timer);
   }, []);
   const [selectedState, setSelectedState] = useState('');
@@ -161,23 +161,20 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeInOut" }}
             className="fixed inset-0 z-[9999] bg-premium flex flex-col items-center justify-center"
           >
-            <div className="relative flex items-center justify-center mb-8">
+            <div className="relative flex items-center justify-center mb-10 w-40 h-40">
               {/* Spinning Mandala Rings */}
-              {/* <motion.div
+              <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                className="w-32 h-32 absolute inset-0 rounded-full border-[3px] border-dashed border-gold/60"
-              /> */}
+                className="w-40 h-40 absolute inset-0 m-auto rounded-full border-[3px] border-dashed border-gold/60"
+              />
               <motion.div
                 animate={{ rotate: -360 }}
                 transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-                className="w-24 h-24 absolute rounded-full border-2 border-dotted border-maroon/50"
+                className="w-32 h-32 absolute inset-0 m-auto rounded-full border-[3px] border-dotted border-maroon/60"
               />
               
-            
-        
-                <img src="/logo1.png" alt="Mandir Setu" className="w-16 h-16 sm:w-20 sm:h-20 object-contain" />
-              
+              <img src="/logo1.png" alt="Mandir Setu" className="w-24 h-24 object-contain relative z-10" />
             </div>
 
             <motion.h2 
@@ -638,8 +635,19 @@ export default function Home() {
              ))}
            </motion.p>
          </div>
-         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-           {services.map((srv, idx) => (
+         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+           {services.map((srv, idx) => {
+             const cardColors = [
+               'bg-gradient-to-br from-red-50 to-orange-100 text-red-900 hover:from-red-100 hover:to-orange-200',
+               'bg-gradient-to-br from-emerald-50 to-teal-100 text-teal-900 hover:from-emerald-100 hover:to-teal-200',
+               'bg-gradient-to-br from-purple-50 to-fuchsia-100 text-fuchsia-900 hover:from-purple-100 hover:to-fuchsia-200',
+               'bg-gradient-to-br from-blue-50 to-indigo-100 text-indigo-900 hover:from-blue-100 hover:to-indigo-200',
+               'bg-gradient-to-br from-rose-50 to-pink-100 text-rose-900 hover:from-rose-100 hover:to-pink-200',
+               'bg-gradient-to-br from-amber-50 to-yellow-100 text-yellow-900 hover:from-amber-100 hover:to-yellow-200'
+             ];
+             const colorClass = cardColors[idx % cardColors.length];
+             
+             return (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 30 }}
@@ -648,16 +656,63 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: idx * 0.1, ease: "easeOut" }}
                 className="h-full"
               >
-                <div className="h-full bg-white border border-gold/20 rounded-3xl p-6 shadow-md shadow-maroon/5 hover:shadow-xl hover:shadow-maroon/10 hover:-translate-y-2 transition-all duration-300 group flex flex-col items-center text-center">
-                  <div className="w-16 h-16 bg-premium rounded-full border border-gold/30 flex items-center justify-center text-2xl mb-5 text-maroon group-hover:scale-110 transition-transform">{srv.icon}</div>
-                  <h3 className="text-lg font-serif text-maroon mb-3 leading-tight">{srv.title}</h3>
-                  <p className="text-xs text-maroon-darker/70 leading-relaxed mb-6 font-light flex-1">{srv.desc}</p>
-                  <Link to="/gallery" className="text-xs font-bold text-gold uppercase tracking-wider group-hover:text-maroon inline-block transition-colors border border-gold/30 rounded-full px-5 py-2 hover:bg-gold/10">{srv.buttonText || 'Book Now →'}</Link>
+                <div className={`h-full ${colorClass} rounded-3xl p-6 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group flex flex-col items-center text-center`}>
+                  <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center text-3xl mb-5 group-hover:scale-110 transition-transform shadow-sm">{srv.icon}</div>
+                  <h3 className="text-xl font-serif font-bold mb-3 leading-tight">{srv.title}</h3>
+                  <p className="text-sm opacity-80 leading-relaxed mb-6 font-medium flex-1">{srv.desc}</p>
+                  <Link to="/gallery" className="text-sm font-bold uppercase tracking-wider group-hover:bg-white inline-block transition-colors rounded-full px-6 py-2.5 bg-white/60 shadow-sm hover:shadow-md">{srv.buttonText || 'Book Now →'}</Link>
                 </div>
               </motion.div>
-           ))}
+             );
+           })}
          </div>
       </section>
+
+      {/* Bulk/Group Booking Banner */}
+      <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-gradient-to-r from-gold/20 via-white to-gold/20 border border-gold/40 rounded-[2.5rem] p-8 md:p-12 shadow-lg shadow-gold/10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group"
+        >
+          {/* Decorative background element */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+          
+          <div className="flex-1 text-center md:text-left relative z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-maroon/10 text-maroon rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+              <span>🌟</span> New Service
+            </div>
+            <h2 className="text-3xl md:text-4xl font-serif text-maroon font-bold mb-4 leading-tight">
+              Planning a Large Group Yatra?
+            </h2>
+            <p className="text-maroon-darker/80 text-base md:text-lg mb-6 max-w-2xl font-medium leading-relaxed">
+              Seamlessly organize your pilgrimage for 100 to 1000+ devotees. We handle bulk accommodation, bhandara (food), large-scale transport, and dedicated pujaris so you can focus entirely on your devotion.
+            </p>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm font-semibold text-maroon-darker/70 mb-8">
+              <span className="flex items-center gap-1.5"><span className="text-gold text-lg">✓</span> Hotels/Ashrams</span>
+              <span className="flex items-center gap-1.5"><span className="text-gold text-lg">✓</span> Bhandara</span>
+              <span className="flex items-center gap-1.5"><span className="text-gold text-lg">✓</span> Transport</span>
+              <span className="flex items-center gap-1.5"><span className="text-gold text-lg">✓</span> VIP Darshan</span>
+            </div>
+            <Link 
+              to="/group-booking" 
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-maroon hover:bg-maroon-darker text-white font-bold rounded-full transition-all shadow-md hover:shadow-xl active:scale-95 text-base"
+            >
+              Get a Custom Quote <span className="ml-2">→</span>
+            </Link>
+          </div>
+          
+          <div className="w-full md:w-1/3 flex justify-center relative z-10">
+            <div className="relative w-48 h-48 md:w-64 md:h-64">
+              <div className="absolute inset-0 bg-gold/20 rounded-full animate-pulse blur-xl"></div>
+              <img src="/logo1.png" alt="Group Yatra" className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500" />
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
 
       {/* CTA Section */}
       <section className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-10">

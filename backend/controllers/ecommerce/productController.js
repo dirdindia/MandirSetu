@@ -1,6 +1,7 @@
 import Product from '../../models/ecommerce/Product.js';
 import User from '../../models/users/User.js';
 import Staff from '../../models/users/Staff.js';
+import jwt from 'jsonwebtoken';
 
 // Create a Product
 export const createProduct = async (req, res) => {
@@ -63,6 +64,30 @@ export const getProducts = async (req, res) => {
     let query = {};
     if (mandir_id) query.mandir_id = mandir_id;
     if (dham_id) query.dham_id = dham_id;
+
+    // Optional secure backend check if a token is provided (for Staff)
+    const token = req.header('auth-token') || req.header('Authorization')?.replace('Bearer ', '');
+    if (token) {
+      try {
+        const verified = jwt.verify(token, process.env.JWT_SECRET || 'supersecretkey123');
+        if (verified.role === 'staff') {
+          const user = await User.findById(verified._id);
+          if (user) {
+            const staffProfile = await Staff.findOne({
+              $or: [{ 'contact.email': user.email }, { 'contact.phone': user.phone }]
+            }).populate('employment.assignedMandir employment.assignedDham');
+            if (staffProfile?.employment?.assignedMandir) {
+              query.mandir_id = staffProfile.employment.assignedMandir._id;
+            } else if (staffProfile?.employment?.assignedDham) {
+              query.dham_id = staffProfile.employment.assignedDham._id;
+            }
+            // If neither is set (global staff), query stays empty → returns ALL products
+          }
+        }
+      } catch (err) {
+        // Ignore invalid token, just fall back to public access/query params
+      }
+    }
     
     if (search) {
       query.name = { $regex: search, $options: 'i' };

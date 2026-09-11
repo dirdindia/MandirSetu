@@ -1,4 +1,7 @@
 import Order from '../../models/ecommerce/Order.js';
+import User from '../../models/users/User.js';
+import Staff from '../../models/users/Staff.js';
+import jwt from 'jsonwebtoken';
 
 export const getAllOrders = async (req, res) => {
   try {
@@ -15,6 +18,30 @@ export const getAllOrders = async (req, res) => {
     }
     if (dham_id) {
       query['items.dham_id'] = dham_id;
+    }
+
+    // Secure staff filtering - lookup Staff model (not User) for employment data
+    const token = req.header('auth-token') || req.header('Authorization')?.replace('Bearer ', '');
+    if (token) {
+      try {
+        const verified = jwt.verify(token, process.env.JWT_SECRET || 'supersecretkey123');
+        if (verified.role === 'staff') {
+          const user = await User.findById(verified._id);
+          if (user) {
+            const staffProfile = await Staff.findOne({
+              $or: [{ 'contact.email': user.email }, { 'contact.phone': user.phone }]
+            }).populate('employment.assignedMandir employment.assignedDham');
+            if (staffProfile?.employment?.assignedMandir) {
+              query['items.mandir_id'] = staffProfile.employment.assignedMandir._id;
+            } else if (staffProfile?.employment?.assignedDham) {
+              query['items.dham_id'] = staffProfile.employment.assignedDham._id;
+            }
+            // If neither is set (global staff), query stays empty → returns ALL orders
+          }
+        }
+      } catch (err) {
+        // Fallback to query params if not logged in
+      }
     }
     if (status) {
       query.status = status;

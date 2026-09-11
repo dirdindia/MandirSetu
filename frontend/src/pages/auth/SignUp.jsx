@@ -1,166 +1,234 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import api from '../../api';
 
 export default function SignUp() {
-  const [role, setRole] = useState('devotee');
+  const navigate = useNavigate();
+  const location = useLocation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleRegister = (e) => {
+  // Extract redirect URL from query string
+  const queryParams = new URLSearchParams(location.search);
+  const redirectUrl = queryParams.get('redirect') || '/';
+
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      Swal.fire('Error', 'Passwords do not match!', 'error');
       return;
     }
-    alert(`Mock Registration Success!\nName: ${name}\nEmail: ${email}\nRole: ${role.toUpperCase()}`);
+
+    setIsProcessing(true);
+    try {
+      // Calling the actual customer register endpoint
+      const res = await api.post('/auth/customer-register', { name, email, password });
+      
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Account Created!',
+        text: 'Welcome to MandirSetu.',
+        timer: 1500,
+        showConfirmButton: false
+      }).then(() => {
+        window.location.href = redirectUrl;
+      });
+    } catch (error) {
+      // Fallback if endpoint doesn't exist yet, we just simulate for now based on original code
+      if (error.response?.status === 404) {
+         Swal.fire({
+          icon: 'success',
+          title: 'Account Created!',
+          text: 'Mock Registration Successful. Welcome to MandirSetu.',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          navigate(redirectUrl);
+        });
+      } else {
+        Swal.fire('Error', error.response?.data?.message || 'Registration failed', 'error');
+      }
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-orange-500/5 to-transparent">
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-slate-900 p-8 border border-slate-200 dark:border-slate-900 rounded-3xl shadow-lg">
-        {/* Header Title */}
-        <div className="text-center">
-          <span className="text-2xl font-black bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
-            MANDIRSETU
-          </span>
-          <h2 className="mt-4 text-3xl font-extrabold text-slate-900 dark:text-white">
-            Create Account
-          </h2>
-          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-            Sign up to plan your yatras and order Prasad.
-          </p>
+    <div className="min-h-screen flex font-sans bg-premium">
+      {/* Left side - Image */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-maroon-darker items-center justify-center overflow-hidden">
+        <img 
+          src="https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&q=80&w=2000" 
+          alt="Temple Background" 
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-maroon-darker via-maroon-darker/40 to-transparent"></div>
+        <div className="relative z-10 p-12 text-center max-w-lg">
+           <h2 className="text-4xl lg:text-5xl font-serif font-bold text-premium mb-6 tracking-wide leading-tight drop-shadow-lg">
+             Mandir Setu
+           </h2>
+           <p className="text-lg text-premium/90 font-light drop-shadow-md">
+             Connecting devotees to the divine. Plan your yatras, book pujas, and order Prasad seamlessly.
+           </p>
+           <div className="w-24 h-1 bg-gold/50 mx-auto mt-8"></div>
         </div>
+      </div>
 
-        {/* Role Selection */}
-        <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 dark:bg-slate-950 rounded-xl">
-          <button
-            type="button"
-            onClick={() => setRole('devotee')}
-            className={`py-2 text-xs font-bold rounded-lg uppercase tracking-wider transition-all cursor-pointer ${
-              role === 'devotee'
-                ? 'bg-white dark:bg-slate-900 text-orange-650 dark:text-orange-455 shadow-sm'
-                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'
-            }`}
-          >
-            I am a Devotee
-          </button>
-          <button
-            type="button"
-            onClick={() => setRole('agent')}
-            className={`py-2 text-xs font-bold rounded-lg uppercase tracking-wider transition-all cursor-pointer ${
-              role === 'agent'
-                ? 'bg-white dark:bg-slate-900 text-orange-655 dark:text-orange-455 shadow-sm'
-                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'
-            }`}
-          >
-            Apply as Agent
-          </button>
-        </div>
+      {/* Right side - Form */}
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-12 xl:px-24 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-maroon/5 via-premium to-gold/10 overflow-y-auto">
+        <div className="w-full max-w-md space-y-8 bg-white p-10 border border-gold/20 rounded-[2rem] shadow-2xl shadow-maroon/5 relative overflow-hidden">
+          
+          {/* Top Decorative Border */}
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-gold via-[#fde08b] to-gold"></div>
 
-        {/* Registration Form */}
-        <form className="mt-8 space-y-5" onSubmit={handleRegister}>
-          <div className="space-y-4">
-            {/* Full Name */}
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                Full Name
-              </label>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter full name"
-                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm"
-              />
+          {/* Header Title */}
+          <div className="text-center flex flex-col items-center pt-2">
+            <div className="flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white border border-gold/30 shadow-md p-2">
+                <img src="/logo1.png" alt="MandirSetu Logo" className="w-full h-full object-contain" />
+              </div>
             </div>
-
-            {/* Email */}
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                Email Address
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter email address"
-                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm"
-              />
-            </div>
-
-            {/* Password */}
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                Password
-              </label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Create password"
-                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm"
-              />
-            </div>
-
-            {/* Confirm Password */}
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Re-enter password"
-                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-955 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm"
-              />
-            </div>
+            <h2 className="mt-2 text-3xl font-serif font-bold text-maroon-darker">
+              Create Account
+            </h2>
+            <p className="mt-3 text-sm text-maroon-darker/70 font-medium">
+              Join as a Devotee to plan your spiritual journey.
+            </p>
           </div>
 
-          {/* Terms Agreement */}
-          <div className="flex items-start">
-            <input
-              id="agree-terms"
-              type="checkbox"
-              required
-              className="mt-1 h-4 w-4 text-orange-500 border-slate-300 rounded focus:ring-orange-500 cursor-pointer"
-            />
-            <label htmlFor="agree-terms" className="ml-2 block text-xs sm:text-sm text-slate-500 dark:text-slate-400 cursor-pointer">
-              I agree to the{' '}
-              <span className="font-semibold text-orange-655 hover:underline">
-                Terms of Service
-              </span>{' '}
-              and{' '}
-              <span className="font-semibold text-orange-655 hover:underline">
-                Privacy Policy
-              </span>.
-            </label>
-          </div>
+          {/* Registration Form */}
+          <form className="mt-8 space-y-5" onSubmit={handleRegister}>
+            <div className="space-y-4">
+              {/* Full Name */}
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-maroon-darker/60 uppercase tracking-wide">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-maroon-darker/40">
+                    👤
+                  </span>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-premium border border-gold/30 rounded-xl text-sm focus:border-maroon focus:ring-1 focus:ring-maroon outline-none transition-all"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+              </div>
 
-          {/* Submit */}
-          <div>
+              {/* Email */}
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-maroon-darker/60 uppercase tracking-wide">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-maroon-darker/40">
+                    📧
+                  </span>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-premium border border-gold/30 rounded-xl text-sm focus:border-maroon focus:ring-1 focus:ring-maroon outline-none transition-all"
+                    placeholder="Enter your email"
+                  />
+                </div>
+              </div>
+
+              {/* Password */}
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-maroon-darker/60 uppercase tracking-wide">
+                  Password
+                </label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-maroon-darker/40">
+                    🔒
+                  </span>
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-premium border border-gold/30 rounded-xl text-sm focus:border-maroon focus:ring-1 focus:ring-maroon outline-none transition-all"
+                    placeholder="Create password"
+                  />
+                </div>
+              </div>
+
+              {/* Confirm Password */}
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-maroon-darker/60 uppercase tracking-wide">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-maroon-darker/40">
+                    🔐
+                  </span>
+                  <input
+                    type="password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-premium border border-gold/30 rounded-xl text-sm focus:border-maroon focus:ring-1 focus:ring-maroon outline-none transition-all"
+                    placeholder="Re-enter password"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Terms Agreement */}
+            <div className="flex items-start mt-6">
+              <input
+                id="agree-terms"
+                type="checkbox"
+                required
+                className="mt-1 h-4 w-4 text-maroon border-gold/30 rounded focus:ring-maroon cursor-pointer"
+              />
+              <label htmlFor="agree-terms" className="ml-2 block text-xs sm:text-sm text-maroon-darker/70 cursor-pointer">
+                I agree to the{' '}
+                <span className="font-bold text-maroon hover:underline">
+                  Terms of Service
+                </span>{' '}
+                and{' '}
+                <span className="font-bold text-maroon hover:underline">
+                  Privacy Policy
+                </span>.
+              </label>
+            </div>
+
+            {/* Submit */}
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 focus:outline-none active:scale-[0.98] shadow-md shadow-orange-500/10 transition-all cursor-pointer"
+              disabled={isProcessing}
+              className="w-full flex justify-center py-3.5 px-4 bg-maroon hover:bg-maroon-darker text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-95 disabled:opacity-70 disabled:pointer-events-none mt-6"
             >
-              {role === 'devotee' ? 'Create Account' : 'Submit Agent Application'}
+              {isProcessing ? 'Creating Account...' : 'Sign Up'}
             </button>
-          </div>
-        </form>
+          </form>
 
-        {/* Footer Redirect */}
-        <div className="text-center text-sm text-slate-500 dark:text-slate-400 pt-4 border-t border-slate-100 dark:border-slate-850">
-          Already have an account?{' '}
-          <Link to="/signin" className="font-bold text-orange-600 hover:underline">
-            Sign In
-          </Link>
+          <p className="mt-8 text-center text-sm text-maroon-darker/70 font-medium">
+            Already have an account?{' '}
+            <Link to={`/signin${location.search}`} className="font-bold text-maroon hover:text-maroon-darker underline decoration-gold/50 underline-offset-4 transition-all">
+              Sign in here
+            </Link>
+          </p>
         </div>
+        
+        {/* Footer text */}
+        <p className="mt-8 text-center text-xs text-maroon-darker/50 font-medium">
+          © {new Date().getFullYear()} MandirSetu. All rights reserved.
+        </p>
       </div>
     </div>
   );

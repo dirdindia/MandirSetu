@@ -66,16 +66,16 @@ export default function Dashboard() {
       {/* Page Header */}
       <div className="flex justify-between items-end">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Staff Overview</h2>
-          <p className="text-slate-500 text-sm mt-1">Welcome back! Here's your task summary for today.</p>
+          <h2 className="text-2xl font-serif font-bold text-maroon-darker">Staff Overview</h2>
+          <p className="text-maroon-darker/60 text-sm mt-1">Welcome back! Here's your task summary for today.</p>
         </div>
         {profile?.employment?.assignedMandir && (
-          <div className="px-4 py-2 bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 rounded-xl font-bold border border-amber-200 dark:border-amber-800/50">
+          <div className="px-4 py-2 bg-gold/20 text-maroon-darker rounded-xl font-bold border border-gold/40">
             Assigned Mandir: {profile.employment.assignedMandir.name} ({profile.employment.assignedMandir.city})
           </div>
         )}
         {profile?.employment?.assignedDham && (
-          <div className="px-4 py-2 bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400 rounded-xl font-bold border border-indigo-200 dark:border-indigo-800/50">
+          <div className="px-4 py-2 bg-gold/20 text-maroon-darker rounded-xl font-bold border border-gold/40">
             Assigned Dham: {profile.employment.assignedDham.name} ({profile.employment.assignedDham.city})
           </div>
         )}
@@ -85,57 +85,57 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Card 1 */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-2xl p-6 border border-gold/20 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
           <div>
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Assigned Tasks</p>
-            <h3 className="text-3xl font-black text-slate-800 dark:text-white mt-1">124</h3>
-            <p className="text-xs text-blue-500 font-medium mt-2 flex items-center gap-1">
+            <p className="text-sm font-semibold text-maroon-darker/60 uppercase tracking-wider">Assigned Tasks</p>
+            <h3 className="text-3xl font-serif font-bold text-maroon-darker mt-1">124</h3>
+            <p className="text-xs text-maroon font-medium mt-2 flex items-center gap-1">
               <TrendingUp size={14} /> +12 this week
             </p>
           </div>
-          <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-maroon/10 text-maroon flex items-center justify-center">
             <ClipboardList size={28} />
           </div>
         </div>
 
         {/* Card 2 */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-2xl p-6 border border-gold/20 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
           <div>
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Completed Tasks</p>
-            <h3 className="text-3xl font-black text-slate-800 dark:text-white mt-1">89</h3>
-            <p className="text-xs text-emerald-500 font-medium mt-2 flex items-center gap-1">
+            <p className="text-sm font-semibold text-maroon-darker/60 uppercase tracking-wider">Completed Tasks</p>
+            <h3 className="text-3xl font-serif font-bold text-maroon-darker mt-1">89</h3>
+            <p className="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
               <TrendingUp size={14} /> 72% completion rate
             </p>
           </div>
-          <div className="w-14 h-14 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
             <CheckSquare size={28} />
           </div>
         </div>
 
         {/* Card 3 */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-2xl p-6 border border-gold/20 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
           <div>
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Pending Approvals</p>
-            <h3 className="text-3xl font-black text-slate-800 dark:text-white mt-1">35</h3>
-            <p className="text-xs text-amber-500 font-medium mt-2 flex items-center gap-1">
+            <p className="text-sm font-semibold text-maroon-darker/60 uppercase tracking-wider">Pending Approvals</p>
+            <h3 className="text-3xl font-serif font-bold text-maroon-darker mt-1">35</h3>
+            <p className="text-xs text-amber-600 font-medium mt-2 flex items-center gap-1">
               <TrendingUp size={14} /> Requires attention
             </p>
           </div>
-          <div className="w-14 h-14 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
             <Clock size={28} />
           </div>
         </div>
 
         {/* Card 4 */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-2xl p-6 border border-gold/20 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
           <div>
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Today's Bookings</p>
-            <h3 className="text-3xl font-black text-slate-800 dark:text-white mt-1">42</h3>
-            <p className="text-xs text-purple-500 font-medium mt-2 flex items-center gap-1">
+            <p className="text-sm font-semibold text-maroon-darker/60 uppercase tracking-wider">Today's Bookings</p>
+            <h3 className="text-3xl font-serif font-bold text-maroon-darker mt-1">42</h3>
+            <p className="text-xs text-purple-600 font-medium mt-2 flex items-center gap-1">
               <TrendingUp size={14} /> +5 vs yesterday
             </p>
           </div>
-          <div className="w-14 h-14 rounded-xl bg-purple-100 dark:bg-purple-900/30 text-purple-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
             <CalendarCheck size={28} />
           </div>
         </div>
@@ -146,10 +146,10 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Graph Section */}
-        <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-gold/20 shadow-sm p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white">Task Performance</h3>
-            <select className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-lg px-3 py-1.5 outline-none">
+            <h3 className="text-lg font-serif font-bold text-maroon-darker">Task Performance</h3>
+            <select className="bg-premium border border-gold/30 text-maroon-darker/80 text-sm rounded-lg px-3 py-1.5 outline-none focus:border-maroon">
               <option>Last 7 Months</option>
               <option>This Year</option>
             </select>
@@ -159,22 +159,22 @@ export default function Dashboard() {
               <AreaChart data={graphData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorAssigned" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#d4af37" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#d4af37" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#10b981" stopOpacity={0.8}/>
                     <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#3a0d0a', fontSize: 12}} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: '#3a0d0a', fontSize: 12}} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#d4af37" opacity={0.3} />
                 <Tooltip 
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ fontWeight: 'bold' }}
+                  contentStyle={{ borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  itemStyle={{ fontWeight: 'bold', color: '#791916' }}
                 />
-                <Area type="monotone" dataKey="tasksAssigned" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorAssigned)" />
+                <Area type="monotone" dataKey="tasksAssigned" stroke="#d4af37" strokeWidth={3} fillOpacity={1} fill="url(#colorAssigned)" />
                 <Area type="monotone" dataKey="tasksCompleted" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorCompleted)" />
               </AreaChart>
             </ResponsiveContainer>
@@ -182,31 +182,31 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Activity Section */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <div className="bg-white rounded-2xl border border-gold/20 shadow-sm p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white">Recent Activity</h3>
-            <button className="text-slate-400 hover:text-slate-600"><MoreVertical size={20} /></button>
+            <h3 className="text-lg font-serif font-bold text-maroon-darker">Recent Activity</h3>
+            <button className="text-maroon-darker/50 hover:text-maroon"><MoreVertical size={20} /></button>
           </div>
           
           <div className="space-y-6">
             {recentActivities.map((activity) => (
               <div key={activity.id} className="flex gap-4">
                 {/* Avatar / Initial */}
-                <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-maroon font-bold shrink-0">
                   {activity.user.charAt(0)}
                 </div>
                 {/* Details */}
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-800 dark:text-white">{activity.user}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{activity.action}</p>
-                  <p className="text-[10px] font-medium text-slate-400 mt-1 uppercase tracking-wider">{activity.time}</p>
+                  <p className="text-sm font-semibold text-maroon-darker">{activity.user}</p>
+                  <p className="text-xs text-maroon-darker/60 mt-0.5 line-clamp-1">{activity.action}</p>
+                  <p className="text-[10px] font-bold text-maroon-darker/40 mt-1 uppercase tracking-wider">{activity.time}</p>
                 </div>
                 {/* Status Badge */}
                 <div>
                   <span className={`text-[10px] px-2 py-1 rounded-md font-bold uppercase tracking-wider
-                    ${activity.status === 'Completed' ? 'bg-green-100 text-green-600' : 
-                      activity.status === 'Pending' ? 'bg-amber-100 text-amber-600' : 
-                      'bg-red-100 text-red-600'}`}
+                    ${activity.status === 'Completed' ? 'bg-emerald-50 text-emerald-600' : 
+                      activity.status === 'Pending' ? 'bg-amber-50 text-amber-600' : 
+                      'bg-red-50 text-red-600'}`}
                   >
                     {activity.status}
                   </span>
@@ -215,7 +215,7 @@ export default function Dashboard() {
             ))}
           </div>
 
-          <button className="w-full mt-6 py-2.5 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/40 rounded-xl transition-colors">
+          <button className="w-full mt-6 py-2.5 text-sm font-bold text-maroon bg-maroon/5 hover:bg-gold/10 rounded-xl transition-colors border border-maroon/10">
             View All Activity
           </button>
         </div>

@@ -14,6 +14,22 @@ export const getCategories = async (req, res) => {
     if (mandir_id) query.mandir_id = mandir_id;
     if (dham_id) query.dham_id = dham_id;
 
+    // Secure staff filtering - lookup Staff model (not User) for employment data
+    if (req.user?.role === 'staff') {
+      const user = await User.findById(req.user._id);
+      if (user) {
+        const staffProfile = await Staff.findOne({
+          $or: [{ 'contact.email': user.email }, { 'contact.phone': user.phone }]
+        }).populate('employment.assignedMandir employment.assignedDham');
+        if (staffProfile?.employment?.assignedMandir) {
+          query.mandir_id = staffProfile.employment.assignedMandir._id;
+        } else if (staffProfile?.employment?.assignedDham) {
+          query.dham_id = staffProfile.employment.assignedDham._id;
+        }
+        // If neither is set (global staff), query stays empty → returns ALL categories
+      }
+    }
+
     const categories = await Category.find(query).sort({ createdAt: -1 });
     res.status(200).json(categories);
   } catch (error) {

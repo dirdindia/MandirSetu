@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import api from '../../api';
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loginMethod, setLoginMethod] = useState('password'); // 'password' or 'otp'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,27 +13,43 @@ export default function SignIn() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [otp, setOtp] = useState('');
 
+  // Extract redirect URL from query string
+  const queryParams = new URLSearchParams(location.search);
+  const redirectUrl = queryParams.get('redirect') || '/';
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    // Customer Login
     setIsProcessing(true);
+
     try {
       if (loginMethod === 'password') {
         const res = await api.post('/auth/customer-login', { email, password });
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
-        Swal.fire('Success', 'Logged in successfully', 'success').then(() => {
-          window.location.href = '/';
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Welcome back!',
+          text: 'Logged in successfully.',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.href = redirectUrl;
         });
       } else {
         // OTP verify
         const res = await api.post('/auth/verify-otp', { email, otp });
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
-        Swal.fire('Success', 'Logged in successfully', 'success').then(() => {
-          window.location.href = '/';
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Welcome back!',
+          text: 'Logged in successfully.',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.href = redirectUrl;
         });
       }
     } catch (error) {
@@ -59,146 +76,167 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-orange-500/5 to-transparent">
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-slate-900 p-8 border border-slate-200 dark:border-slate-900 rounded-3xl shadow-lg">
-        {/* Header Title */}
-        <div className="text-center">
-          <span className="text-2xl font-black bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
-            MANDIRSETU
-          </span>
-          <h2 className="mt-4 text-3xl font-extrabold text-slate-900 dark:text-white">
-            Welcome Back
-          </h2>
-          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-            Sign in to access your bookings and spiritual orders.
-          </p>
+    <div className="min-h-screen flex font-sans bg-premium">
+      {/* Left side - Image */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-maroon-darker items-center justify-center overflow-hidden">
+        <img 
+          src="https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&q=80&w=2000" 
+          alt="Temple Background" 
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-maroon-darker via-maroon-darker/40 to-transparent"></div>
+        <div className="relative z-10 p-12 text-center max-w-lg">
+           <h2 className="text-4xl lg:text-5xl font-serif font-bold text-premium mb-6 tracking-wide leading-tight drop-shadow-lg">
+             Mandir Setu
+           </h2>
+           <p className="text-lg text-premium/90 font-light drop-shadow-md">
+             Connecting devotees to the divine. Book your yatra, pujas, and accommodations seamlessly.
+           </p>
+           <div className="w-24 h-1 bg-gold/50 mx-auto mt-8"></div>
         </div>
+      </div>
 
-        <div className="flex gap-4 mt-4 border-b border-slate-200 dark:border-slate-800 pb-2">
-          <button 
-            type="button"
-            onClick={() => setLoginMethod('password')}
-            className={`text-sm font-semibold transition-colors cursor-pointer ${loginMethod === 'password' ? 'text-orange-500 border-b-2 border-orange-500' : 'text-slate-500'}`}
-          >
-            Password Login
-          </button>
-          <button 
-            type="button"
-            onClick={() => { setLoginMethod('otp'); setOtpSent(false); }}
-            className={`text-sm font-semibold transition-colors cursor-pointer ${loginMethod === 'otp' ? 'text-orange-500 border-b-2 border-orange-500' : 'text-slate-500'}`}
-          >
-            OTP Login
-          </button>
-        </div>
+      {/* Right side - Form */}
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-12 xl:px-24 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-maroon/5 via-premium to-gold/10">
+        <div className="w-full max-w-md space-y-8 bg-white p-10 border border-gold/20 rounded-[2rem] shadow-2xl shadow-maroon/5 relative overflow-hidden">
+          
+          {/* Top Decorative Border */}
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-gold via-[#fde08b] to-gold"></div>
 
-        {/* Credentials Form */}
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          <div className="space-y-4">
-            {/* Email */}
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                Email Address
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm"
-              />
-            </div>
-
-            {/* Password */}
-            {loginMethod === 'password' && (
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter password"
-                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm"
-                />
+          {/* Header Title */}
+          <div className="text-center flex flex-col items-center pt-2">
+            <div className="flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white border border-gold/30 shadow-md p-2">
+                <img src="/logo1.png" alt="MandirSetu Logo" className="w-full h-full object-contain" />
               </div>
-            )}
+            </div>
+            <h2 className="mt-2 text-3xl font-serif font-bold text-maroon-darker">
+              Welcome Back
+            </h2>
+            <p className="mt-3 text-sm text-maroon-darker/70 font-medium">
+              Sign in to access your bookings and spiritual orders.
+            </p>
+          </div>
 
-            {/* OTP Section */}
-            {loginMethod === 'otp' && (
-              <div className="space-y-4">
-                {!otpSent ? (
-                  <button 
-                    type="button" 
-                    onClick={handleSendOTP}
-                    disabled={isProcessing}
-                    className="w-full py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-xl font-medium hover:bg-slate-300 transition-colors disabled:opacity-50 cursor-pointer"
-                  >
-                    Send OTP
-                  </button>
-                ) : (
-                  <div className="space-y-1 animate-in fade-in slide-in-from-top-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                      Enter OTP
+          <div className="flex gap-4 mt-6 border-b border-gold/20 pb-2 justify-center">
+            <button 
+              type="button"
+              onClick={() => setLoginMethod('password')}
+              className={`text-sm font-semibold transition-colors cursor-pointer pb-2 px-2 ${loginMethod === 'password' ? 'text-maroon border-b-2 border-maroon' : 'text-maroon-darker/50'}`}
+            >
+              Password Login
+            </button>
+            <button 
+              type="button"
+              onClick={() => { setLoginMethod('otp'); setOtpSent(false); }}
+              className={`text-sm font-semibold transition-colors cursor-pointer pb-2 px-2 ${loginMethod === 'otp' ? 'text-maroon border-b-2 border-maroon' : 'text-maroon-darker/50'}`}
+            >
+              OTP Login
+            </button>
+          </div>
+
+          {/* Credentials Form */}
+          <form className="mt-6 space-y-5" onSubmit={handleLogin}>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-maroon-darker/60 uppercase tracking-wide">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-maroon-darker/40">
+                    📧
+                  </span>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full pl-10 pr-4 py-3 bg-premium border border-gold/30 rounded-xl text-sm focus:border-maroon focus:ring-1 focus:ring-maroon outline-none transition-all"
+                    placeholder="Enter your email"
+                  />
+                </div>
+              </div>
+
+              {loginMethod === 'password' ? (
+                <div className="space-y-1">
+                  <div className="flex justify-between items-center">
+                    <label className="text-xs font-bold text-maroon-darker/60 uppercase tracking-wide">
+                      Password
                     </label>
+                    <a href="#" className="text-xs font-semibold text-maroon hover:text-maroon-darker transition-colors">
+                      Forgot?
+                    </a>
+                  </div>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-maroon-darker/40">
+                      🔒
+                    </span>
                     <input
-                      type="text"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       required
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      placeholder="6-digit OTP"
-                      maxLength={6}
-                      className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm tracking-widest text-center font-bold"
+                      className="w-full pl-10 pr-4 py-3 bg-premium border border-gold/30 rounded-xl text-sm focus:border-maroon focus:ring-1 focus:ring-maroon outline-none transition-all"
+                      placeholder="Enter your password"
                     />
                   </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Remember me & Forget */}
-          {loginMethod === 'password' && (
-            <div className="flex items-center justify-between text-xs sm:text-sm">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-orange-500 border-slate-300 rounded focus:ring-orange-500 cursor-pointer"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-slate-500 dark:text-slate-400 cursor-pointer">
-                  Remember me
-                </label>
-              </div>
-
-              <button type="button" className="font-semibold text-orange-655 hover:text-orange-500 dark:text-orange-455 cursor-pointer">
-                Forgot password?
-              </button>
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-maroon-darker/60 uppercase tracking-wide">
+                    One-Time Password (OTP)
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-maroon-darker/40">
+                        📱
+                      </span>
+                      <input
+                        type="text"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        required={otpSent}
+                        disabled={!otpSent}
+                        className="w-full pl-10 pr-4 py-3 bg-premium border border-gold/30 rounded-xl text-sm focus:border-maroon focus:ring-1 focus:ring-maroon outline-none transition-all disabled:opacity-50"
+                        placeholder="Enter 6-digit OTP"
+                      />
+                    </div>
+                    {!otpSent && (
+                      <button
+                        type="button"
+                        onClick={handleSendOTP}
+                        disabled={isProcessing}
+                        className="px-4 py-3 bg-gold/20 hover:bg-gold/30 text-maroon-darker font-bold rounded-xl text-sm transition-colors whitespace-nowrap"
+                      >
+                        Send OTP
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
-          )}
 
-          {/* Submit */}
-          <div>
-            {!(loginMethod === 'otp' && !otpSent) && (
-              <button
-                type="submit"
-                disabled={isProcessing}
-                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 focus:outline-none active:scale-[0.98] shadow-md shadow-orange-500/10 transition-all cursor-pointer disabled:opacity-50"
-              >
-                {isProcessing ? 'Processing...' : `Sign In`}
-              </button>
-            )}
-          </div>
-        </form>
+            <button
+              type="submit"
+              disabled={isProcessing}
+              className="w-full flex justify-center py-3.5 px-4 bg-maroon hover:bg-maroon-darker text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-95 disabled:opacity-70 disabled:pointer-events-none mt-6"
+            >
+              {isProcessing ? 'Authenticating...' : 'Sign In'}
+            </button>
+          </form>
 
-        {/* Footer Redirect */}
-        <div className="text-center text-sm text-slate-500 dark:text-slate-400 pt-4 border-t border-slate-100 dark:border-slate-850">
-          Don't have an account?{' '}
-          <Link to="/signup" className="font-bold text-orange-600 hover:underline">
-            Sign Up
-          </Link>
+          <p className="mt-8 text-center text-sm text-maroon-darker/70 font-medium">
+            Don't have an account?{' '}
+            <Link to={`/signup${location.search}`} className="font-bold text-maroon hover:text-maroon-darker underline decoration-gold/50 underline-offset-4 transition-all">
+              Sign up now
+            </Link>
+          </p>
         </div>
+        
+        {/* Footer text */}
+        <p className="mt-12 text-center text-xs text-maroon-darker/50 font-medium">
+          © {new Date().getFullYear()} MandirSetu. All rights reserved.
+        </p>
       </div>
     </div>
   );

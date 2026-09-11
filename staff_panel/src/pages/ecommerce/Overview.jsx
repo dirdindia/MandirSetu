@@ -52,11 +52,11 @@ const recentOrders = [
 ];
 
 const StatCard = ({ title, value, icon: Icon, trend, trendValue, colorClass }) => (
-  <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 transition-all hover:shadow-md">
+  <div className="bg-white  rounded-2xl shadow-sm border border-gold/20  p-6 transition-all hover:shadow-md">
     <div className="flex items-center justify-between">
       <div>
-        <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{title}</p>
-        <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100">{value}</h3>
+        <p className="text-sm font-medium text-maroon-darker/60  mb-1">{title}</p>
+        <h3 className="text-2xl font-bold text-maroon-darker ">{value}</h3>
       </div>
       <div className={`p-3 rounded-xl ${colorClass}`}>
         <Icon size={24} />
@@ -64,17 +64,17 @@ const StatCard = ({ title, value, icon: Icon, trend, trendValue, colorClass }) =
     </div>
     <div className="mt-4 flex items-center text-sm">
       {trend === 'up' ? (
-        <span className="flex items-center text-emerald-500 font-medium bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 rounded-lg">
+        <span className="flex items-center text-emerald-500 font-medium bg-emerald-50  px-2 py-1 rounded-lg">
           <TrendingUp size={16} className="mr-1" />
           +{trendValue}%
         </span>
       ) : (
-        <span className="flex items-center text-rose-500 font-medium bg-rose-50 dark:bg-rose-500/10 px-2 py-1 rounded-lg">
+        <span className="flex items-center text-rose-500 font-medium bg-rose-50  px-2 py-1 rounded-lg">
           <TrendingDown size={16} className="mr-1" />
           -{trendValue}%
         </span>
       )}
-      <span className="text-slate-400 ml-2">vs last week</span>
+      <span className="text-maroon-darker/40 ml-2">vs last week</span>
     </div>
   </div>
 );
@@ -82,15 +82,15 @@ const StatCard = ({ title, value, icon: Icon, trend, trendValue, colorClass }) =
 const getStatusBadge = (status) => {
   switch (status) {
     case 'Delivered':
-      return <span className="flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400"><CheckCircle2 size={12} className="mr-1" /> Delivered</span>;
+      return <span className="flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700  "><CheckCircle2 size={12} className="mr-1" /> Delivered</span>;
     case 'Processing':
-      return <span className="flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400"><Clock size={12} className="mr-1" /> Processing</span>;
+      return <span className="flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-maroon/10 text-blue-700  "><Clock size={12} className="mr-1" /> Processing</span>;
     case 'Pending':
-      return <span className="flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400"><Clock size={12} className="mr-1" /> Pending</span>;
+      return <span className="flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700  "><Clock size={12} className="mr-1" /> Pending</span>;
     case 'Cancelled':
-      return <span className="flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-400"><XCircle size={12} className="mr-1" /> Cancelled</span>;
+      return <span className="flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-700  "><XCircle size={12} className="mr-1" /> Cancelled</span>;
     default:
-      return <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700">{status}</span>;
+      return <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-gold/10 text-maroon-darker/80">{status}</span>;
   }
 };
 
@@ -103,21 +103,21 @@ export default function Overview() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">E-Commerce Overview</h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Track your Mandir's store performance and recent activity.</p>
+          <h1 className="text-2xl font-bold text-maroon-darker ">E-Commerce Overview</h1>
+          <p className="text-maroon-darker/60  text-sm mt-1">Track your Mandir's store performance and recent activity.</p>
         </div>
         <div className="flex items-center gap-3">
           <select 
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-xl px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none cursor-pointer"
+            className="bg-white  border border-gold/20  text-maroon-darker/80  rounded-xl px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-maroon focus:border-transparent outline-none cursor-pointer"
           >
             <option value="today">Today</option>
             <option value="7days">Last 7 Days</option>
             <option value="30days">Last 30 Days</option>
             <option value="year">This Year</option>
           </select>
-          <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-4 py-2 rounded-xl text-sm font-medium shadow-sm shadow-blue-500/30 transition-all flex items-center">
+          <button className="bg-gradient-to-r from-maroon-darker to-maroon-darker hover:from-blue-700 hover:to-indigo-700 text-white px-4 py-2 rounded-xl text-sm font-medium shadow-sm shadow-blue-500/30 transition-all flex items-center">
             <Filter size={16} className="mr-2" />
             Filter
           </button>
@@ -132,7 +132,7 @@ export default function Overview() {
           icon={IndianRupee} 
           trend="up" 
           trendValue="12.5" 
-          colorClass="bg-blue-100 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400"
+          colorClass="bg-maroon/10 text-maroon  "
         />
         <StatCard 
           title="Total Orders" 
@@ -140,7 +140,7 @@ export default function Overview() {
           icon={ShoppingBag} 
           trend="up" 
           trendValue="8.2" 
-          colorClass="bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"
+          colorClass="bg-emerald-100 text-emerald-600  "
         />
         <StatCard 
           title="Avg. Order Value" 
@@ -148,7 +148,7 @@ export default function Overview() {
           icon={TrendingUp} 
           trend="down" 
           trendValue="2.1" 
-          colorClass="bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400"
+          colorClass="bg-amber-100 text-amber-600  "
         />
         <StatCard 
           title="Active Products" 
@@ -156,17 +156,17 @@ export default function Overview() {
           icon={Package} 
           trend="up" 
           trendValue="4.5" 
-          colorClass="bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400"
+          colorClass="bg-purple-100 text-purple-600  "
         />
       </div>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Sales Chart */}
-        <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+        <div className="lg:col-span-2 bg-white  rounded-2xl shadow-sm border border-gold/20  p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Revenue Overview</h2>
-            <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><MoreVertical size={20} /></button>
+            <h2 className="text-lg font-bold text-maroon-darker ">Revenue Overview</h2>
+            <button className="text-maroon-darker/40 hover:text-maroon-darker/70 "><MoreVertical size={20} /></button>
           </div>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -191,10 +191,10 @@ export default function Overview() {
         </div>
 
         {/* Top Products Chart */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+        <div className="bg-white  rounded-2xl shadow-sm border border-gold/20  p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Top Products</h2>
-            <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><MoreVertical size={20} /></button>
+            <h2 className="text-lg font-bold text-maroon-darker ">Top Products</h2>
+            <button className="text-maroon-darker/40 hover:text-maroon-darker/70 "><MoreVertical size={20} /></button>
           </div>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -215,14 +215,14 @@ export default function Overview() {
       </div>
 
       {/* Recent Orders Table */}
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
-        <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Recent Orders</h2>
-          <button className="text-sm font-medium text-blue-600 dark:text-blue-500 hover:text-blue-700 dark:hover:text-blue-400">View All</button>
+      <div className="bg-white  rounded-2xl shadow-sm border border-gold/20  overflow-hidden">
+        <div className="p-6 border-b border-gold/20  flex items-center justify-between">
+          <h2 className="text-lg font-bold text-maroon-darker ">Recent Orders</h2>
+          <button className="text-sm font-medium text-maroon  hover:text-maroon-darker ">View All</button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 uppercase border-b border-slate-200 dark:border-slate-800">
+            <thead className="text-xs text-maroon-darker/60  bg-premium  uppercase border-b border-gold/20 ">
               <tr>
                 <th className="px-6 py-4 font-medium">Order ID</th>
                 <th className="px-6 py-4 font-medium">Customer</th>
@@ -232,14 +232,14 @@ export default function Overview() {
                 
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+            <tbody className="divide-y divide-slate-200 ">
               {recentOrders.map((order) => (
-                <tr key={order.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-slate-800 dark:text-slate-200">{order.id}</td>
-                  <td className="px-6 py-4 text-slate-600 dark:text-slate-300">{order.customer}</td>
-                  <td className="px-6 py-4 font-medium text-slate-800 dark:text-slate-200">₹{order.amount}</td>
+                <tr key={order.id} className="hover:bg-premium  transition-colors">
+                  <td className="px-6 py-4 font-medium text-maroon-darker ">{order.id}</td>
+                  <td className="px-6 py-4 text-maroon-darker/70 ">{order.customer}</td>
+                  <td className="px-6 py-4 font-medium text-maroon-darker ">₹{order.amount}</td>
                   <td className="px-6 py-4">{getStatusBadge(order.status)}</td>
-                  <td className="px-6 py-4 text-slate-500 dark:text-slate-400">{order.date}</td>
+                  <td className="px-6 py-4 text-maroon-darker/60 ">{order.date}</td>
 
                 </tr>
               ))}

@@ -92,7 +92,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
        
       ]
     },
-    { name: 'Bookings', icon: <CalendarDays size={20} />, path: '/bookings' },
+    { name: 'Group Bookings', icon: <CalendarDays size={20} />, path: '/group-bookings' },
     { name: 'Settings', icon: <Settings size={20} />, path: '/settings' },
   ];
 
@@ -101,34 +101,34 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
       {/* Mobile Overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-slate-900/50 z-20 lg:hidden"
+          className="fixed inset-0 bg-maroon-darker/40 backdrop-blur-sm z-20 lg:hidden"
           onClick={toggleSidebar}
         />
       )}
 
       {/* Sidebar Container */}
       <div 
-        className={`fixed lg:static inset-y-0 left-0 bg-slate-100 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 transform transition-all duration-300 ease-in-out z-30 flex flex-col
+        className={`fixed lg:static inset-y-0 left-0 bg-premium dark:bg-slate-900 border-r border-gold/20 text-maroon-darker/70 transform transition-all duration-300 ease-in-out z-30 flex flex-col
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} 
         ${isCollapsed ? 'w-20' : 'w-64'}`}
       >
-        <div className={`flex items-center h-16 px-4 border-b border-slate-200 dark:border-slate-800 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
+        <div className={`flex items-center h-16 px-4 border-b border-gold/20 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
           {!isCollapsed ? (
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-white border border-gold/30 p-1 flex items-center justify-center shadow-md shrink-0">
                 <img src="/logo1.png" alt="dird" className="w-full h-full object-contain" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent truncate tracking-wide">
+              <span className="text-xl font-bold text-maroon truncate tracking-wide">
                 STAFF PANEL
               </span>
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+            <div className="w-10 h-10 rounded-xl bg-white border border-gold/30 p-1 flex items-center justify-center shadow-md">
               <img src="/logo1.png" alt="dird" className="w-full h-full object-contain" />
             </div>
           )}
           
-          <button onClick={toggleSidebar} className="lg:hidden text-slate-400 hover:text-slate-600 ml-2 cursor-pointer">
+          <button onClick={toggleSidebar} className="lg:hidden text-maroon-darker/50 hover:text-maroon ml-2 cursor-pointer">
             <X size={24} />
           </button>
         </div>
@@ -137,7 +137,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
         <div className="hidden lg:flex items-center justify-end p-2">
           <button 
             onClick={toggleCollapse} 
-            className="p-1.5 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg bg-white border border-gold/20 hover:bg-gold/10 text-maroon-darker/50 hover:text-maroon transition-colors shadow-sm cursor-pointer"
           >
             {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
           </button>
@@ -160,10 +160,10 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
                   <button
                     onClick={() => toggleMenu(item.name)}
                     title={isCollapsed ? item.name : ''}
-                    className={`flex items-center justify-between w-full px-3 py-3 rounded-xl transition-all cursor-pointer ${
+                    className={`flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all cursor-pointer ${
                       isSubItemActive && !expandedMenus[item.name]
-                        ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-500 font-bold shadow-sm'
-                        : 'hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium text-slate-600 dark:text-slate-400'
+                        ? 'bg-gradient-to-r from-maroon/10 to-transparent text-maroon font-bold shadow-sm border border-maroon/10'
+                        : 'hover:bg-gold/10 hover:text-maroon font-semibold text-maroon-darker/70'
                     } ${isCollapsed ? 'justify-center' : ''}`}
                   >
                     <div className="flex items-center gap-3">
@@ -182,7 +182,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
 
                   {/* Submenus */}
                   {(!isCollapsed && expandedMenus[item.name]) && (
-                    <div className="flex flex-col mt-1 ml-4 pl-3 border-l-2 border-slate-100 dark:border-slate-800 space-y-1 animate-in slide-in-from-top-2 fade-in duration-200">
+                    <div className="flex flex-col mt-2 ml-6 pl-4 border-l-2 border-gold/20 space-y-1 animate-in slide-in-from-top-2 fade-in duration-200">
                       {item.subItems.map((subItem) => (
                         <NavLink
                           key={subItem.name}
@@ -190,8 +190,8 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
                           className={({ isActive }) => 
                             `flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm ${
                               isActive 
-                                ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-500 font-bold' 
-                                : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium'
+                                ? 'bg-maroon/5 text-maroon font-bold' 
+                                : 'text-maroon-darker/60 hover:bg-gold/5 hover:text-maroon font-semibold'
                             }`
                           }
                         >
@@ -211,10 +211,10 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
                 to={item.path}
                 title={isCollapsed ? item.name : ''}
                 className={({ isActive }) => 
-                  `flex items-center gap-3 px-3 py-3 rounded-xl transition-all ${
+                  `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                     isActive 
-                      ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-500 font-bold shadow-sm' 
-                      : 'hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium text-slate-600 dark:text-slate-400'
+                      ? 'bg-gradient-to-r from-maroon/10 to-transparent text-maroon font-bold shadow-sm border border-maroon/10' 
+                      : 'hover:bg-gold/10 hover:text-maroon font-semibold text-maroon-darker/70'
                   } ${isCollapsed ? 'justify-center' : ''}`
                 }
               >
@@ -227,22 +227,22 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
           })}
           </nav>
           {canScrollDown && !isCollapsed && (
-            <div className="absolute bottom-0 left-0 right-0 h-12 flex items-end justify-center pb-2 bg-gradient-to-t from-slate-100 dark:from-slate-900 to-transparent pointer-events-none z-10">
-              <ChevronDown size={20} className="text-slate-400 animate-bounce drop-shadow-md" />
+            <div className="absolute bottom-0 left-0 right-0 h-12 flex items-end justify-center pb-2 bg-gradient-to-t from-premium to-transparent pointer-events-none z-10">
+              <ChevronDown size={20} className="text-maroon-darker/40 animate-bounce drop-shadow-md" />
             </div>
           )}
         </div>
 
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800 relative">
+        <div className="p-4 border-t border-gold/20 relative">
           {userMenuOpen && !isCollapsed && (
-            <div className="absolute bottom-20 left-4 right-4 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200 z-50">
-              <button onClick={() => { setUserMenuOpen(false); navigate('/settings'); }} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer">
+            <div className="absolute bottom-20 left-4 right-4 bg-white rounded-xl shadow-lg border border-gold/20 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200 z-50">
+              <button onClick={() => { setUserMenuOpen(false); navigate('/settings'); }} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-maroon-darker/70 hover:bg-gold/10 hover:text-maroon transition-colors cursor-pointer">
                 <UserCircle size={16} /> Profile
               </button>
-              <button onClick={() => { setUserMenuOpen(false); navigate('/settings'); }} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors border-t border-slate-100 dark:border-slate-700/50 cursor-pointer">
+              <button onClick={() => { setUserMenuOpen(false); navigate('/settings'); }} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-maroon-darker/70 hover:bg-gold/10 hover:text-maroon transition-colors border-t border-gold/10 cursor-pointer">
                 <Lock size={16} /> Change Password
               </button>
-              <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors border-t border-slate-100 dark:border-slate-700/50 font-medium cursor-pointer">
+              <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-gold/10 font-medium cursor-pointer">
                 <LogOut size={16} /> Logout
               </button>
             </div>
@@ -250,18 +250,18 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
 
           <div 
             onClick={() => setUserMenuOpen(!userMenuOpen)}
-            className={`rounded-xl flex items-center cursor-pointer transition-colors ${isCollapsed ? 'justify-center hover:bg-slate-100 dark:hover:bg-slate-800 p-2' : 'gap-3 bg-slate-50 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 p-3 border border-slate-100 dark:border-slate-800'}`}
+            className={`rounded-xl flex items-center cursor-pointer transition-colors ${isCollapsed ? 'justify-center hover:bg-gold/10 p-2' : 'gap-3 bg-premium hover:bg-gold/10 p-3 border border-gold/20'}`}
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold shrink-0 shadow-sm">
+            <div className="w-10 h-10 rounded-full bg-maroon flex items-center justify-center text-white font-bold shrink-0 shadow-sm">
               {userName.charAt(0).toUpperCase()}
             </div>
             {!isCollapsed && (
               <div className="overflow-hidden flex-1">
-                <p className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{userName}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{userEmail}</p>
+                <p className="text-sm font-bold text-maroon-darker truncate">{userName}</p>
+                <p className="text-xs text-maroon-darker/60 truncate">{userEmail}</p>
               </div>
             )}
-            {!isCollapsed && <ChevronDown size={16} className={`text-slate-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />}
+            {!isCollapsed && <ChevronDown size={16} className={`text-maroon-darker/40 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />}
           </div>
         </div>
       </div>
