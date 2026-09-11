@@ -58,6 +58,19 @@ export default function OnboardDham() {
     setFormData({ ...formData, [field]: newArray });
   };
 
+  const handleTimingArrayChange = (field, index, key, value) => {
+    const newArray = [...formData[field]];
+    newArray[index] = { ...newArray[index], [key]: value };
+    setFormData({ ...formData, [field]: newArray });
+  };
+
+  const handleAddTimingArrayItem = (field) => {
+    const newItem = field === 'darshanTimings' 
+      ? { name: '', fromTime: '', toTime: '' } 
+      : { name: '', time: '' };
+    setFormData({ ...formData, [field]: [...formData[field], newItem] });
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name.includes('.')) {
@@ -439,36 +452,90 @@ export default function OnboardDham() {
                     </button>
                   </div>
                   {formData[field].map((val, idx) => (
-                    <div key={idx} className="flex gap-2 mb-2">
+                    <div key={idx} className="flex gap-2 mb-2 items-center flex-wrap">
                       <input 
                         type="text" 
-                        value={val.name} 
+                        value={val.name || ''} 
                         onChange={(e) => handleTimingArrayChange(field, idx, 'name', e.target.value)} 
-                        className="flex-1 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
-                        placeholder="Name (e.g. Mangala Aarti)" 
+                        className="flex-1 min-w-[150px] px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
+                        placeholder={field === 'aartiTimings' ? "Name (e.g. Mangala Aarti)" : "Name (e.g. Morning Darshan)"} 
                       />
-                      <input 
-                        type="time" 
-                        value={val.time?.split(' ')[0] || ''} 
-                        onChange={(e) => {
-                          const timeVal = e.target.value;
-                          const period = val.time?.split(' ')[1] || 'AM';
-                          handleTimingArrayChange(field, idx, 'time', `${timeVal} ${period}`);
-                        }} 
-                        className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
-                      />
-                      <select
-                        value={val.time?.split(' ')[1] || 'AM'}
-                        onChange={(e) => {
-                          const timeVal = val.time?.split(' ')[0] || '12:00';
-                          handleTimingArrayChange(field, idx, 'time', `${timeVal} ${e.target.value}`);
-                        }}
-                        className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none"
-                      >
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                      </select>
-                      <button type="button" onClick={() => handleRemoveArrayItem(field, idx)} className="bg-red-50 text-red-500 px-3 rounded-lg hover:bg-red-100">
+                      
+                      {field === 'aartiTimings' ? (
+                        <>
+                          <input 
+                            type="time" 
+                            value={val.time?.split(' ')[0] || ''} 
+                            onChange={(e) => {
+                              const timeVal = e.target.value;
+                              const period = val.time?.split(' ')[1] || 'AM';
+                              handleTimingArrayChange(field, idx, 'time', `${timeVal} ${period}`);
+                            }} 
+                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
+                          />
+                          <select
+                            value={val.time?.split(' ')[1] || 'AM'}
+                            onChange={(e) => {
+                              const timeVal = val.time?.split(' ')[0] || '12:00';
+                              handleTimingArrayChange(field, idx, 'time', `${timeVal} ${e.target.value}`);
+                            }}
+                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-sm font-bold text-maroon-darker/60 mx-2">From:</span>
+                          <input 
+                            type="time" 
+                            value={val.fromTime?.split(' ')[0] || ''} 
+                            onChange={(e) => {
+                              const timeVal = e.target.value;
+                              const period = val.fromTime?.split(' ')[1] || 'AM';
+                              handleTimingArrayChange(field, idx, 'fromTime', `${timeVal} ${period}`);
+                            }} 
+                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
+                          />
+                          <select
+                            value={val.fromTime?.split(' ')[1] || 'AM'}
+                            onChange={(e) => {
+                              const timeVal = val.fromTime?.split(' ')[0] || '12:00';
+                              handleTimingArrayChange(field, idx, 'fromTime', `${timeVal} ${e.target.value}`);
+                            }}
+                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                          
+                          <span className="text-sm font-bold text-maroon-darker/60 mx-2">To:</span>
+                          <input 
+                            type="time" 
+                            value={val.toTime?.split(' ')[0] || ''} 
+                            onChange={(e) => {
+                              const timeVal = e.target.value;
+                              const period = val.toTime?.split(' ')[1] || 'PM';
+                              handleTimingArrayChange(field, idx, 'toTime', `${timeVal} ${period}`);
+                            }} 
+                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
+                          />
+                          <select
+                            value={val.toTime?.split(' ')[1] || 'PM'}
+                            onChange={(e) => {
+                              const timeVal = val.toTime?.split(' ')[0] || '12:00';
+                              handleTimingArrayChange(field, idx, 'toTime', `${timeVal} ${e.target.value}`);
+                            }}
+                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </>
+                      )}
+
+                      <button type="button" onClick={() => handleRemoveArrayItem(field, idx)} className="bg-red-50 text-red-500 px-3 py-2 rounded-lg hover:bg-red-100 ml-auto">
                         <X size={16} />
                       </button>
                     </div>
