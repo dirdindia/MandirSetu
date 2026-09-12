@@ -542,6 +542,23 @@ export default function MandirDetail() {
         </div>
       </section>
 
+      {/* Gallery Section */}
+      {temple.gallery && temple.gallery.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 mt-16" id="gallery">
+          <div className="text-center mb-12">
+             <h2 className="text-3xl sm:text-5xl font-serif text-[#5a1617] mb-4 uppercase tracking-wider">Gallery</h2>
+             <p className="text-[#5a1617]/70 font-serif italic text-lg">Glimpses of the divine abode</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {temple.gallery.map((img, idx) => (
+              <div key={idx} className="h-64 rounded-2xl overflow-hidden shadow-lg border border-[#dfba6b]/20 group">
+                 <img src={img} alt={`Gallery ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* 7. BOTTOM CTA */}
       <section className="w-full bg-gradient-to-b from-[#5a1617] to-[#3d0b0d] py-16 text-center border-t-8 border-[#dfba6b]">
         <div className="max-w-3xl mx-auto px-4">
