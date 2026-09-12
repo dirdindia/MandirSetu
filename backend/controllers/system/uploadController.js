@@ -37,7 +37,11 @@ export const uploadToCloudinary = async (req, res) => {
       };
 
       if (resourceType === "image") {
-        options.format = "jpg"; // Ensure all images are web-compatible and have extensions
+        options.format = "webp"; // Modern format for better compression
+        options.transformation = [
+          { width: 1280, height: 1280, crop: "limit" }, // Prevent massive 4K uploads
+          { quality: "auto" } // Automatic compression
+        ];
       }
 
       // Only force mp4 + h264 if it’s a video
