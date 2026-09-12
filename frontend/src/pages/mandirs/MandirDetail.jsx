@@ -180,6 +180,24 @@ export default function MandirDetail() {
           
           {/* Left Column (flex-2): Religious Significance & About */}
           <div className="lg:col-span-2 space-y-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-transparent"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <BookOpen className="text-[#c09642] w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
+                <h3 className="text-lg sm:text-xl font-serif text-[#5a1617] uppercase tracking-widest font-bold">
+                  ABOUT THE TEMPLE
+                </h3>
+                <div className="h-[1px] bg-gradient-to-r from-[#dfba6b] to-transparent flex-1"></div>
+              </div>
+              <div className="text-[#5c4949] text-base sm:text-lg leading-relaxed text-justify font-medium">
+                <p className="whitespace-pre-line">{temple.description || "Description not available for this temple."}</p>
+              </div>
+            </motion.div>
+
             {temple.religiousImportance && (
               <motion.div 
                 initial={{ opacity: 0, y: 30 }}
@@ -196,26 +214,6 @@ export default function MandirDetail() {
                 </div>
                 <div className="text-[#5a1617] text-base sm:text-lg leading-relaxed font-medium italic whitespace-pre-line border-l-2 border-[#dfba6b] pl-4">
                   <p>"{temple.religiousImportance}"</p>
-                </div>
-              </motion.div>
-            )}
-
-            {temple.description && (
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="bg-transparent"
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <BookOpen className="text-[#c09642] w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
-                  <h3 className="text-lg sm:text-xl font-serif text-[#5a1617] uppercase tracking-widest font-bold">
-                    ABOUT THE TEMPLE
-                  </h3>
-                  <div className="h-[1px] bg-gradient-to-r from-[#dfba6b] to-transparent flex-1"></div>
-                </div>
-                <div className="text-[#5c4949] text-base sm:text-lg leading-relaxed text-justify font-medium">
-                  <p className="whitespace-pre-line">{temple.description}</p>
                 </div>
               </motion.div>
             )}
