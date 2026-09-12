@@ -261,6 +261,13 @@ export default function OnboardDham() {
     setFormData((prev) => ({ ...prev, profilePic: '' }));
   };
 
+  // const validateStep = () => {
+  //   if (!formData.name || !formData.address || !formData.city || !formData.state) {
+  //     return false;
+  //   }
+  //   return true;
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -274,36 +281,19 @@ export default function OnboardDham() {
       }
     });
 
-    if (!validateStep()) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Missing Fields',
-        text: 'Please fill all required fields before proceeding.',
-        customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
-      });
-      setLoading(false);
-      return;
-    }
+    // if (!validateStep()) {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Missing Fields',
+    //     text: 'Please fill all required fields before proceeding.',
+    //     customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
+    //   });
+    //   setLoading(false);
+    //   return;
+    // }
     
-    // Transform schedule and contact
-    const payload = {
-      ...formData,
-      location: {
-        address: formData.address,
-        city: formData.city,
-        state: formData.state,
-        pincode: formData.pincode
-      },
-      geolocation: {
-        latitude: formData.latitude,
-        longitude: formData.longitude
-      },
-      contact: {
-        phone: formData.phone,
-        email: formData.email,
-        website: formData.website
-      }
-    };
+    // Send formData as is; backend expects flat fields according to mandirDhamValidationSchema
+    const payload = { ...formData };
 
     try {
       const response = await api.post('/dhams', payload);
