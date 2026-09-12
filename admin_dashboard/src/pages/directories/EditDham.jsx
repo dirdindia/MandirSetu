@@ -329,7 +329,7 @@ export default function EditDham() {
         icon: 'success',
         title: 'Dham Updated!',
         text: 'The Dham details have been successfully updated.',
-        customClass: { confirmButton: 'bg-indigo-500 text-white px-6 py-2 rounded-lg font-bold cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-6 py-2 rounded-lg font-bold cursor-pointer' }
       });
       
       navigate('/dhams');
@@ -338,7 +338,7 @@ export default function EditDham() {
         icon: 'error',
         title: 'Submission Failed',
         text: err.response?.data?.message || 'Failed to onboard Dham. Please try again.',
-        customClass: { confirmButton: 'bg-indigo-500 text-white px-4 py-2 rounded-lg cursor-pointer' }
+        customClass: { confirmButton: 'bg-maroon text-white px-4 py-2 rounded-lg cursor-pointer' }
       });
     } finally {
       setLoading(false);
@@ -355,7 +355,7 @@ export default function EditDham() {
       {/* Progress Tracker */}
       <div className="flex items-center justify-between mb-8 relative">
         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-200 -z-10 rounded-full"></div>
-        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-indigo-500 -z-10 rounded-full transition-all duration-300" style={{ width: `${((step - 1) / 3) * 100}%` }}></div>
+        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-maroon -z-10 rounded-full transition-all duration-300" style={{ width: `${((step - 1) / 3) * 100}%` }}></div>
         
         {[
           { num: 1, icon: <Landmark size={18} />, label: 'Basic Info' },
@@ -368,10 +368,10 @@ export default function EditDham() {
             onClick={() => setStep(s.num)}
             className="flex flex-col items-center gap-2 cursor-pointer group hover:scale-105 transition-transform"
           >
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-4 transition-colors ${step >= s.num ? 'bg-indigo-500 border-indigo-100 text-white' : 'bg-slate-100 border-white text-slate-400  dark:border-slate-900 group-hover:border-indigo-200'}`}>
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold border-4 transition-colors ${step >= s.num ? 'bg-maroon border-gold/20 text-white' : 'bg-slate-100 border-white text-slate-400  dark:border-slate-900 group-hover:border-gold/30'}`}>
               {s.icon}
             </div>
-            <span className={`text-xs font-bold transition-colors ${step >= s.num ? 'text-indigo-600' : 'text-slate-400 group-hover:text-indigo-400'}`}>{s.label}</span>
+            <span className={`text-xs font-bold transition-colors ${step >= s.num ? 'text-maroon-dark' : 'text-slate-400 group-hover:text-gold'}`}>{s.label}</span>
           </div>
         ))}
       </div>
@@ -384,11 +384,11 @@ export default function EditDham() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Dham Name *</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Kashi Vishwanath Temple" />
+                <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. Kashi Vishwanath Temple" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Main Deity (Bhagwan) *</label>
-                <input type="text" name="mainDeity" value={formData.mainDeity} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Lord Shiva" />
+                <input type="text" name="mainDeity" value={formData.mainDeity} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. Lord Shiva" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Category *</label>
@@ -402,29 +402,29 @@ export default function EditDham() {
               </div>
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Established Year</label>
-                <input type="text" name="establishedYear" value={formData.establishedYear} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 1780" />
+                <input type="text" name="establishedYear" value={formData.establishedYear} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. 1780" />
               </div>
               <div className="md:col-span-2 grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Opening Time</label>
-                  <input type="time" name="schedule.openTime" value={formData.schedule.openTime} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+                  <input type="time" name="schedule.openTime" value={formData.schedule.openTime} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Closing Time</label>
-                  <input type="time" name="schedule.closeTime" value={formData.schedule.closeTime} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+                  <input type="time" name="schedule.closeTime" value={formData.schedule.closeTime} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" />
                 </div>
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Description</label>
-                <textarea name="description" rows="4" value={formData.description} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Brief history or description of the temple..."></textarea>
+                <textarea name="description" rows="4" value={formData.description} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none resize-none" placeholder="Brief history or description of the temple..."></textarea>
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Religious Importance (Optional)</label>
-                <textarea name="religiousImportance" rows="3" value={formData.religiousImportance} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Why is this Dham religiously significant?"></textarea>
+                <textarea name="religiousImportance" rows="3" value={formData.religiousImportance} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none resize-none" placeholder="Why is this Dham religiously significant?"></textarea>
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Mandir Setu Tip (Optional)</label>
-                <input type="text" name="mandirSetuTip" value={formData.mandirSetuTip} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Best to start parikrama early morning." />
+                <input type="text" name="mandirSetuTip" value={formData.mandirSetuTip} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. Best to start parikrama early morning." />
               </div>
 
               {/* String Arrays */}
@@ -434,7 +434,7 @@ export default function EditDham() {
                     <label className="block text-sm font-bold text-maroon-darker/80 capitalize">
                       {field.replace(/([A-Z])/g, ' $1').trim()} (Optional)
                     </label>
-                    <button type="button" onClick={() => handleAddArrayItem(field)} className="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold hover:bg-indigo-200">
+                    <button type="button" onClick={() => handleAddArrayItem(field)} className="text-xs bg-gold/20 text-maroon-dark px-3 py-1 rounded-full font-bold hover:bg-gold/30">
                       + Add Item
                     </button>
                   </div>
@@ -444,7 +444,7 @@ export default function EditDham() {
                         type="text" 
                         value={val} 
                         onChange={(e) => handleArrayChange(field, idx, e.target.value)} 
-                        className="flex-1 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                        className="flex-1 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
                         placeholder={`Enter ${field}`} 
                       />
                       <button type="button" onClick={() => handleRemoveArrayItem(field, idx)} className="bg-red-50 text-red-500 px-3 rounded-lg hover:bg-red-100">
@@ -465,7 +465,7 @@ export default function EditDham() {
                     <label className="block text-sm font-bold text-maroon-darker/80 capitalize">
                       {field.replace(/([A-Z])/g, ' $1').trim()} (Optional)
                     </label>
-                    <button type="button" onClick={() => handleAddTimingArrayItem(field)} className="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold hover:bg-indigo-200">
+                    <button type="button" onClick={() => handleAddTimingArrayItem(field)} className="text-xs bg-gold/20 text-maroon-dark px-3 py-1 rounded-full font-bold hover:bg-gold/30">
                       + Add Item
                     </button>
                   </div>
@@ -475,7 +475,7 @@ export default function EditDham() {
                         type="text" 
                         value={val.name || ''} 
                         onChange={(e) => handleTimingArrayChange(field, idx, 'name', e.target.value)} 
-                        className="flex-1 min-w-[150px] px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                        className="flex-1 min-w-[150px] px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
                         placeholder={field === 'aartiTimings' ? "Name (e.g. Mangala Aarti)" : "Name (e.g. Morning Darshan)"} 
                       />
                       
@@ -489,7 +489,7 @@ export default function EditDham() {
                               const period = val.time?.split(' ')[1] || 'AM';
                               handleTimingArrayChange(field, idx, 'time', `${timeVal} ${period}`);
                             }} 
-                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
                           />
                           <select
                             value={val.time?.split(' ')[1] || 'AM'}
@@ -497,7 +497,7 @@ export default function EditDham() {
                               const timeVal = val.time?.split(' ')[0] || '12:00';
                               handleTimingArrayChange(field, idx, 'time', `${timeVal} ${e.target.value}`);
                             }}
-                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none"
                           >
                             <option value="AM">AM</option>
                             <option value="PM">PM</option>
@@ -514,7 +514,7 @@ export default function EditDham() {
                               const period = val.fromTime?.split(' ')[1] || 'AM';
                               handleTimingArrayChange(field, idx, 'fromTime', `${timeVal} ${period}`);
                             }} 
-                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
                           />
                           <select
                             value={val.fromTime?.split(' ')[1] || 'AM'}
@@ -522,7 +522,7 @@ export default function EditDham() {
                               const timeVal = val.fromTime?.split(' ')[0] || '12:00';
                               handleTimingArrayChange(field, idx, 'fromTime', `${timeVal} ${e.target.value}`);
                             }}
-                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none"
                           >
                             <option value="AM">AM</option>
                             <option value="PM">PM</option>
@@ -537,7 +537,7 @@ export default function EditDham() {
                               const period = val.toTime?.split(' ')[1] || 'PM';
                               handleTimingArrayChange(field, idx, 'toTime', `${timeVal} ${period}`);
                             }} 
-                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                            className="w-32 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none" 
                           />
                           <select
                             value={val.toTime?.split(' ')[1] || 'PM'}
@@ -545,7 +545,7 @@ export default function EditDham() {
                               const timeVal = val.toTime?.split(' ')[0] || '12:00';
                               handleTimingArrayChange(field, idx, 'toTime', `${timeVal} ${e.target.value}`);
                             }}
-                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            className="w-24 px-3 py-2 bg-white border border-gold/30 rounded-lg focus:ring-2 focus:ring-maroon focus:outline-none"
                           >
                             <option value="AM">AM</option>
                             <option value="PM">PM</option>
@@ -573,8 +573,8 @@ export default function EditDham() {
             <h3 className="text-xl font-bold text-maroon mb-6 border-b pb-2">Location & Geolocation</h3>
             
             {/* Quick Location Fill Feature */}
-            <div className="bg-indigo-50 dark:bg-indigo-900/10 p-5 rounded-2xl border border-indigo-200 dark:border-indigo-800/50 mb-6">
-              <label className="block text-sm font-bold text-indigo-900 dark:text-indigo-400 mb-2">
+            <div className="bg-gold/10 dark:bg-indigo-900/10 p-5 rounded-2xl border border-gold/30 dark:border-maroon-darker/50 mb-6">
+              <label className="block text-sm font-bold text-indigo-900 dark:text-gold mb-2">
                 Quick Fill (Enter Lat, Lng OR Plus Code)
               </label>
               <div className="flex gap-3">
@@ -582,20 +582,20 @@ export default function EditDham() {
                   type="text" 
                   value={quickLocationInput} 
                   onChange={(e) => setQuickLocationInput(e.target.value)} 
-                  className="flex-1 px-4 py-3 bg-white border border-indigo-200 dark:border-indigo-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" 
+                  className="flex-1 px-4 py-3 bg-white border border-gold/30 dark:border-maroon-darker rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" 
                   placeholder="e.g. 25.3109, 83.0107 OR 8JMP6M8X+28" 
                 />
                 <button 
                   onClick={handleQuickLocationFill} 
                   type="button" 
-                  className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-bold rounded-xl shadow-md shadow-indigo-500/20 cursor-pointer transition-all active:scale-[0.98] flex items-center gap-2"
+                  className="px-6 py-3 bg-gradient-to-r from-maroon to-maroon-dark hover:from-maroon-dark hover:to-maroon-darker text-white font-bold rounded-xl shadow-md shadow-maroon/20 cursor-pointer transition-all active:scale-[0.98] flex items-center gap-2"
                 >
                   <Search size={18} /> Find
                 </button>
               </div>
 
               {fetchedLocationDetails && (
-                <div className="mt-4 p-4 bg-white rounded-xl border border-indigo-100 dark:border-slate-700 shadow-sm">
+                <div className="mt-4 p-4 bg-white rounded-xl border border-gold/20 dark:border-slate-700 shadow-sm">
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Fetched Details</h4>
                   <p className="text-sm text-maroon-darker/80 mb-1"><strong>Address:</strong> {fetchedLocationDetails.fullAddress}</p>
                   <div className="flex gap-4 text-sm text-maroon-darker/70">
@@ -610,39 +610,39 @@ export default function EditDham() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-3">
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Full Address *</label>
-                <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Street address, locality..." />
+                <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="Street address, locality..." />
               </div>
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">City *</label>
-                <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Varanasi" />
+                <input type="text" name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. Varanasi" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">State *</label>
-                <input type="text" name="state" value={formData.state} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Uttar Pradesh" />
+                <input type="text" name="state" value={formData.state} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. Uttar Pradesh" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Pincode *</label>
-                <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 221001" />
+                <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. 221001" />
               </div>
               
-              <div className="md:col-span-3 mt-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-2xl">
+              <div className="md:col-span-3 mt-4 p-5 bg-gold/10 dark:bg-indigo-900/20 border border-gold/30 dark:border-maroon-darker rounded-2xl">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h4 className="font-bold text-indigo-800 dark:text-indigo-400 flex items-center gap-2"><Map size={18}/> Geolocation (Required)</h4>
-                    <p className="text-xs text-indigo-600 dark:text-indigo-500 mt-1">Fetch coordinates to show Dham on the map.</p>
+                    <h4 className="font-bold text-maroon-darker dark:text-gold flex items-center gap-2"><Map size={18}/> Geolocation (Required)</h4>
+                    <p className="text-xs text-maroon-dark dark:text-maroon mt-1">Fetch coordinates to show Dham on the map.</p>
                   </div>
-                  <button onClick={handleGetLocation} type="button" className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 shadow-md shadow-indigo-500/20 text-white text-sm font-bold rounded-lg cursor-pointer transition-all active:scale-[0.98]">
+                  <button onClick={handleGetLocation} type="button" className="px-4 py-2 bg-gradient-to-r from-maroon to-maroon-dark hover:from-maroon-dark hover:to-maroon-darker shadow-md shadow-maroon/20 text-white text-sm font-bold rounded-lg cursor-pointer transition-all active:scale-[0.98]">
                     Detect My Location
                   </button>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-indigo-800/70 mb-1">Latitude</label>
-                    <input type="text" name="latitude" value={formData.latitude} onChange={handleChange} className="w-full px-3 py-2 bg-white border border-indigo-200 rounded-lg focus:outline-none" placeholder="25.3109" />
+                    <label className="block text-xs font-bold text-maroon-darker/70 mb-1">Latitude</label>
+                    <input type="text" name="latitude" value={formData.latitude} onChange={handleChange} className="w-full px-3 py-2 bg-white border border-gold/30 rounded-lg focus:outline-none" placeholder="25.3109" />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-indigo-800/70 mb-1">Longitude</label>
-                    <input type="text" name="longitude" value={formData.longitude} onChange={handleChange} className="w-full px-3 py-2 bg-white border border-indigo-200 rounded-lg focus:outline-none" placeholder="83.0107" />
+                    <label className="block text-xs font-bold text-maroon-darker/70 mb-1">Longitude</label>
+                    <input type="text" name="longitude" value={formData.longitude} onChange={handleChange} className="w-full px-3 py-2 bg-white border border-gold/30 rounded-lg focus:outline-none" placeholder="83.0107" />
                   </div>
                 </div>
               </div>
@@ -652,15 +652,15 @@ export default function EditDham() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-bold text-maroon-darker/80 mb-2">By Bus</label>
-                    <textarea name="howToReach.bus" rows="2" value={formData.howToReach.bus} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Nearest bus stand and routes..."></textarea>
+                    <textarea name="howToReach.bus" rows="2" value={formData.howToReach.bus} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none resize-none" placeholder="Nearest bus stand and routes..."></textarea>
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-maroon-darker/80 mb-2">By Train</label>
-                    <textarea name="howToReach.train" rows="2" value={formData.howToReach.train} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Nearest railway station..."></textarea>
+                    <textarea name="howToReach.train" rows="2" value={formData.howToReach.train} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none resize-none" placeholder="Nearest railway station..."></textarea>
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-maroon-darker/80 mb-2">By Air</label>
-                    <textarea name="howToReach.air" rows="2" value={formData.howToReach.air} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none" placeholder="Nearest airport..."></textarea>
+                    <textarea name="howToReach.air" rows="2" value={formData.howToReach.air} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none resize-none" placeholder="Nearest airport..."></textarea>
                   </div>
                 </div>
               </div>
@@ -675,12 +675,12 @@ export default function EditDham() {
             
             {/* Profile Pic Upload */}
             <div className="border-2 border-dashed border-gold/30 rounded-2xl p-6 text-center hover:bg-premium transition-colors">
-              <UploadCloud className="mx-auto text-indigo-400 mb-3" size={32} />
+              <UploadCloud className="mx-auto text-gold mb-3" size={32} />
               <label className="block text-sm font-bold text-maroon-darker mb-1">Main Profile Picture</label>
               <p className="text-xs text-maroon-darker/60 mb-4">Upload the main image for the Dham (JPEG, PNG)</p>
               
               <input type="file" accept="image/*" id="profilePic" className="hidden" onChange={(e) => handleFileChange(e, 'profilePic')} />
-              <label htmlFor="profilePic" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-sm font-bold hover:bg-indigo-200 transition-colors">
+              <label htmlFor="profilePic" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-gold/20 text-maroon-dark border border-gold/30 rounded-lg text-sm font-bold hover:bg-gold/30 transition-colors">
                 {uploadingField === 'profilePic' ? <Loader2 size={16} className="animate-spin" /> : 'Select File'}
               </label>
 
@@ -702,12 +702,12 @@ export default function EditDham() {
 
             {/* Gallery Upload */}
             <div className="border-2 border-dashed border-gold/30 rounded-2xl p-6 text-center hover:bg-premium transition-colors">
-              <UploadCloud className="mx-auto text-indigo-400 mb-3" size={32} />
+              <UploadCloud className="mx-auto text-gold mb-3" size={32} />
               <label className="block text-sm font-bold text-maroon-darker mb-1">Gallery Images</label>
               <p className="text-xs text-maroon-darker/60 mb-4">Upload multiple images showcasing the temple</p>
               
               <input type="file" multiple accept="image/*" id="gallery" className="hidden" onChange={(e) => handleFileChange(e, 'gallery')} />
-              <label htmlFor="gallery" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-sm font-bold hover:bg-indigo-200 transition-colors">
+              <label htmlFor="gallery" className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-gold/20 text-maroon-dark border border-gold/30 rounded-lg text-sm font-bold hover:bg-gold/30 transition-colors">
                  {uploadingField === 'gallery' ? <Loader2 size={16} className="animate-spin" /> : 'Select Files'}
               </label>
 
@@ -738,19 +738,19 @@ export default function EditDham() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Phone Number *</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="+91 9876543210" />
+                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="+91 9876543210" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Email Address</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="contact@temple.com" />
+                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="contact@temple.com" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Official Website</label>
-                <input type="url" name="website" value={formData.website} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="https://www.temple.org" />
+                <input type="url" name="website" value={formData.website} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="https://www.temple.org" />
               </div>
             </div>
             
-            <div className="mt-8 p-4 bg-indigo-50 text-indigo-800 rounded-xl text-sm font-medium border border-indigo-200">
+            <div className="mt-8 p-4 bg-gold/10 text-maroon-darker rounded-xl text-sm font-medium border border-gold/30">
               Please ensure all details, especially the Geolocation and Profile Picture, are correct before submitting.
             </div>
           </div>
@@ -771,7 +771,7 @@ export default function EditDham() {
             <button 
               type="button" 
               onClick={handleNext}
-              className="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 shadow-md shadow-indigo-500/20 text-white rounded-xl font-bold flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
+              className="px-6 py-2.5 bg-gradient-to-r from-maroon to-maroon-dark hover:from-maroon-dark hover:to-maroon-darker shadow-md shadow-maroon/20 text-white rounded-xl font-bold flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
             >
               Next <ChevronRight size={18} />
             </button>
@@ -780,7 +780,7 @@ export default function EditDham() {
               type="button" 
               onClick={handleSubmit}
               disabled={loading || uploadingField !== ""}
-              className={`px-8 py-2.5 rounded-xl font-bold text-white flex items-center gap-2 shadow-lg shadow-indigo-500/30 transition-all ${loading || uploadingField !== "" ? 'bg-indigo-400 cursor-not-allowed' : 'bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 cursor-pointer active:scale-[0.98]'}`}
+              className={`px-8 py-2.5 rounded-xl font-bold text-white flex items-center gap-2 shadow-lg shadow-maroon/30 transition-all ${loading || uploadingField !== "" ? 'bg-gold cursor-not-allowed' : 'bg-gradient-to-r from-maroon to-maroon-dark hover:from-maroon-dark hover:to-maroon-darker cursor-pointer active:scale-[0.98]'}`}
             >
               {loading ? <><Loader2 size={18} className="animate-spin" /> Saving...</> : <><Save size={18} /> Update Dham</>}
             </button>
