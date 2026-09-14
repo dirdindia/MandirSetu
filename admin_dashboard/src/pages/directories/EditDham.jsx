@@ -21,6 +21,7 @@ export default function EditDham() {
     name: '',
     establishedYear: '',
     mainDeity: '',
+    greetingText: '',
     description: '',
     address: '',
     city: '',
@@ -84,6 +85,7 @@ export default function EditDham() {
           name: dham.name || '',
           establishedYear: dham.establishedYear || '',
           mainDeity: dham.mainDeity || '',
+          greetingText: dham.greetingText || '',
           description: dham.description || '',
           address: dham.location?.address || '',
           city: dham.location?.city || '',
@@ -389,6 +391,10 @@ export default function EditDham() {
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Main Deity (Bhagwan) *</label>
                 <input type="text" name="mainDeity" value={formData.mainDeity} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. Lord Shiva" />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Greeting Text (Optional)</label>
+                <input type="text" name="greetingText" value={formData.greetingText} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none" placeholder="e.g. ॥ जय श्री राम ॥" />
               </div>
               <div>
                 <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Category *</label>

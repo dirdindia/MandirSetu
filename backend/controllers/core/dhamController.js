@@ -12,7 +12,7 @@ export const createDham = async (req, res) => {
       category, schedule, howToReach,
       bestTimeToVisit, placesToVisitNear, majorFestivals,
       mandirSetuTip, religiousImportance,
-      aartiTimings, visitorInformation, darshanTimings
+      aartiTimings, visitorInformation, darshanTimings, greetingText
     } = req.body;
 
     // Joi validation
@@ -25,6 +25,7 @@ export const createDham = async (req, res) => {
       name,
       establishedYear,
       mainDeity,
+      greetingText,
       category,
       description,
       schedule,
@@ -123,7 +124,7 @@ export const updateDham = async (req, res) => {
       category, schedule, howToReach,
       bestTimeToVisit, placesToVisitNear, majorFestivals,
       mandirSetuTip, religiousImportance,
-      aartiTimings, visitorInformation, darshanTimings
+      aartiTimings, visitorInformation, darshanTimings, greetingText
     } = req.body;
 
     const { error } = mandirDhamValidationSchema.validate(req.body);
@@ -134,7 +135,7 @@ export const updateDham = async (req, res) => {
     const updatedDham = await Dham.findByIdAndUpdate(
       id,
       {
-        name, establishedYear, mainDeity, category, description, schedule, howToReach,
+        name, establishedYear, mainDeity, greetingText, category, description, schedule, howToReach,
         location: { address, city, state, pincode },
         contact: { phone, email, website },
         profilePic, gallery,

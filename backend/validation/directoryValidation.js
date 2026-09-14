@@ -122,6 +122,7 @@ export const mandirDhamValidationSchema = Joi.object({
   name: Joi.string().required().trim(),
   establishedYear: Joi.string().allow('').trim(),
   mainDeity: Joi.string().required().trim(),
+  greetingText: Joi.string().allow('').trim().optional(),
   description: Joi.string().allow('').trim(),
   category: Joi.string().allow('').trim(),
   schedule: Joi.object({

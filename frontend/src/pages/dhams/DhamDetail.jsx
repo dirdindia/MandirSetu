@@ -72,7 +72,7 @@ export default function DhamDetail() {
               </div>
               
               <div className="mb-4">
-                 <span className="text-[#dfba6b] uppercase tracking-[0.2em] font-bold text-sm sm:text-base opacity-90">॥ जय श्री {dham.mainDeity || 'राम'} ॥</span>
+                 <span className="text-[#dfba6b] uppercase tracking-[0.2em] font-bold text-sm sm:text-base opacity-90">{dham.greetingText || `॥ जय श्री ${dham.mainDeity || 'राम'} ॥`}</span>
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-premium mb-6 tracking-wide drop-shadow-lg leading-tight uppercase" style={{ fontFamily: "'Tiro Devanagari Hindi', serif" }}>
@@ -87,9 +87,9 @@ export default function DhamDetail() {
                  <button onClick={() => window.scrollTo({top: 850, behavior: 'smooth'})} className="px-8 py-3.5 bg-gradient-to-r from-[#dfba6b] via-[#f2d48c] to-[#dfba6b] text-[#5a1617] rounded-full font-bold shadow-[0_4px_20px_rgba(223,186,107,0.3)] hover:scale-105 transition-all duration-300 text-sm sm:text-base">
                    Darshan Timings
                  </button>
-                 <Link to="/gallery" className="px-8 py-3.5 bg-transparent border-2 border-[#dfba6b] text-[#dfba6b] rounded-full font-bold hover:bg-[#dfba6b]/10 transition-colors duration-300 text-sm sm:text-base flex items-center gap-2">
+                 <a href="#gallery" className="px-8 py-3.5 bg-transparent border-2 border-[#dfba6b] text-[#dfba6b] rounded-full font-bold hover:bg-[#dfba6b]/10 transition-colors duration-300 text-sm sm:text-base flex items-center gap-2">
                    View Gallery
-                 </Link>
+                 </a>
               </div>
             </motion.div>
 
@@ -131,7 +131,7 @@ export default function DhamDetail() {
 
       {/* 2. FLOATING QUICK INFO BAR */}
       <section className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 mb-20">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
           
           {/* Main Deity */}
           <motion.div initial={{opacity:0, y:20}} animate={{opacity:1, y:0}} transition={{delay: 0.3}} className="bg-white rounded-2xl p-5 shadow-lg border border-[#dfba6b]/20 flex flex-col justify-center">
@@ -161,7 +161,7 @@ export default function DhamDetail() {
           </motion.div>
 
           {/* Website */}
-          <motion.div initial={{opacity:0, y:20}} animate={{opacity:1, y:0}} transition={{delay: 0.6}} className="bg-white rounded-2xl p-5 shadow-lg border border-[#dfba6b]/20 flex flex-col justify-center">
+          {/* <motion.div initial={{opacity:0, y:20}} animate={{opacity:1, y:0}} transition={{delay: 0.6}} className="bg-white rounded-2xl p-5 shadow-lg border border-[#dfba6b]/20 flex flex-col justify-center">
             <div className="flex items-center gap-3 mb-2">
               <Globe className="text-[#c09642] w-5 h-5" />
               <p className="text-[10px] sm:text-xs uppercase tracking-widest text-[#c09642] font-bold">Website</p>
@@ -171,7 +171,7 @@ export default function DhamDetail() {
             ) : (
               <p className="text-[#5a1617] font-semibold text-sm sm:text-base leading-tight pl-8">N/A</p>
             )}
-          </motion.div>
+          </motion.div> */}
 
         </div>
       </section>
@@ -555,7 +555,7 @@ export default function DhamDetail() {
       {/* 7. BOTTOM CTA */}
       <section className="w-full bg-gradient-to-b from-[#5a1617] to-[#3d0b0d] py-16 text-center border-t-8 border-[#dfba6b]">
         <div className="max-w-3xl mx-auto px-4">
-          <p className="text-[#dfba6b] text-sm uppercase tracking-widest font-bold mb-3">॥ जय श्री {dham.mainDeity || 'राम'} ॥</p>
+          <p className="text-[#dfba6b] text-sm uppercase tracking-widest font-bold mb-3">{dham.greetingText || `॥ जय श्री ${dham.mainDeity || 'राम'} ॥`}</p>
           <h2 className="text-3xl sm:text-4xl font-serif text-premium uppercase tracking-wider mb-8 drop-shadow-md">
             START YOUR SPIRITUAL JOURNEY
           </h2>
@@ -566,9 +566,9 @@ export default function DhamDetail() {
              <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="px-8 py-3.5 bg-[#dfba6b] text-[#5a1617] rounded-full font-bold shadow-lg hover:scale-105 transition-all duration-300">
                Plan Journey
              </button>
-             <Link to="/gallery" className="px-8 py-3.5 bg-transparent border-2 border-[#dfba6b] text-[#dfba6b] rounded-full font-bold hover:bg-[#dfba6b]/10 transition-colors duration-300">
+             <a href="#gallery" className="px-8 py-3.5 bg-transparent border-2 border-[#dfba6b] text-[#dfba6b] rounded-full font-bold hover:bg-[#dfba6b]/10 transition-colors duration-300">
                View Gallery
-             </Link>
+             </a>
           </div>
         </div>
       </section>

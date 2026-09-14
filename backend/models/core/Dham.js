@@ -73,6 +73,7 @@ const dhamSchema = new mongoose.Schema({
   }],
   mandirSetuTip: { type: String, trim: true },
   religiousImportance: { type: String, trim: true },
+  greetingText: { type: String, trim: true, default: '॥ जय श्री राम ॥' },
 }, { timestamps: true });
 
 dhamSchema.index({ status: 1 });
