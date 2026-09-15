@@ -12,7 +12,7 @@ export const hireStaff = async (req, res) => {
       phone, email, emergencyContact, 
       role, assignedMandir, assignedDham,
       profilePic, documentType, documentUrl,
-      password
+      password, status
     } = req.body;
 
     // Joi validation
@@ -25,25 +25,43 @@ export const hireStaff = async (req, res) => {
     let userQuery = [{ phone }];
     if (email) userQuery.push({ email });
     const existingUser = await User.findOne({ $or: userQuery });
+    
+    let userId;
+
     if (existingUser) {
-      return res.status(400).json({ message: "A user with this phone number or email already exists." });
+      // Check if they are already a staff
+      const existingStaff = await Staff.findOne({ user: existingUser._id });
+      if (existingStaff) {
+        return res.status(400).json({ 
+          message: `A staff member with phone ${phone} or email ${email || 'N/A'} already exists.` 
+        });
+      }
+      
+      // Upgrade existing user to staff
+      existingUser.role = 'staff';
+      await existingUser.save();
+      userId = existingUser._id;
+    } else {
+      // Hash password for new user
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      // Create new User account for staff
+      const newUser = new User({
+        phone,
+        ...(email && { email }),
+        password: hashedPassword,
+        name, address, city, state, pincode,
+        role: 'staff'
+      });
+      const savedUser = await newUser.save();
+      userId = savedUser._id;
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create User account for staff
-    const newUser = new User({
-      phone,
-      ...(email && { email }),
-      password: hashedPassword,
-      role: 'staff'
-    });
-    await newUser.save();
-
+    // Create Staff Profile
     const newStaff = new Staff({
       name,
+      user: userId,
       gender,
       dob,
       address,
@@ -63,6 +81,10 @@ export const hireStaff = async (req, res) => {
       },
       media: { profilePic, documentType, documentUrl }
     });
+    
+    if (status) {
+      newStaff.status = status;
+    }
 
     await newStaff.save();
 
@@ -129,7 +151,8 @@ export const updateStaff = async (req, res) => {
       name, gender, dob, address, city, state, pincode, latitude, longitude,
       phone, email, emergencyContact, 
       role, assignedMandir, assignedDham,
-      profilePic, documentType, documentUrl
+      profilePic, documentType, documentUrl,
+      status
     } = req.body;
 
     const staffToUpdate = await Staff.findById(req.params.id);
@@ -158,6 +181,10 @@ export const updateStaff = async (req, res) => {
       },
       media: { profilePic, documentType, documentUrl }
     };
+    
+    if (status) {
+      updateData.status = status;
+    }
 
     const updatedStaff = await Staff.findByIdAndUpdate(req.params.id, updateData, { new: true });
     res.status(200).json({ message: "Staff updated successfully", data: updatedStaff });

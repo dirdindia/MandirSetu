@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import ApplySevadarModal from '../../components/ApplySevadarModal';
 import api from '../../api';
 
 export default function Home() {
@@ -20,6 +21,9 @@ export default function Home() {
   const [temples, setTemples] = useState([]);
   const [loadingTemples, setLoadingTemples] = useState(true);
   const [dhams, setDhams] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('mandir');
+  const [isSevadarModalOpen, setIsSevadarModalOpen] = useState(false);
   const [loadingDhams, setLoadingDhams] = useState(true);
   const [events, setEvents] = useState([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
@@ -161,20 +165,16 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeInOut" }}
             className="fixed inset-0 z-[9999] bg-premium flex flex-col items-center justify-center"
           >
-            <div className="relative flex items-center justify-center mb-10 w-40 h-40">
+            <div className="relative flex items-center justify-center mb-10 w-60 h-60">
               {/* Spinning Mandala Rings */}
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                className="w-40 h-40 absolute inset-0 m-auto rounded-full border-[3px] border-dashed border-gold/60"
+                className="w-60 h-60 absolute inset-0 m-auto rounded-full border-[3px] border-dashed border-gold/60"
               />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-                className="w-32 h-32 absolute inset-0 m-auto rounded-full border-[3px] border-dotted border-maroon/60"
-              />
+         
               
-              <img src="/logo1.png" alt="Mandir Setu" className="w-24 h-24 object-contain relative z-10" />
+              <img src="/logo1.png" alt="Mandir Setu" className="w-60 h-60 object-contain relative z-10" />
             </div>
 
             <motion.h2 
@@ -719,18 +719,28 @@ export default function Home() {
         <div className="bg-maroon rounded-[3rem] p-12 text-center text-white relative overflow-hidden shadow-2xl">
           <div className="relative z-10 max-w-3xl mx-auto space-y-6">
             <h3 className="text-gold text-lg font-serif tracking-widest mb-2">॥ ॐ शिवाय नमः ॥</h3>
-            <h2 className="text-3xl sm:text-5xl font-serif mb-6 leading-tight">Plan Your Journey</h2>
+            <h2 className="text-3xl sm:text-5xl font-serif mb-6 leading-tight whitespace-nowrap">Become a Sevadar (Dham or Mandir)</h2>
             <p className="text-premium/80 leading-relaxed font-light mb-8">
-              Darshan timings, online puja booking, and complete pilgrimage information are available here.
+              Join our spiritual community and help us manage temple affairs by serving as a dedicated Sevadar. Register your interest today and wait for admin approval.
             </p>
             <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <Link to="/gallery" className="px-8 py-3.5 bg-gold hover:bg-[#c29b26] text-maroon-darker font-bold rounded-full transition-all shadow-md active:scale-95 text-sm sm:text-base cursor-pointer">Get Journey Details</Link>
+              <button 
+                onClick={() => setIsSevadarModalOpen(true)}
+                className="px-8 py-3.5 bg-white text-maroon hover:bg-slate-100 font-bold rounded-full transition-all shadow-md active:scale-95 text-sm sm:text-base cursor-pointer"
+              >
+                Apply for Sevadar
+              </button>
             </div>
           </div>
           <div className="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/20 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
         </div>
       </section>
+      
+      <ApplySevadarModal 
+        isOpen={isSevadarModalOpen} 
+        onClose={() => setIsSevadarModalOpen(false)} 
+      />
     </div>
     </>
   );

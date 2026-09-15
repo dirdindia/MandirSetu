@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, User, ChevronLeft, ChevronRight, Eye, Briefcase, Mail, Calendar, Pencil, Trash2 } from 'lucide-react';
+import { MapPin, Phone, User, ChevronLeft, ChevronRight, Eye, Briefcase, Mail, Calendar, Pencil, Trash2, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
@@ -140,6 +140,28 @@ export default function StaffList() {
     }
   };
 
+  const handleApprove = async (id) => {
+    const result = await Swal.fire({
+      title: 'Approve Staff?',
+      text: "This will grant the user active access to their assigned portal.",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#22c55e',
+      cancelButtonColor: '#94a3b8',
+      confirmButtonText: 'Yes, approve!'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axiosInstance.put(`/staff/${id}`, { status: 'Active' });
+        Swal.fire('Approved!', 'Staff member is now active.', 'success');
+        fetchStaff(page);
+      } catch (error) {
+        Swal.fire('Error!', 'Failed to approve staff.', 'error');
+      }
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
@@ -158,6 +180,7 @@ export default function StaffList() {
                 <th className="p-4">Role</th>
                 <th className="p-4">Assigned Mandir</th>
                 <th className="p-4">Phone</th>
+                <th className="p-4">Status</th>
                 <th className="p-4 text-center">Action</th>
               </tr>
             </thead>
@@ -192,8 +215,28 @@ export default function StaffList() {
                       {person.employment?.assignedMandir?.name || <span className="text-slate-400 italic">Unassigned</span>}
                     </td>
                     <td className="p-4 text-maroon-darker/70">{person.contact?.phone}</td>
+                    <td className="p-4">
+                      {person.status === 'Pending' ? (
+                        <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-md text-xs font-semibold">Pending</span>
+                      ) : person.status === 'Inactive' ? (
+                        <span className="bg-slate-100 text-slate-800 px-2 py-1 rounded-md text-xs font-semibold">Inactive</span>
+                      ) : person.status === 'Suspended' ? (
+                        <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs font-semibold">Suspended</span>
+                      ) : (
+                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-xs font-semibold">Active</span>
+                      )}
+                    </td>
                     <td className="p-4 text-center">
                       <div className="flex items-center justify-center gap-2">
+                        {person.status === 'Pending' && (
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); handleApprove(person._id); }}
+                            className="p-2 text-green-600 hover:text-green-700 hover:bg-green-100 rounded-lg transition-colors inline-flex justify-center items-center"
+                            title="Approve Staff"
+                          >
+                            <CheckCircle size={18} />
+                          </button>
+                        )}
                         <button 
                           onClick={(e) => { e.stopPropagation(); showDetails(person); }}
                           className="p-2 text-maroon hover:text-maroon hover:bg-gold/20 hover:bg-gold/10 rounded-lg transition-colors inline-flex justify-center items-center"

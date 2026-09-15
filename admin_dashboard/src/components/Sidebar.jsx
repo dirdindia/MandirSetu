@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, CalendarDays, Settings, X, ChevronLeft, ChevronRight, Landmark, UserPlus, List, ChevronDown, FolderOpen } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarDays, Settings, X, ChevronLeft, ChevronRight, Landmark, UserPlus, List, ChevronDown, FolderOpen, ShoppingCart, Package, Tags, Ticket, ShoppingBag, PieChart, Undo2, MessageSquare } from 'lucide-react';
 
 export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleCollapse }) {
   const location = useLocation();
   // State to manage expanded accordion menus
   const [expandedMenus, setExpandedMenus] = useState({
     'Directories': false,
-    'Onboarding': false
+    'Onboarding': false,
+    'E-Commerce': false
   });
 
   const toggleMenu = (menuName) => {
@@ -23,12 +24,27 @@ export default function Sidebar({ isOpen, toggleSidebar, isCollapsed, toggleColl
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
     { 
+      name: 'E-Commerce', 
+      icon: <ShoppingCart size={20} />, 
+      subItems: [
+        { name: 'Overview', path: '/ecommerce/overview', icon: <PieChart size={16} /> },
+        { name: 'Products', path: '/ecommerce/products', icon: <Package size={16} /> },
+        { name: 'Categories', path: '/ecommerce/categories', icon: <Tags size={16} /> },
+        { name: 'Coupons', path: '/ecommerce/coupons', icon: <Ticket size={16} /> },
+        { name: 'Orders', path: '/ecommerce/orders', icon: <ShoppingBag size={16} /> },
+        { name: 'Customers', path: '/ecommerce/customers', icon: <Users size={16} /> },
+        { name: 'Returns', path: '/ecommerce/returns', icon: <Undo2 size={16} /> },
+        { name: 'Feedback', path: '/ecommerce/feedback', icon: <MessageSquare size={16} /> }
+      ]
+    },
+    { 
       name: 'Directories', 
       icon: <FolderOpen size={20} />, 
       subItems: [
         { name: 'Mandirs List', path: '/mandirs', icon: <Landmark size={16} /> },
         { name: 'Dhams List', path: '/dhams', icon: <Landmark size={16} /> },
-        { name: 'Staff List', path: '/staff', icon: <Users size={16} /> },
+        { name: 'Sevadar List', path: '/staff', icon: <Users size={16} /> },
+        { name: 'Sevadar Requests', path: '/sevadar-requests', icon: <UserPlus size={16} /> },
         { name: 'Events List', path: '/events', icon: <CalendarDays size={16} /> }
       ]
     },

@@ -192,5 +192,5 @@ export const staffValidationSchema = Joi.object({
   profilePic: Joi.string().allow(''),
   documentType: Joi.string().allow('').trim(),
   documentUrl: Joi.string().allow(''),
-  status: Joi.string().valid('Active', 'Inactive', 'Suspended').optional()
+  status: Joi.string().valid('Pending', 'Active', 'Inactive', 'Suspended').optional()
 });

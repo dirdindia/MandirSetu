@@ -44,8 +44,8 @@ const staffSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Active', 'Inactive', 'Suspended'],
-    default: 'Active'
+    enum: ['Pending', 'Active', 'Inactive', 'Suspended'],
+    default: 'Pending'
   }
 }, { timestamps: true });
 

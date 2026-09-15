@@ -36,6 +36,7 @@ export default function HireStaff() {
     documentType: 'Aadhar Card',
     documentUrl: '',
     password: '',
+    status: 'Active'
   });
 
   useEffect(() => {
@@ -241,7 +242,7 @@ export default function HireStaff() {
       setFormData({
         name: '', gender: 'Male', dob: '', address: '', city: '', state: '', pincode: '', latitude: '', longitude: '',
         role: 'Temple Sevadar', assignedMandir: '', assignedDham: '',
-        phone: '', email: '', emergencyContact: '', profilePic: '', documentType: 'Aadhar Card', documentUrl: '', password: ''
+        phone: '', email: '', emergencyContact: '', profilePic: '', documentType: 'Aadhar Card', documentUrl: '', password: '', status: 'Active'
       });
       setStep(1);
     } catch (err) {
@@ -405,7 +406,7 @@ export default function HireStaff() {
                   <label className="block text-sm font-bold text-maroon-darker/80 mb-2">Assigned Mandir (Optional)</label>
                   <select name="assignedMandir" value={formData.assignedMandir} onChange={handleChange} className="w-full px-4 py-3 bg-premium border border-gold/30 rounded-xl focus:ring-2 focus:ring-maroon focus:outline-none">
                     <option value="">Global / Not Assigned to specific Mandir</option>
-                    {[...mandirs,...dhams]?.map(m => (
+                    {mandirs?.map(m => (
                       <option key={m._id} value={m._id}>{m.name} - {m.location.city}</option>
                     ))}
                   </select>

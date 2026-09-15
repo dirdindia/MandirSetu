@@ -89,8 +89,8 @@ export default function GroupBookings() {
   if (loading) return <div className="p-8">Loading Inquiries...</div>;
 
   return (
-    <div className="p-8 font-sans">
-      <div className="flex justify-between items-center mb-8">
+    <div className="max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 font-sans">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-serif text-maroon-darker font-bold">Group Yatra Bookings</h1>
           <p className="text-maroon-darker/60 mt-1">Manage large scale pilgrimage inquiries and send custom quotes.</p>
