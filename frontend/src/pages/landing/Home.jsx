@@ -332,41 +332,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Upcoming Events in Left Sidebar */}
-          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20">
-            <div className="flex items-center justify-between mb-4 border-b border-gold/20 pb-3">
-              <h3 className="text-lg font-serif text-maroon">Upcoming Events</h3>
-              <Link to="/events" className="text-gold text-xs font-semibold hover:text-maroon">All &rarr;</Link>
-            </div>
-            <div className="flex flex-col gap-4">
-              {loadingEvents ? (
-                <div className="flex justify-center py-5">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold"></div>
-                </div>
-              ) : events.length === 0 ? (
-                <div className="text-center text-maroon/70 text-sm font-serif py-5">No events found.</div>
-              ) : (
-                events?.slice(0, 3).map((event) => (
-                  <div key={event._id} className="group p-4 rounded-xl border border-gold/20 cursor-pointer bg-premium hover:bg-white shadow-sm hover:shadow-md transition-all flex flex-col gap-1.5">
-                     <div className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-wider">
-                       {event.date || 'Upcoming'} {event.time && `• ${event.time}`}
-                     </div>
-                     <h4 className="text-sm sm:text-base font-serif text-maroon font-semibold line-clamp-1">{event.title}</h4>
-                     {event.location && (
-                       <div className="text-xs text-maroon-darker/70 line-clamp-1 flex items-center gap-1">
-                         <span>📍</span> {event.location}
-                       </div>
-                     )}
-                     {event.description && (
-                       <p className="text-xs text-maroon-darker/60 line-clamp-2 mt-1 leading-snug">
-                         {event.description}
-                       </p>
-                     )}
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
+
 
         </aside>
 
@@ -396,12 +362,12 @@ export default function Home() {
                       <h3 className="text-lg font-serif text-maroon mb-1 truncate" title={dham.name}>{dham.name}</h3>
                       <div className="flex items-center text-maroon-darker/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{dham.location?.city || 'Unknown'}, {dham.location?.state || 'India'}</span></div>
                       <div className="flex items-center justify-between mt-auto pt-2 border-t border-gold/20">
-                        <button 
-                          onClick={() => handlePreview(dham, 'dham')} 
-                          className={`w-full py-1.5 text-xs font-semibold rounded-full transition-colors ${previewItem?._id === dham._id ? 'bg-maroon text-white' : 'bg-gold/10 text-maroon hover:bg-gold hover:text-maroon-darker'}`}
+                        <Link 
+                          to={`/dhams/${dham._id}`}
+                          className="w-full py-1.5 text-xs font-semibold rounded-full transition-colors text-center bg-gold/10 text-maroon hover:bg-gold hover:text-maroon-darker block"
                         >
-                          {previewItem?._id === dham._id ? (previewItem.isLoading ? 'Loading...' : 'Previewing') : 'View Preview'}
-                        </button>
+                          View
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -433,12 +399,12 @@ export default function Home() {
                       <h3 className="text-lg font-serif text-maroon mb-1 truncate" title={temple.name}>{temple.name}</h3>
                       <div className="flex items-center text-maroon-darker/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{temple.location?.city || 'Unknown'}, {temple.location?.state || 'India'}</span></div>
                       <div className="flex items-center justify-between mt-auto pt-2 border-t border-gold/20">
-                        <button 
-                          onClick={() => handlePreview(temple, 'mandir')} 
-                          className={`w-full py-1.5 text-xs font-semibold rounded-full transition-colors ${previewItem?._id === temple._id ? 'bg-maroon text-white' : 'bg-gold/10 text-maroon hover:bg-gold hover:text-maroon-darker'}`}
+                        <Link 
+                          to={`/mandirs/${temple._id}`}
+                          className="w-full py-1.5 text-xs font-semibold rounded-full transition-colors text-center bg-gold/10 text-maroon hover:bg-gold hover:text-maroon-darker block"
                         >
-                          {previewItem?._id === temple._id ? (previewItem.isLoading ? 'Loading...' : 'Previewing') : 'View Preview'}
-                        </button>
+                          View
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -449,137 +415,53 @@ export default function Home() {
 
         </div>
 
-        {/* RIGHT COLUMN: Preview & Info */}
+        {/* RIGHT COLUMN: Quick Info & Events */}
         <aside className="w-full lg:w-80 xl:w-96 sticky top-28 shrink-0 z-40 flex flex-col gap-6 max-h-[calc(100vh-120px)] overflow-y-auto overflow-x-hidden pr-1 pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d4af37 transparent' }}>
           
-          {/* Dynamic Preview Section - Full Details */}
-          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20 flex flex-col relative overflow-x-hidden">
-            <h3 className="text-lg font-serif text-maroon mb-4 border-b border-gold/20 pb-3 relative z-10">Quick Preview</h3>
-            
-            {previewItem ? (
-              previewItem.isLoading ? (
-                <div className="flex-1 flex justify-center items-center h-48 relative z-10">
-                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold"></div>
-                </div>
-              ) : (
-              <AnimatePresence mode="wait">
-                <motion.div 
-                  key={previewItem._id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="flex flex-col relative z-10"
-                >
-                  <div className="w-full h-48 rounded-2xl overflow-hidden mb-4 relative shadow-inner">
-                    <img src={previewItem.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(previewItem.name)}&background=791916&color=d4af37`} alt={previewItem.name} className="w-full h-full object-cover" />
-                    <div className="absolute top-2 left-2 bg-black/60 text-gold text-[10px] uppercase font-bold px-2 py-1 rounded">
-                       {previewItem.itemType === 'dham' ? 'Dham' : 'Temple'}
-                    </div>
-                  </div>
-                  
-                  <h4 className="text-2xl font-serif text-maroon mb-2 leading-tight break-words">{previewItem.name}</h4>
-                  
-                  <div className="space-y-4 mb-6">
-                    <div className="flex items-start text-sm">
-                      <span className="w-6 text-center mr-2">📍</span>
-                      <span className="text-maroon-darker/80 font-medium text-sm pt-0.5">
-                        {previewItem.location?.city ? `${previewItem.location.city}, ` : ''}{previewItem.location?.state || 'India'}
-                      </span>
-                    </div>
-                    
-                    {previewItem.mainDeity && (
-                      <div className="flex items-start text-sm">
-                        <span className="w-6 text-center mr-2">🕉️</span>
-                        <span className="text-maroon-darker/80 text-sm pt-0.5">Deity: <span className="font-serif italic font-semibold">{previewItem.mainDeity}</span></span>
-                      </div>
-                    )}
-
-                    {/* Quick Timings */}
-                    <div className="flex items-start text-sm">
-                      <span className="w-6 text-center mr-2">🕒</span>
-                      <span className="text-maroon-darker/80 text-xs pt-0.5 font-medium">Timings: {previewItem.schedule?.openTime ? `${previewItem.schedule.openTime} - ${previewItem.schedule.closeTime}` : 'Check timings online'}</span>
-                    </div>
-
-                    {/* Meta info */}
-                    <div className="flex items-start text-sm">
-                      <span className="w-6 text-center mr-2">🏛️</span>
-                      <span className="text-maroon-darker/80 text-xs pt-0.5 font-medium">Established: {previewItem.establishedYear || 'Ancient'}</span>
-                    </div>
-
-                    {/* Quick Contact */}
-                    {(previewItem.contact?.phone || previewItem.contact?.website) && (
-                      <div className="flex items-start text-sm">
-                        <span className="w-6 text-center mr-2">📞</span>
-                        <span className="text-maroon-darker/80 text-xs pt-0.5 font-medium truncate">
-                          {previewItem.contact?.phone || 'No phone'} | {previewItem.contact?.website ? <a href={previewItem.contact.website} target="_blank" rel="noreferrer" className="text-gold hover:underline">Website</a> : 'No website'}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Quick Services */}
-                    {previewItem.services && previewItem.services.length > 0 && (
-                      <div className="pt-4 border-t border-gold/20 mt-4">
-                        <h5 className="text-sm font-bold text-maroon mb-3">Available Services</h5>
-                        <div className="flex flex-wrap gap-2">
-                          {previewItem.services.map((svc, i) => (
-                             <span key={i} className="bg-maroon/5 border border-maroon/20 text-maroon text-[10px] px-2.5 py-1 rounded-full font-semibold">{svc}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* More details section */}
-                    <div className="pt-4 border-t border-gold/20 mt-4">
-                      <h5 className="text-sm font-bold text-maroon mb-2">About</h5>
-                      <p className="text-xs text-maroon-darker/80 leading-relaxed font-medium break-words">
-                        {previewItem.description || 'No description available for this sacred place.'}
-                      </p>
-                    </div>
-
-                    {/* Location Map */}
-                    <div className="pt-4 border-t border-gold/20 mt-4">
-                      <h5 className="text-sm font-bold text-maroon mb-3">Location Map</h5>
-                      <div className="w-full h-32 md:h-40 bg-gray-100 rounded-xl overflow-hidden shadow-inner border border-gold/20">
-                        <iframe 
-                          src={`https://maps.google.com/maps?q=${previewItem.geolocation?.latitude ? `${previewItem.geolocation.latitude},${previewItem.geolocation.longitude}` : encodeURIComponent(previewItem.name + ' ' + (previewItem.location?.city || ''))}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                          width="100%" 
-                          height="100%" 
-                          style={{ border: 0 }} 
-                          allowFullScreen="" 
-                          loading="lazy" 
-                          title="Location Map"
-                          referrerPolicy="no-referrer-when-downgrade"
-                        ></iframe>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 pt-4 border-t border-gold/20">
-                    <Link 
-                      to={`/${previewItem.itemType}/${previewItem._id}`} 
-                      className="flex items-center justify-center w-full py-3.5 bg-maroon hover:bg-maroon-dark text-white text-sm font-bold rounded-xl transition-colors shadow-md group"
-                    >
-                      Explore Full Details
-                      <span className="ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
-                    </Link>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-              )
-            ) : (
-              <div className="flex-1 flex flex-col items-center justify-center text-center p-6 bg-premium/50 rounded-2xl border border-dashed border-gold/40 relative z-10 mt-2">
-                <span className="text-4xl mb-4 opacity-50 grayscale filter drop-shadow-sm">🛕</span>
-                <p className="text-sm font-serif text-maroon/70 leading-relaxed">
-                  Select <span className="font-bold text-maroon">"View Preview"</span> on any Dham or Temple to see full details here.
-                </p>
-              </div>
-            )}
-            
-            {/* Background decorative element */}
-            <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
-              <span className="text-9xl">🕉️</span>
+          {/* Quick Info Section */}
+          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20 relative overflow-hidden">
+            <h3 className="text-lg font-serif text-maroon mb-4 border-b border-gold/20 pb-3 relative z-10">Quick Info</h3>
+            <div className="space-y-4 relative z-10 text-sm text-maroon-darker/80 font-medium">
+              <p>Welcome to MandirSetu. Discover the most sacred temples and spiritual dhams across the country.</p>
+              <p>For any assistance or booking queries, please reach out to our dedicated support team.</p>
+              <ul className="space-y-2 mt-4">
+                <li className="flex items-center gap-2"><span className="text-gold">📞</span> 1800-MANDIR-SETU</li>
+                <li className="flex items-center gap-2"><span className="text-gold">✉️</span> support@mandirsetu.co.in</li>
+              </ul>
             </div>
           </div>
+
+          {/* Upcoming Events in Right Sidebar */}
+          <div className="bg-white rounded-3xl p-6 shadow-xl shadow-maroon/5 border border-gold/20 sticky top-4">
+            <div className="flex items-center justify-between mb-4 pb-2 border-b border-gold/20">
+              <h3 className="text-lg font-serif text-maroon">Upcoming Events</h3>
+              <Link to="/events" className="text-gold text-xs font-semibold hover:text-maroon">All &rarr;</Link>
+            </div>
+            
+            <div className="space-y-4">
+              {loadingEvents ? (
+                 <div className="flex justify-center py-4"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold"></div></div>
+              ) : events.length === 0 ? (
+                <div className="text-center text-maroon/70 text-sm font-serif py-5">No events found.</div>
+              ) : (
+                events?.slice(0, 3).map((event) => (
+                  <Link to={`/events/${event._id}`} key={event._id} className="group block">
+                    <div className="flex gap-3 items-center">
+                      <div className="bg-maroon/10 w-12 h-12 rounded-xl flex flex-col items-center justify-center shrink-0 border border-maroon/20 group-hover:bg-maroon transition-colors">
+                        <span className="text-[10px] font-bold text-maroon group-hover:text-gold uppercase tracking-wider leading-none mb-0.5">{new Date(event.startDate || event.date).toLocaleString('default', { month: 'short' })}</span>
+                        <span className="text-lg font-bold text-maroon group-hover:text-white leading-none">{new Date(event.startDate || event.date).getDate()}</span>
+                      </div>
+                      <div className="flex-1 overflow-hidden">
+                        <h4 className="text-sm font-bold text-maroon-darker truncate group-hover:text-maroon transition-colors">{event.title || event.name}</h4>
+                        <p className="text-xs text-maroon/60 truncate mt-0.5">📍 {event.location?.city || 'Online'}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              )}
+            </div>
+          </div>
+
         </aside>
 
       </div>
