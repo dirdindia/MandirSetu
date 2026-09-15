@@ -316,22 +316,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Quick Info Cards Moved to Left Sidebar */}
-          <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20">
-            <h4 className="text-sm font-serif text-maroon mb-4 border-b border-gold/20 pb-3">Quick Info</h4>
-            <div className="flex flex-col gap-3">
-              {infoCards.map((card, idx) => (
-                <div key={idx} className="flex items-center gap-3 bg-maroon/5 p-3 rounded-xl border border-maroon/10 hover:bg-maroon/10 transition-colors">
-                  <span className="text-xl">{card.icon}</span>
-                  <div>
-                    <div className="text-sm font-bold text-maroon">{card.title}</div>
-                    <div className="text-[10px] text-maroon-darker/70">{card.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
 
 
         </aside>
@@ -363,7 +347,7 @@ export default function Home() {
                       <div className="flex items-center text-maroon-darker/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{dham.location?.city || 'Unknown'}, {dham.location?.state || 'India'}</span></div>
                       <div className="flex items-center justify-between mt-auto pt-2 border-t border-gold/20">
                         <Link 
-                          to={`/dhams/${dham._id}`}
+                          to={`/dham/${dham._id}`}
                           className="w-full py-1.5 text-xs font-semibold rounded-full transition-colors text-center bg-gold/10 text-maroon hover:bg-gold hover:text-maroon-darker block"
                         >
                           View
@@ -400,7 +384,7 @@ export default function Home() {
                       <div className="flex items-center text-maroon-darker/60 text-xs mb-3"><span className="mr-1">📍</span> <span className="truncate">{temple.location?.city || 'Unknown'}, {temple.location?.state || 'India'}</span></div>
                       <div className="flex items-center justify-between mt-auto pt-2 border-t border-gold/20">
                         <Link 
-                          to={`/mandirs/${temple._id}`}
+                          to={`/mandir/${temple._id}`}
                           className="w-full py-1.5 text-xs font-semibold rounded-full transition-colors text-center bg-gold/10 text-maroon hover:bg-gold hover:text-maroon-darker block"
                         >
                           View
@@ -421,13 +405,16 @@ export default function Home() {
           {/* Quick Info Section */}
           <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20 relative overflow-hidden">
             <h3 className="text-lg font-serif text-maroon mb-4 border-b border-gold/20 pb-3 relative z-10">Quick Info</h3>
-            <div className="space-y-4 relative z-10 text-sm text-maroon-darker/80 font-medium">
-              <p>Welcome to MandirSetu. Discover the most sacred temples and spiritual dhams across the country.</p>
-              <p>For any assistance or booking queries, please reach out to our dedicated support team.</p>
-              <ul className="space-y-2 mt-4">
-                <li className="flex items-center gap-2"><span className="text-gold">📞</span> 1800-MANDIR-SETU</li>
-                <li className="flex items-center gap-2"><span className="text-gold">✉️</span> support@mandirsetu.co.in</li>
-              </ul>
+            <div className="flex flex-col gap-3 relative z-10">
+              {infoCards.map((card, idx) => (
+                <div key={idx} className="flex items-center gap-3 bg-maroon/5 p-3 rounded-xl border border-maroon/10 hover:bg-maroon/10 transition-colors">
+                  <span className="text-xl">{card.icon}</span>
+                  <div>
+                    <div className="text-sm font-bold text-maroon">{card.title}</div>
+                    <div className="text-[10px] text-maroon-darker/70">{card.desc}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
