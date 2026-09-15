@@ -405,7 +405,7 @@ export default function Home() {
           {/* Quick Info Section */}
           <div className="bg-white p-6 rounded-3xl shadow-xl shadow-maroon/5 border border-gold/20 relative overflow-hidden">
             <h3 className="text-lg font-serif text-maroon mb-4 border-b border-gold/20 pb-3 relative z-10">Quick Info</h3>
-            <div className="flex flex-col gap-3 relative z-10">
+            <div className="flex flex-col gap-3 relative z-10 max-h-[300px] overflow-y-auto pr-2" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d4af37 transparent' }}>
               {infoCards.map((card, idx) => (
                 <div key={idx} className="flex items-center gap-3 bg-maroon/5 p-3 rounded-xl border border-maroon/10 hover:bg-maroon/10 transition-colors">
                   <span className="text-xl">{card.icon}</span>
@@ -425,7 +425,7 @@ export default function Home() {
               <Link to="/events" className="text-gold text-xs font-semibold hover:text-maroon">All &rarr;</Link>
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d4af37 transparent' }}>
               {loadingEvents ? (
                  <div className="flex justify-center py-4"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gold"></div></div>
               ) : events.length === 0 ? (
